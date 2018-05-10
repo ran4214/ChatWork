@@ -10,22 +10,19 @@
 <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css">
 
 <!-- my css -->
-<link rel='stylesheet' href="../css/chat-style.css">
+<link rel='stylesheet' href="/css/chat-style.css">
 
 <!-- external js -->
+<script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.0/umd/popper.min.js"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/js/bootstrap.min.js"></script>
 
 <!-- my js -->
-<script src="../js/chat-controller.js"></script>
+<script src="/js/chat-controller.js"></script>
 
 
 </head>
 <body>
-	
-
-	<a id="view-code" href="https://codepen.io/virgilpana/pen/ZYZXgP"
-		target="_blank">VIEW CODE</a>
 
 	<div id="chatbox">
 		<div id="friendslist">
@@ -39,7 +36,7 @@
 					<img
 						src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/245657/1_copy.jpg" />
 					<p>
-						<strong>Miro Badev</strong> <span>mirobadev@gmail.com</span>
+						<strong>Martin rooter</strong><br><span>mirobadev@gmail.com</span>
 					</p>
 					<div class="status available"></div>
 				</div>
@@ -48,7 +45,7 @@
 					<img
 						src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/245657/2_copy.jpg" />
 					<p>
-						<strong>Martin Joseph</strong> <span>marjoseph@gmail.com</span>
+						<strong>Martin</strong><br><span>marjoseph@gmail.com</span>
 					</p>
 					<div class="status away"></div>
 				</div>
@@ -57,7 +54,7 @@
 					<img
 						src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/245657/3_copy.jpg" />
 					<p>
-						<strong>Tomas Kennedy</strong> <span>tomaskennedy@gmail.com</span>
+						<strong>Tomas Kennedy</strong><br><span>tomaskennedy@gmail.com</span>
 					</p>
 					<div class="status inactive"></div>
 				</div>
@@ -66,7 +63,7 @@
 					<img
 						src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/245657/4_copy.jpg" />
 					<p>
-						<strong>Enrique Sutton</strong> <span>enriquesutton@gmail.com</span>
+						<strong>Enrique Sutton</strong><br><span>enriquesutton@gmail.com</span>
 					</p>
 					<div class="status inactive"></div>
 				</div>
@@ -75,7 +72,7 @@
 					<img
 						src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/245657/5_copy.jpg" />
 					<p>
-						<strong> Darnell Strickland</strong> <span>darnellstrickland@gmail.com</span>
+						<strong> Darnell Strickland</strong><br><span>darnellstrickland@gmail.com</span>
 					</p>
 					<div class="status inactive"></div>
 				</div>
@@ -161,8 +158,5 @@
 
 		</div>
 	</div>
-
-	<script
-		src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
 </body>
 </html>

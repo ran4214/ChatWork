@@ -1,7 +1,5 @@
-* { margin: 0px; padding: 0px; }
-body {
-	background: #f0f1f2;
-	font:12px "Open Sans", sans-serif; 
+*{
+	box-sizing :content-box;
 }
 #view-code{
   color:#89a2b5;    
@@ -22,9 +20,10 @@ body {
 	overflow:hidden;
 	height:484px;
 	position:absolute;
-	top:100px;
-	left:50%;
+	bottom:0px;
+	right:50px;
 	margin-left:-155px;
+	border:1.2px solid #DDDDDD;
 }
 
 #friendslist{
