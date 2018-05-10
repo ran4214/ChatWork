@@ -14,7 +14,6 @@ tmp/**/*
 /src/main/resources/rebel.xml
 # External tool builders
 .externalToolBuilders/
-
 # Directories #
 /build/
 /bin/
@@ -22,7 +21,6 @@ target/
 .idea
 classes/
 META-INF/
-
 /build/
 /bin/
 target/
