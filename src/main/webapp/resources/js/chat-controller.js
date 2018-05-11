@@ -26,6 +26,21 @@ $(document).ready(function(){
 			
 		}
 	});
+	
+	/* 커스텀 */
+	var down = false;
+	$(".bar").click(function(){
+		$("#chatbox").slideToggle(300,'swing');
+		$("#new-message").fadeToggle(300,"swing");
+		return false;
+		
+	});
+	$("#tab-bar").click(function(){
+		$("#chatbox").slideToggle(300,'swing');
+		$("#new-message").fadeToggle(300,"swing");
+		return false;
+	});
+	/*커스텀 끝*/
 		
 	
 	$(".friend").each(function(){		

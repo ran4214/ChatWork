@@ -1,3 +1,5 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+	pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ page session="false"%>
 <html>
@@ -6,16 +8,22 @@
 
 
 <!-- external css -->
-<link rel='stylesheet' href='https://fonts.googleapis.com/css?family=Open+Sans:400,600,700'>
-<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css">
+<link rel="stylesheet"
+	href='https://fonts.googleapis.com/css?family=Open+Sans:400,600,700'>
+<link rel="stylesheet"
+	href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css">
+<link rel="stylesheet"
+	href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
 
 <!-- my css -->
 <link rel='stylesheet' href="/css/chat-style.css">
 
 <!-- external js -->
 <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.0/umd/popper.min.js"></script>
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/js/bootstrap.min.js"></script>
+<script
+	src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.0/umd/popper.min.js"></script>
+<script
+	src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/js/bootstrap.min.js"></script>
 
 <!-- my js -->
 <script src="/js/chat-controller.js"></script>
@@ -23,139 +31,259 @@
 
 </head>
 <body>
+	<!-- 로렘 -->
+	<div>
+	위원은 정당에 가입하거나 정치에 관여할 수 없다. 국가의 세입·세출의 결산, 국가 및 법률이 정한 단체의
+	회계검사와 행정기관 및 공무원의 직무에 관한 감찰을 하기 위하여 대통령 소속하에 감사원을 둔다. 모든 국민은 양심의 자유를
+	가진다. 대통령은 제3항과 제4항의 사유를 지체없이 공포하여야 한다. 대법원장의 임기는 6년으로 하며, 중임할 수 없다.
+	대통령이 궐위되거나 사고로 인하여 직무를 수행할 수 없을 때에는 국무총리, 법률이 정한 국무위원의 순서로 그 권한을 대행한다.
+	대통령은 내우·외환·천재·지변 또는 중대한 재정·경제상의 위기에 있어서 국가의 안전보장 또는 공공의 안녕질서를 유지하기 위하여
+	긴급한 조치가 필요하고 국회의 집회를 기다릴 여유가 없을 때에 한하여 최소한으로 필요한 재정·경제상의 처분을 하거나 이에
+	관하여 법률의 효력을 가지는 명령을 발할 수 있다. 법률이 헌법에 위반되는 여부가 재판의 전제가 된 경우에는 법원은
+	헌법재판소에 제청하여 그 심판에 의하여 재판한다. 군인은 현역을 면한 후가 아니면 국무총리로 임명될 수 없다. 이 헌법은
+	1988년 2월 25일부터 시행한다. 다만, 이 헌법을 시행하기 위하여 필요한 법률의 제정·개정과 이 헌법에 의한 대통령 및
+	국회의원의 선거 기타 이 헌법시행에 관한 준비는 이 헌법시행 전에 할 수 있다. 모든 국민은 근로의 의무를 진다. 국가는
+	근로의 의무의 내용과 조건을 민주주의원칙에 따라 법률로 정한다. 대통령은 국민의 보통·평등·직접·비밀선거에 의하여 선출한다.
+	국채를 모집하거나 예산외에 국가의 부담이 될 계약을 체결하려 할 때에는 정부는 미리 국회의 의결을 얻어야 한다. 공개하지
+	아니한 회의내용의 공표에 관하여는 법률이 정하는 바에 의한다. 누구든지 체포 또는 구속의 이유와 변호인의 조력을 받을 권리가
+	있음을 고지받지 아니하고는 체포 또는 구속을 당하지 아니한다. 체포 또는 구속을 당한 자의 가족등 법률이 정하는 자에게는 그
+	이유와 일시·장소가 지체없이 통지되어야 한다. 국교는 인정되지 아니하며, 종교와 정치는 분리된다. 국가는 대외무역을 육성하며,
+	이를 규제·조정할 수 있다. 교육의 자주성·전문성·정치적 중립성 및 대학의 자율성은 법률이 정하는 바에 의하여 보장된다.
+	예비비는 총액으로 국회의 의결을 얻어야 한다. 예비비의 지출은 차기국회의 승인을 얻어야 한다. 국민의 모든 자유와 권리는
+	국가안전보장·질서유지 또는 공공복리를 위하여 필요한 경우에 한하여 법률로써 제한할 수 있으며, 제한하는 경우에도 자유와 권리의
+	본질적인 내용을 침해할 수 없다. 정부는 회계연도마다 예산안을 편성하여 회계연도 개시 90일전까지 국회에 제출하고, 국회는
+	회계연도 개시 30일전까지 이를 의결하여야 한다. 재판의 심리와 판결은 공개한다. 다만, 심리는 국가의 안전보장 또는
+	안녕질서를 방해하거나 선량한 풍속을 해할 염려가 있을 때에는 법원의 결정으로 공개하지 아니할 수 있다. 행정각부의 설치·조직과
+	직무범위는 법률로 정한다. 대한민국은 국제평화의 유지에 노력하고 침략적 전쟁을 부인한다. 한 회계연도를 넘어 계속하여 지출할
+	필요가 있을 때에는 정부는 연한을 정하여 계속비로서 국회의 의결을 얻어야 한다. 탄핵소추의 의결을 받은 자는 탄핵심판이 있을
+	때까지 그 권한행사가 정지된다. 저작자·발명가·과학기술자와 예술가의 권리는 법률로써 보호한다. 국가유공자·상이군경 및
+	전몰군경의 유가족은 법률이 정하는 바에 의하여 우선적으로 근로의 기회를 부여받는다. 대통령은 법률에서 구체적으로 범위를 정하여
+	위임받은 사항과 법률을 집행하기 위하여 필요한 사항에 관하여 대통령령을 발할 수 있다. 이 헌법시행 당시의 대법원장과
+	대법원판사가 아닌 법관은 제1항 단서의 규정에 불구하고 이 헌법에 의하여 임명된 것으로 본다. 국무총리·국무위원 또는
+	정부위원은 국회나 그 위원회에 출석하여 국정처리상황을 보고하거나 의견을 진술하고 질문에 응답할 수 있다. 혼인과 가족생활은
+	개인의 존엄과 양성의 평등을 기초로 성립되고 유지되어야 하며, 국가는 이를 보장한다. 모든 국민은 신속한 재판을 받을 권리를
+	가진다. 형사피고인은 상당한 이유가 없는 한 지체없이 공개재판을 받을 권리를 가진다. 국회는 선전포고, 국군의 외국에의 파견
+	또는 외국군대의 대한민국 영역안에서의 주류에 대한 동의권을 가진다. 모든 국민은 인간으로서의 존엄과 가치를 가지며, 행복을
+	추구할 권리를 가진다. 국가는 개인이 가지는 불가침의 기본적 인권을 확인하고 이를 보장할 의무를 진다. 새로운 회계연도가
+	개시될 때까지 예산안이 의결되지 못한 때에는 정부는 국회에서 예산안이 의결될 때까지 다음의 목적을 위한 경비는 전년도 예산에
+	준하여 집행할 수 있다. 국회의원과 정부는 법률안을 제출할 수 있다. 지방의회의 조직·권한·의원선거와 지방자치단체의 장의
+	선임방법 기타 지방자치단체의 조직과 운영에 관한 사항은 법률로 정한다. 이 헌법시행 당시에 이 헌법에 의하여 새로 설치될
+	기관의 권한에 속하는 직무를 행하고 있는 기관은 이 헌법에 의하여 새로운 기관이 설치될 때까지 존속하며 그 직무를 행한다.
+	모든 국민은 직업선택의 자유를 가진다. 외국인은 국제법과 조약이 정하는 바에 의하여 그 지위가 보장된다. 국회는 국민의
+	보통·평등·직접·비밀선거에 의하여 선출된 국회의원으로 구성한다. 누구든지 병역의무의 이행으로 인하여 불이익한 처우를 받지
+	아니한다. 국가는 농업 및 어업을 보호·육성하기 위하여 농·어촌종합개발과 그 지원등 필요한 계획을 수립·시행하여야 한다.
+	대통령이 궐위된 때 또는 대통령 당선자가 사망하거나 판결 기타의 사유로 그 자격을 상실한 때에는 60일 이내에 후임자를
+	선거한다. 모든 국민은 주거의 자유를 침해받지 아니한다. 주거에 대한 압수나 수색을 할 때에는 검사의 신청에 의하여 법관이
+	발부한 영장을 제시하여야 한다. 헌법재판소는 법률에 저촉되지 아니하는 범위안에서 심판에 관한 절차, 내부규율과 사무처리에 관한
+	규칙을 제정할 수 있다. 법률안에 이의가 있을 때에는 대통령은 제1항의 기간내에 이의서를 붙여 국회로 환부하고, 그 재의를
+	요구할 수 있다. 국회의 폐회중에도 또한 같다. 위원은 탄핵 또는 금고 이상의 형의 선고에 의하지 아니하고는 파면되지
+	아니한다. 모든 국민은 인간다운 생활을 할 권리를 가진다. 국회나 그 위원회의 요구가 있을 때에는 국무총리·국무위원 또는
+	정부위원은 출석·답변하여야 하며, 국무총리 또는 국무위원이 출석요구를 받은 때에는 국무위원 또는 정부위원으로 하여금
+	출석·답변하게 할 수 있다. 모든 국민은 행위시의 법률에 의하여 범죄를 구성하지 아니하는 행위로 소추되지 아니하며, 동일한
+	범죄에 대하여 거듭 처벌받지 아니한다. 신체장애자 및 질병·노령 기타의 사유로 생활능력이 없는 국민은 법률이 정하는 바에
+	의하여 국가의 보호를 받는다. 국회는 국정을 감사하거나 특정한 국정사안에 대하여 조사할 수 있으며, 이에 필요한 서류의 제출
+	또는 증인의 출석과 증언이나 의견의 진술을 요구할 수 있다. 국회의원이 회기전에 체포 또는 구금된 때에는 현행범인이 아닌 한
+	국회의 요구가 있으면 회기중 석방된다. 국군의 조직과 편성은 법률로 정한다. 모든 국민은 건강하고 쾌적한 환경에서 생활할
+	권리를 가지며, 국가와 국민은 환경보전을 위하여 노력하여야 한다. 감사원은 세입·세출의 결산을 매년 검사하여 대통령과
+	차년도국회에 그 결과를 보고하여야 한다. 국무위원은 국무총리의 제청으로 대통령이 임명한다. 대법관의 임기는 6년으로 하며,
+	법률이 정하는 바에 의하여 연임할 수 있다. 대법관은 대법원장의 제청으로 국회의 동의를 얻어 대통령이 임명한다. 대통령후보자가
+	1인일 때에는 그 득표수가 선거권자 총수의 3분의 1 이상이 아니면 대통령으로 당선될 수 없다. 정당의 목적이나 활동이 민주적
+	기본질서에 위배될 때에는 정부는 헌법재판소에 그 해산을 제소할 수 있고, 정당은 헌법재판소의 심판에 의하여 해산된다.
+	일반사면을 명하려면 국회의 동의를 얻어야 한다. 국가안전보장회의의 조직·직무범위 기타 필요한 사항은 법률로 정한다. 훈장등의
+	영전은 이를 받은 자에게만 효력이 있고, 어떠한 특권도 이에 따르지 아니한다. 국가원로자문회의의 의장은 직전대통령이 된다.
+	다만, 직전대통령이 없을 때에는 대통령이 지명한다. 대통령은 법률이 정하는 바에 의하여 훈장 기타의 영전을 수여한다.
+	비상계엄이 선포된 때에는 법률이 정하는 바에 의하여 영장제도, 언론·출판·집회·결사의 자유, 정부나 법원의 권한에 관하여
+	특별한 조치를 할 수 있다. 국가안전보장에 관련되는 대외정책·군사정책과 국내정책의 수립에 관하여 국무회의의 심의에 앞서
+	대통령의 자문에 응하기 위하여 국가안전보장회의를 둔다. 대통령은 국가의 안위에 관계되는 중대한 교전상태에 있어서 국가를
+	보위하기 위하여 긴급한 조치가 필요하고 국회의 집회가 불가능한 때에 한하여 법률의 효력을 가지는 명령을 발할 수 있다. 군인은
+	현역을 면한 후가 아니면 국무위원으로 임명될 수 없다. 국가는 사회보장·사회복지의 증진에 노력할 의무를 진다. 대법원과
+	각급법원의 조직은 법률로 정한다. 선거와 국민투표의 공정한 관리 및 정당에 관한 사무를 처리하기 위하여 선거관리위원회를 둔다.
+	국회의원은 그 지위를 남용하여 국가·공공단체 또는 기업체와의 계약이나 그 처분에 의하여 재산상의 권리·이익 또는 직위를
+	취득하거나 타인을 위하여 그 취득을 알선할 수 없다. 법관은 헌법과 법률에 의하여 그 양심에 따라 독립하여 심판한다. 대통령의
+	국법상 행위는 문서로써 하며, 이 문서에는 국무총리와 관계 국무위원이 부서한다. 군사에 관한 것도 또한 같다. 모든 국민은 그
+	보호하는 자녀에게 적어도 초등교육과 법률이 정하는 교육을 받게 할 의무를 진다. 각급 선거관리위원회의 조직·직무범위 기타
+	필요한 사항은 법률로 정한다. 공무원의 신분과 정치적 중립성은 법률이 정하는 바에 의하여 보장된다. 국가는 노인과 청소년의
+	복지향상을 위한 정책을 실시할 의무를 진다. 국가는 과학기술의 혁신과 정보 및 인력의 개발을 통하여 국민경제의 발전에
+	노력하여야 한다. 형사피해자는 법률이 정하는 바에 의하여 당해 사건의 재판절차에서 진술할 수 있다. 대통령은 법률이 정하는
+	바에 의하여 사면·감형 또는 복권을 명할 수 있다. 대통령의 선거에 관한 사항은 법률로 정한다. 타인의 범죄행위로 인하여
+	생명·신체에 대한 피해를 받은 국민은 법률이 정하는 바에 의하여 국가로부터 구조를 받을 수 있다. 헌법재판소 재판관은 탄핵
+	또는 금고 이상의 형의 선고에 의하지 아니하고는 파면되지 아니한다. 제1항의 지시를 받은 당해 행정기관은 이에 응하여야 한다.
+	국회의원은 현행범인인 경우를 제외하고는 회기중 국회의 동의없이 체포 또는 구금되지 아니한다. 정당은 그 목적·조직과 활동이
+	민주적이어야 하며, 국민의 정치적 의사형성에 참여하는데 필요한 조직을 가져야 한다. 이 헌법에 의한 최초의 대통령의 임기는 이
+	헌법시행일로부터 개시한다. 선거에 관한 경비는 법률이 정하는 경우를 제외하고는 정당 또는 후보자에게 부담시킬 수 없다.
 
-	<div id="chatbox">
-		<div id="friendslist">
-			<div id="topmenu">
-				<span class="friends"></span> <span class="chats"></span> <span
-					class="history"></span>
+	대법원에 대법관을 둔다. 다만, 법률이 정하는 바에 의하여 대법관이 아닌 법관을 둘 수 있다. 대통령의 임기연장 또는
+	중임변경을 위한 헌법개정은 그 헌법개정 제안 당시의 대통령에 대하여는 효력이 없다. 정당은 법률이 정하는 바에 의하여 국가의
+	보호를 받으며, 국가는 법률이 정하는 바에 의하여 정당운영에 필요한 자금을 보조할 수 있다. 모든 국민은 법률이 정하는 바에
+	의하여 국가기관에 문서로 청원할 권리를 가진다. 재의의 요구가 있을 때에는 국회는 재의에 붙이고, 재적의원과반수의 출석과
+	출석의원 3분의 2 이상의 찬성으로 전과 같은 의결을 하면 그 법률안은 법률로서 확정된다. 모든 국민은 언론·출판의 자유와
+	집회·결사의 자유를 가진다. 대통령·국무총리·국무위원·행정각부의 장·헌법재판소 재판관·법관·중앙선거관리위원회
+	위원·감사원장·감사위원 기타 법률이 정한 공무원이 그 직무집행에 있어서 헌법이나 법률을 위배한 때에는 국회는 탄핵의 소추를
+	의결할 수 있다. 감사위원은 원장의 제청으로 대통령이 임명하고, 그 임기는 4년으로 하며, 1차에 한하여 중임할 수 있다.
+	모든 국민은 자기의 행위가 아닌 친족의 행위로 인하여 불이익한 처우를 받지 아니한다. 광물 기타 중요한
+	지하자원·수산자원·수력과 경제상 이용할 수 있는 자연력은 법률이 정하는 바에 의하여 일정한 기간 그 채취·개발 또는 이용을
+	특허할 수 있다. 대법원장과 대법관이 아닌 법관은 대법관회의의 동의를 얻어 대법원장이 임명한다. 사면·감형 및 복권에 관한
+	사항은 법률로 정한다. 헌법재판소의 조직과 운영 기타 필요한 사항은 법률로 정한다. 모든 국민은 학문과 예술의 자유를 가진다.
+	학교교육 및 평생교육을 포함한 교육제도와 그 운영, 교육재정 및 교원의 지위에 관한 기본적인 사항은 법률로 정한다. 모든
+	국민은 신체의 자유를 가진다. 누구든지 법률에 의하지 아니하고는 체포·구속·압수·수색 또는 심문을 받지 아니하며, 법률과
+	적법한 절차에 의하지 아니하고는 처벌·보안처분 또는 강제노역을 받지 아니한다. 법관은 탄핵 또는 금고 이상의 형의 선고에
+	의하지 아니하고는 파면되지 아니하며, 징계처분에 의하지 아니하고는 정직·감봉 기타 불리한 처분을 받지 아니한다. 헌법에 의하여
+	체결·공포된 조약과 일반적으로 승인된 국제법규는 국내법과 같은 효력을 가진다. 국회는 헌법개정안이 공고된 날로부터 60일
+	이내에 의결하여야 하며, 국회의 의결은 재적의원 3분의 2 이상의 찬성을 얻어야 한다. 대통령의 임기는 5년으로 하며, 중임할
+	수 없다. 국회는 법률에 저촉되지 아니하는 범위안에서 의사와 내부규율에 관한 규칙을 제정할 수 있다. 대통령은 조약을
+	체결·비준하고, 외교사절을 신임·접수 또는 파견하며, 선전포고와 강화를 한다. 공무원은 국민전체에 대한 봉사자이며, 국민에
+	대하여 책임을 진다. 국민의 자유와 권리는 헌법에 열거되지 아니한 이유로 경시되지 아니한다. 대통령은 조국의 평화적 통일을
+	위한 성실한 의무를 진다. 대통령이 제1항의 기간내에 공포나 재의의 요구를 하지 아니한 때에도 그 법률안은 법률로서 확정된다.
+	대통령은 국가의 독립·영토의 보전·국가의 계속성과 헌법을 수호할 책무를 진다. 행정각부의 장은 국무위원 중에서 국무총리의
+	제청으로 대통령이 임명한다. 대통령은 법률안의 일부에 대하여 또는 법률안을 수정하여 재의를 요구할 수 없다. 국회에서 의결된
+	법률안은 정부에 이송되어 15일 이내에 대통령이 공포한다. 국회는 국가의 예산안을 심의·확정한다. 국가는 국민 모두의 생산 및
+	생활의 기반이 되는 국토의 효율적이고 균형있는 이용·개발과 보전을 위하여 법률이 정하는 바에 의하여 그에 관한 필요한 제한과
+	의무를 과할 수 있다.</div>
+
+	<div id="chat-wrapper">
+		<div id="tab-bar">
+			<div class="bar">
+				<span class="online"></span>
+				<span class="bar-name"><strong>배진영</strong></span>
+				<i class="fa fa-bars" id="tab-button" aria-hidden="true"></i>
 			</div>
-
-			<div id="friends">
-				<div class="friend">
-					<img
-						src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/245657/1_copy.jpg" />
-					<p>
-						<strong>Martin rooter</strong><br><span>mirobadev@gmail.com</span>
-					</p>
-					<div class="status available"></div>
-				</div>
-
-				<div class="friend">
-					<img
-						src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/245657/2_copy.jpg" />
-					<p>
-						<strong>Martin</strong><br><span>marjoseph@gmail.com</span>
-					</p>
-					<div class="status away"></div>
-				</div>
-
-				<div class="friend">
-					<img
-						src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/245657/3_copy.jpg" />
-					<p>
-						<strong>Tomas Kennedy</strong><br><span>tomaskennedy@gmail.com</span>
-					</p>
-					<div class="status inactive"></div>
-				</div>
-
-				<div class="friend">
-					<img
-						src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/245657/4_copy.jpg" />
-					<p>
-						<strong>Enrique Sutton</strong><br><span>enriquesutton@gmail.com</span>
-					</p>
-					<div class="status inactive"></div>
-				</div>
-
-				<div class="friend">
-					<img
-						src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/245657/5_copy.jpg" />
-					<p>
-						<strong> Darnell Strickland</strong><br><span>darnellstrickland@gmail.com</span>
-					</p>
-					<div class="status inactive"></div>
-				</div>
-
-				<div id="search">
-					<input type="text" id="searchfield" value="Search contacts..." />
-				</div>
-
-			</div>
-
+			<span id="new-message">5</span>
 		</div>
-
-		<div id="chatview" class="p1">
-			<div id="profile">
-
-				<div id="close">
-					<div class="cy"></div>
-					<div class="cx"></div>
+		<div id="chatbox">
+			<div id="friendslist">
+				<div id="topmenu">
+					<span class="friends"></span> <span class="chats"></span> <span
+						class="history"></span>
 				</div>
 
-				<p>Miro Badev</p>
-				<span>miro@badev@gmail.com</span>
-			</div>
-			<div id="chat-messages">
-				<label>Thursday 02</label>
-
-				<div class="message">
-					<img
-						src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/245657/1_copy.jpg" />
-					<div class="bubble">
-						Really cool stuff!
-						<div class="corner"></div>
-						<span>3 min</span>
+				<div id="friends">
+					<div class="friend">
+						<img
+							src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/245657/1_copy.jpg" />
+						<p>
+							<strong>배진영</strong><br> <span>ran4214@naver.com</span>
+						</p>
+						<div class="status available"></div>
 					</div>
-				</div>
 
-				<div class="message right">
-					<img
-						src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/245657/2_copy.jpg" />
-					<div class="bubble">
-						Can you share a link for the tutorial?
-						<div class="corner"></div>
-						<span>1 min</span>
+					<div class="friend">
+						<img
+							src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/245657/2_copy.jpg" />
+						<p>
+							<strong>김민강</strong><br> <span>bae031573@gmail.com</span>
+						</p>
+						<div class="status away"></div>
 					</div>
-				</div>
 
-				<div class="message">
-					<img
-						src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/245657/1_copy.jpg" />
-					<div class="bubble">
-						Yeah, hold on
-						<div class="corner"></div>
-						<span>Now</span>
+					<div class="friend">
+						<img
+							src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/245657/3_copy.jpg" />
+						<p>
+							<strong>이규민</strong><br> <span>tomaskennedy@gmail.com</span>
+						</p>
+						<div class="status inactive"></div>
 					</div>
-				</div>
 
-				<div class="message right">
-					<img
-						src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/245657/2_copy.jpg" />
-					<div class="bubble">
-						Can you share a link for the tutorial?
-						<div class="corner"></div>
-						<span>1 min</span>
+					<div class="friend">
+						<img
+							src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/245657/4_copy.jpg" />
+						<p>
+							<strong>서금지</strong><br> <span>enriquesutton@gmail.com</span>
+						</p>
+						<div class="status inactive"></div>
 					</div>
-				</div>
 
-				<div class="message">
-					<img
-						src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/245657/1_copy.jpg" />
-					<div class="bubble">
-						Yeah, hold on
-						<div class="corner"></div>
-						<span>Now</span>
+					<div class="friend">
+						<img
+							src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/245657/5_copy.jpg" />
+						<p>
+							<strong>염윤철</strong><br> <span>darnellstrickland@gmail.com</span>
+						</p>
+						<div class="status inactive"></div>
 					</div>
+
+					<div id="search">
+						<input type="text" id="searchfield" value="연락처를 검색해보세요" />
+					</div>
+
 				</div>
 
 			</div>
+			<div id="chatview" class="p1">
+				<div id="profile">
 
-			<div id="sendmessage">
-				<input type="text" value="Send message..." />
-				<button id="send"></button>
+					<div class="bar">
+						<i class="fa fa-bars" aria-hidden="true"></i>
+					</div>
+
+					<div id="close">
+						<i class="fa fa-arrow-left" aria-hidden="true"></i>
+					</div>
+
+					<p>Miro Badev</p>
+					<span>miro@badev@gmail.com</span>
+				</div>
+				<div id="chat-messages">
+					<label>Thursday 02</label>
+
+					<div class="message">
+						<img
+							src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/245657/1_copy.jpg" />
+						<div class="bubble">
+							Really cool stuff!
+							<div class="corner"></div>
+							<span>3 min</span>
+						</div>
+					</div>
+
+					<div class="message right">
+						<img
+							src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/245657/2_copy.jpg" />
+						<div class="bubble">
+							Can you share a link for the tutorial?
+							<div class="corner"></div>
+							<span>1 min</span>
+						</div>
+					</div>
+
+					<div class="message">
+						<img
+							src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/245657/1_copy.jpg" />
+						<div class="bubble">
+							Yeah, hold on
+							<div class="corner"></div>
+							<span>Now</span>
+						</div>
+					</div>
+
+					<div class="message right">
+						<img
+							src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/245657/2_copy.jpg" />
+						<div class="bubble">
+							Can you share a link for the tutorial?
+							<div class="corner"></div>
+							<span>1 min</span>
+						</div>
+					</div>
+
+					<div class="message">
+						<img
+							src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/245657/1_copy.jpg" />
+						<div class="bubble">
+							Yeah, hold on
+							<div class="corner"></div>
+							<span>Now</span>
+						</div>
+					</div>
+
+				</div>
+
+				<div id="sendmessage">
+					<input type="text" value="Send message..." />
+					<button id="send"></button>
+				</div>
+
 			</div>
-
 		</div>
 	</div>
 </body>
