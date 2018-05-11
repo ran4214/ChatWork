@@ -219,7 +219,10 @@
 					<div id="close">
 						<i class="fa fa-arrow-left" aria-hidden="true"></i>
 					</div>
-
+					
+					<div id="star">
+						<i class="fa fa-star-o" aria-hidden="true"></i>
+					</div>
 					<p>Miro Badev</p>
 					<span>miro@badev@gmail.com</span>
 				</div>

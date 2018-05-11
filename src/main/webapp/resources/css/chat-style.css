@@ -457,6 +457,13 @@ div.message.right .corner {
 	height: 20px;
 	cursor: pointer;
 }
+#star {
+	position: absolute;
+	top: 30px;
+	left: 9.5px;
+	height: 30px;
+	cursor: pointer;
+}
 
 #close:hover {
 	opacity: 1;
