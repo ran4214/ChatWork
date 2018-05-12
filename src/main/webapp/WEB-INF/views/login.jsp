@@ -16,7 +16,7 @@
 </head>
 <body>
 	<div class="container">
-		<form method="action" action="login.do">
+		<form method="POST" action="login">
 			<table class="table table-bordered table-hover" style="text-align : center; border : 1px solid #ddd">
 				<thead>
 					<tr>

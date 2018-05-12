@@ -26,7 +26,7 @@
 
 </head>
 <body>
-	<a href="/login"><button type="button" class="btn btn-primary">qqq</button></a>
+	<a href="/login"><button type="button" class="btn btn-primary">login</button></a>
 	<button type="button" class="btn btn-primary">chat</button>
 
 	<div id="chat-wrapper">
