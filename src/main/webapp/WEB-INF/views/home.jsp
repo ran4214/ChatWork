@@ -1,12 +1,11 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"%>
+<%@page import="org.rarekinel.model.UserVO"%>
+<%@page import="org.springframework.web.bind.annotation.SessionAttribute"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
-<%@ page session="false"%>
+<%@ page session="true"%>
 <html>
 <head>
 <title>ChatWork</title>
-
-
 <!-- external css -->
 <link rel="stylesheet" href='https://fonts.googleapis.com/css?family=Open+Sans:400,600,700'>
 <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css">
@@ -22,12 +21,22 @@
 
 <!-- my js -->
 <script src="/js/chat-controller.js"></script>
-
-
+<%
+%>
 </head>
 <body>
-	<a href="/login"><button type="button" class="btn btn-primary">login</button></a>
-	<button type="button" class="btn btn-primary">chat</button>
+	<c:choose>
+		<c:when test="${empty sessionScope.userData}">
+       		<a href="/login"><button type="button" class="btn btn-primary">login</button></a>
+			<button type="button" class="btn btn-primary">chat</button>
+   		</c:when>
+
+		<c:otherwise>
+       		<a href="/logout"><button type="button" class="btn btn-primary">logout</button></a>
+			<button type="button" class="btn btn-primary">chat</button>
+    	</c:otherwise>	
+	</c:choose>
+
 
 	<div id="chat-wrapper">
 		<div id="tab-bar">

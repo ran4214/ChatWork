@@ -6,4 +6,5 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface UserDAO {
 	public UserVO login(String userID, String userPassword)throws Exception;
+	public int online(String userID);
 }

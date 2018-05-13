@@ -7,7 +7,7 @@
 <mapper namespace="mappers.UserMapper">
 	<cache />
 
-	<select id="login" parameterType="String" resultType="User"> 
+	<select id="login" parameterType="String" resultType="UserVO"> 
 		Select * from customer where ID = #{value}
 	</select>
 	
@@ -15,9 +15,13 @@
 		Select cname from customer where cno = #{value}
 	</select>
 	
-	<select id="searchUser" parameterType="String" resultType="User">
+	<select id="searchUser" parameterType="String" resultType="UserVO">
 		select * from customer where cname LIKE '%'||#{value}||'%'
 	</select>
+	
+	<update id="online" parameterType="String">
+		UPDATE customer SET onlinestatus = '1' WHERE id = #{value}
+	</update>
 	
 </mapper>
 

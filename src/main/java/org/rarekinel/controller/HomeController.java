@@ -15,6 +15,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.view.RedirectView;
 
 
 /**
@@ -26,7 +28,7 @@ public class HomeController {
 	private static final Logger logger = LoggerFactory.getLogger(HomeController.class);
 	
 	@Inject
-	UserService service;
+	private UserService service;
 	
 	@RequestMapping(value = "/", method = RequestMethod.GET)
 	public String home(Locale locale, Model model) {
@@ -46,10 +48,10 @@ public class HomeController {
 	public void loginPage() {}
 	
 	@RequestMapping(value = "/login", method = RequestMethod.POST)
-	public void login(HttpServletRequest request,String userID, String userPassword) throws Exception {
+	public Object login(HttpServletRequest request,String userID, String userPassword) throws Exception {
 		
 		if (userID == null || userID.equals("") || userPassword.equals("") || userPassword == null) {
-			System.out.println("모든 내용을 입력해주세요.");
+			System.out.println("정상적인 값을 입력해주세요.");
 		}
 		
 		UserVO user = null;
@@ -58,7 +60,24 @@ public class HomeController {
 		if(user==null) {
 		}else {
 			request.getSession().setAttribute("userData",user);
+			ModelAndView mav = new ModelAndView();
+			
+			mav.setView(new RedirectView("/"));
+			
+			return mav;
 		}
+		return null;
+	}
+	
+	@RequestMapping(value = "/logout", method = RequestMethod.GET)
+	public ModelAndView logout(HttpServletRequest request) throws Exception {
+		request.getSession().invalidate();
+		
+		ModelAndView mav = new ModelAndView();
+		
+		mav.setView(new RedirectView("/"));
+		
+		return mav;
 	}
 	
 }

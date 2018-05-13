@@ -25,6 +25,6 @@
 	</beans:bean>
 	
 	<context:component-scan base-package="org.rarekinel" />
-
+	<context:component-scan base-package="org.rarekinel.listener" />
 	
 </beans:beans>

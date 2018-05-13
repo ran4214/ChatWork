@@ -15,4 +15,8 @@ public class UserService {
 	public UserVO loginService(String userID,String userPassword) throws Exception {
 		return dao.login(userID, userPassword);
 	}
+	
+	public int onlineService(String userID) {
+		return dao.online(userID);
+	}
 }

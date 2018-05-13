@@ -3,10 +3,7 @@ package org.rarekinel.model;
 import java.io.Serializable;
 
 public class ChatVO implements Serializable {
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 1042892105935790316L;
+
 	int chatID;
 	String fromID;
 	String toID;

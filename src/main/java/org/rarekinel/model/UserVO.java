@@ -5,10 +5,7 @@ import java.sql.Timestamp;
 
 
 public class UserVO implements Serializable {
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 4100160967157988780L;
+
 	int cno;
 	String cname;
 	String id;

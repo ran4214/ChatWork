@@ -146,6 +146,13 @@
 			<artifactId>spring-jdbc-oracle-ojdbc</artifactId>
 			<version>1.0.0</version>
 		</dependency>
+		<!-- Expression Language -->
+		<dependency>
+			<groupId>javax.el</groupId>
+			<artifactId>javax.el-api</artifactId>
+			<version>3.0.1-b04</version>
+		</dependency>
+
 	</dependencies>
 	<build>
 		<plugins>
