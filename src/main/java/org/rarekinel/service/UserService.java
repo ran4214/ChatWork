@@ -8,6 +8,9 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class UserService {
+	private static UserService service = new UserService();
+	
+	public UserService() {}
 	
 	@Inject
 	private UserDAO dao;

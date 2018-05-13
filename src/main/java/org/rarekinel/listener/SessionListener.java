@@ -2,6 +2,7 @@ package org.rarekinel.listener;
 
 import java.util.HashMap;
 
+import javax.servlet.ServletContext;
 import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
 import javax.servlet.http.HttpSession;
@@ -10,9 +11,6 @@ import javax.servlet.http.HttpSessionBindingEvent;
 
 import org.rarekinel.model.UserVO;
 import org.rarekinel.service.UserService;
-import org.springframework.web.context.WebApplicationContext;
-import org.springframework.web.context.support.WebApplicationContextUtils;
-import org.springframework.web.servlet.FrameworkServlet;
 
 public class SessionListener implements HttpSessionAttributeListener,ServletContextListener{
 	
