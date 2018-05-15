@@ -23,4 +23,8 @@ public class UserService {
 	public int onlineService(String userID) {
 		return dao.online(userID);
 	}
+	
+	public int offlineService(String userID) {
+		return dao.offline(userID);
+	}
 }

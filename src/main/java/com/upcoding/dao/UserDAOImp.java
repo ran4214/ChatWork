@@ -25,5 +25,10 @@ public class UserDAOImp implements UserDAO {
 	public int online(String userID) {
 		return sqlsession.update(namespace+".online",userID);
 	}
+	
+	@Override
+	public int offline(String userID) {
+		return sqlsession.update(namespace+".offline",userID);
+	}
 
 }

@@ -95,3 +95,7 @@ $(document).ready(function(){
 		});
 	});			
 });
+
+function noLoginChat(){
+	$('#alertModal').modal('show')
+}

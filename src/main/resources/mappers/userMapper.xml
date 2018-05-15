@@ -23,6 +23,10 @@
 		UPDATE customer SET status = '1' WHERE id = #{value}
 	</update>
 	
+	<update id="offline" parameterType="String">
+		UPDATE customer SET status = '0' WHERE id = #{value}
+	</update>
+	
 </mapper>
 
 

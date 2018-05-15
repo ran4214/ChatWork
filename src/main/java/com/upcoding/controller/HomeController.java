@@ -16,18 +16,16 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.view.RedirectView;
 
+
+
 import com.upcoding.model.UserVO;
 import com.upcoding.service.UserService;
 
-/**
- * Handles requests for the application home page.
- */
 @Controller
 public class HomeController {
 	
 private static final Logger logger = LoggerFactory.getLogger(HomeController.class);
 	
-
 	@Inject
 	private UserService service;
 	
@@ -71,7 +69,7 @@ private static final Logger logger = LoggerFactory.getLogger(HomeController.clas
 	}
 	
 	@RequestMapping(value = "/logout", method = RequestMethod.GET)
-	public ModelAndView logout(HttpServletRequest request) throws Exception {
+	public ModelAndView logoutGET(HttpServletRequest request) throws Exception {
 		request.getSession().invalidate();
 		
 		ModelAndView mav = new ModelAndView();
@@ -79,6 +77,11 @@ private static final Logger logger = LoggerFactory.getLogger(HomeController.clas
 		mav.setView(new RedirectView("/"));
 		
 		return mav;
+	}
+	
+	@RequestMapping(value = "/logout", method = RequestMethod.POST)
+	public void logoutPOST(HttpServletRequest request) throws Exception {
+		request.getSession().invalidate();
 	}
 	
 }
