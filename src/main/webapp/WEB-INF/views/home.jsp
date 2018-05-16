@@ -135,6 +135,15 @@ var myUserID = '<%=myUserID%>';
 						</p>
 						<div class="status inactive"></div>
 					</div>
+					
+					<div class="friend">
+						<img
+							src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/245657/5_copy.jpg" />
+						<p>
+							<strong>엉ㅇ</strong><br> <span>darnellstrickland@gmail.com</span>
+						</p>
+						<div class="status inactive"></div>
+					</div>
 
 
 				</div>
