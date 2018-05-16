@@ -34,11 +34,11 @@ public class SessionListener implements HttpSessionAttributeListener, ServletCon
 			re = service.onlineService(user.getId());
 
 			if (re > 0) {
-				System.out.println("SessionListener : " + user.getCname() + "님이 로그인 하였습니다.");
+				System.out.println("SessionListener : " + user.getCname() + "님이 로그인하셨습니다.");
 				String userValue = se.getValue() + "";
 				System.out.println(userValue);
 				loginUser.put(userValue, user);
-				System.out.println("현재 접속중인 유저 : " + loginUser.size());
+				System.out.println("현재 접속중인 사람 : " + loginUser.size());
 			}
 		}
 
@@ -56,8 +56,8 @@ public class SessionListener implements HttpSessionAttributeListener, ServletCon
 				
 				loginUser.remove(userValue);
 				
-				System.out.println("SessionListener : " + user.getCname() + "님이 로그아웃 하였습니다.");
-				System.out.println("현재 접속중인 유저 : " + loginUser.size());
+				System.out.println("SessionListener : " + user.getCname() + "이 로그아웃하셨습니다.");
+				System.out.println("현재 접속중인 사람 : " + loginUser.size());
 			}
 		}
 	}

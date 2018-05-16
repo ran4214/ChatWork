@@ -15,6 +15,21 @@ public class UserVO implements Serializable {
 	String favor;
 	int leveltest;
 	Timestamp regdate;
+	int status;
+	String email;
+	
+	public int getStatus() {
+		return status;
+	}
+	public void setStatus(int status) {
+		this.status = status;
+	}
+	public String getEmail() {
+		return email;
+	}
+	public void setEmail(String email) {
+		this.email = email;
+	}
 	
 	public int getCno() {
 		return cno;

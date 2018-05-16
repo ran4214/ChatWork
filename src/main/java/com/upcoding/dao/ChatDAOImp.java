@@ -1,11 +1,15 @@
 package com.upcoding.dao;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 import javax.inject.Inject;
 
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.stereotype.Repository;
+
+import com.upcoding.model.UserVO;
 @Repository
 public class ChatDAOImp implements ChatDAO {
 
@@ -30,6 +34,11 @@ public class ChatDAOImp implements ChatDAO {
 		map.put("toID", toID);
 		
 		return sqlsession.insert(namespace+".deleteFriend",map);
+	}
+
+	@Override
+	public List<UserVO> getFriends(String fromID) {
+		return sqlsession.selectList(namespace+".getFriends",fromID);
 	}
 
 }

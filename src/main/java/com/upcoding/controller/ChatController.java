@@ -1,5 +1,7 @@
 package com.upcoding.controller;
 
+import java.util.ArrayList;
+
 import javax.inject.Inject;
 import javax.servlet.http.HttpServletResponse;
 
@@ -7,6 +9,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import com.google.gson.Gson;
+import com.upcoding.model.UserVO;
 import com.upcoding.service.ChatService;
 
 @Controller
@@ -31,5 +35,22 @@ public class ChatController {
 		re = service.deleteFriendService(fromID, toID);
 		
 		response.getWriter().write(re);
+	}
+	
+	@RequestMapping(value = "/getFriends", method = RequestMethod.POST)
+	public void getFriendPost(String fromID,HttpServletResponse response) throws Exception {
+		response.setContentType("text/html;charset=UTF-8");
+		
+		System.out.println("[Chat-controller] getFriends");
+		ArrayList<UserVO> friends;
+		friends = (ArrayList<UserVO>)service.getFriendsService(fromID);
+		
+		Gson gson = new Gson();
+		
+		String re = gson.toJson(friends);
+		System.out.println(re);
+		response.getWriter().write(re);
+
+
 	}
 }

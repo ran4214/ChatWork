@@ -1,10 +1,14 @@
 package com.upcoding.service;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.inject.Inject;
 
 import org.springframework.stereotype.Service;
 
 import com.upcoding.dao.ChatDAO;
+import com.upcoding.model.UserVO;
 
 @Service
 public class ChatService {
@@ -19,5 +23,9 @@ public class ChatService {
 	
 	public int deleteFriendService(String fromID,String toID) {
 		return dao.deleteFriend(fromID, toID);
+	}
+
+	public List<UserVO> getFriendsService(String fromID) {
+		return dao.getFriends(fromID);
 	}
 }

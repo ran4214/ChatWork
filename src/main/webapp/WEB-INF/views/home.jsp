@@ -34,6 +34,11 @@
 	
 %>
 var myUserID = '<%=myUserID%>';
+$(function(){
+	if(myUserID != 0){
+		chatSetting(myUserID); // 전체적인 채팅의 세팅 (채팅 내용 불러오기,친구 목록 불러오기)
+	}
+});
 </script>
 
 
@@ -82,69 +87,27 @@ var myUserID = '<%=myUserID%>';
 				</div>
 
 				<div id="friends">
-					<div class="friend">
+				
+				
+					<!-- <div class="friend">
 						<img src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/245657/1_copy.jpg" />
 						<p>
 							<strong>배진영</strong><br> 
 							<span>ran4214@naver.com</span>
 						</p>
-						<div class="status available"></div>
-					</div>
+						<div class="status available">
+						</div> -->
+						
+						
+						
+						
+						
+						
+						
+				</div> 
 	
-					<div class="friend">
-						<img
-							src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/245657/2_copy.jpg" />
-						<p>
-							<strong>김민강</strong><br> <span>bae031573@gmail.com</span>
-						</p>
-						<div class="status away"></div>
-					</div>
-
-					<div class="friend">
-						<img
-							src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/245657/3_copy.jpg" />
-						<p>
-							<strong>이규민</strong><br> <span>tomaskennedy@gmail.com</span>
-						</p>
-						<div class="status inactive"></div>
-					</div>
-
-					<div class="friend">
-						<img
-							src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/245657/4_copy.jpg" />
-						<p>
-							<strong>서금지</strong><br> <span>enriquesutton@gmail.com</span>
-						</p>
-						<div class="status inactive"></div>
-					</div>
-
-					<div class="friend">
-						<img
-							src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/245657/5_copy.jpg" />
-						<p>
-							<strong>염윤철</strong><br> <span>darnellstrickland@gmail.com</span>
-						</p>
-						<div class="status inactive"></div>
-					</div>
 					
-					<div class="friend">
-						<img
-							src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/245657/5_copy.jpg" />
-						<p>
-							<strong>김영현</strong><br> <span>darnellstrickland@gmail.com</span>
-						</p>
-						<div class="status inactive"></div>
-					</div>
-					
-					<div class="friend">
-						<img
-							src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/245657/5_copy.jpg" />
-						<p>
-							<strong>엉ㅇ</strong><br> <span>darnellstrickland@gmail.com</span>
-						</p>
-						<div class="status inactive"></div>
-					</div>
-
+				
 
 				</div>
 				<div id="search">
@@ -167,7 +130,7 @@ var myUserID = '<%=myUserID%>';
 						<i class="fa fa-star-o"></i>
 					</div>
 					<p id="toChatUser">Miro Badev</p>
-					<input type="hidden" id="toChatID" value="21">
+					<input type="hidden" id="toChatID" value="3">
 					<span>miro@badev@gmail.com</span>
 				</div>
 				<div id="chat-messages">

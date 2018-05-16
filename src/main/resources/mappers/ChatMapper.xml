@@ -14,6 +14,10 @@
 	<delete id="deleteFriend" parameterType="HashMap">
 		Delete from friend where fromID = #{fromID} AND toID = #{toID}
 	</delete>
+	
+	<select id="getFriends" parameterType="String" resultType="UserVO">
+		select * from customer where cno in (select toid from friend where fromid = #{value})
+	</select>
 
 </mapper>
 
