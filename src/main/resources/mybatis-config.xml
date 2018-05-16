@@ -5,7 +5,9 @@
   
 <configuration>	
 	<typeAliases>
-		<package name="com.upcoding.model" /> 
+		<package name="com.upcoding.model" />
+		<package name="java.util.HashMap"/>
 	</typeAliases>
+
 
 </configuration>

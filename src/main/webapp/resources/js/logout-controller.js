@@ -4,8 +4,7 @@ function windowClose(){
 	$.ajax({
 		type:"POST",
 		url : "logout"
-	})
-	
+	});
 }
 	
 function defaultBindEvents(){
@@ -13,7 +12,7 @@ function defaultBindEvents(){
 	$(window).on('beforeunload',function(){
 		if(!validNavigation){	
 			return windowClose();
-		}	
+		}
 	});
 	
 	$(window).on('unload',function(){
@@ -25,7 +24,6 @@ function defaultBindEvents(){
 	$(document).keydown(function(event){
 		
 		var keycode = (event.keyCode ? event.keyCode : event.which);
-		console.log(keycode);
 		if(keycode == '116'||keycode == '82'){
 			validNavigation = true;
 		}

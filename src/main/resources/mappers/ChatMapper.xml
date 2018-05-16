@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+
+
+<mapper namespace="mappers.ChatMapper">
+	<cache />
+	
+	<insert id="addFriend" parameterType="HashMap">
+		Insert into friend values(#{fromID},#{toID})
+	</insert>
+	
+	<delete id="deleteFriend" parameterType="HashMap">
+		Delete from friend where fromID = #{fromID} AND toID = #{toID}
+	</delete>
+
+</mapper>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -11,13 +11,13 @@
 		Select * from customer where ID = #{value}
 	</select>
 	
-	<select id="getCname" parameterType="String" resultType="String"> 
+<!-- 	<select id="getCname" parameterType="String" resultType="String"> 
 		Select cname from customer where cno = #{value}
 	</select>
 	
 	<select id="searchUser" parameterType="String" resultType="UserVO">
 		select * from customer where cname LIKE '%'||#{value}||'%'
-	</select>
+	</select> -->
 	
 	<update id="online" parameterType="String">
 		UPDATE customer SET status = '1' WHERE id = #{value}
