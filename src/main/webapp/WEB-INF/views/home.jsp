@@ -83,14 +83,14 @@ var myUserID = '<%=myUserID%>';
 
 				<div id="friends">
 					<div class="friend">
-						<img
-							src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/245657/1_copy.jpg" />
+						<img src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/245657/1_copy.jpg" />
 						<p>
-							<strong>배진영</strong><br> <span>ran4214@naver.com</span>
+							<strong>배진영</strong><br> 
+							<span>ran4214@naver.com</span>
 						</p>
 						<div class="status available"></div>
 					</div>
-
+	
 					<div class="friend">
 						<img
 							src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/245657/2_copy.jpg" />
@@ -126,12 +126,21 @@ var myUserID = '<%=myUserID%>';
 						</p>
 						<div class="status inactive"></div>
 					</div>
-
-					<div id="search">
-						<input type="text" id="searchfield" value="연락처를 검색해보세요" />
+					
+					<div class="friend">
+						<img
+							src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/245657/5_copy.jpg" />
+						<p>
+							<strong>김영현</strong><br> <span>darnellstrickland@gmail.com</span>
+						</p>
+						<div class="status inactive"></div>
 					</div>
 
+
 				</div>
+				<div id="search">
+						<input type="text" id="searchfield" value="연락처를 검색해보세요" />
+					</div>
 
 			</div>
 			<div id="chatview" class="p1">

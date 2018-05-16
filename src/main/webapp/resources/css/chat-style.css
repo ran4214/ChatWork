@@ -87,6 +87,12 @@ body {
 #topmenu span.friends {
 	margin-bottom: -1px;
 }
+#friends{
+	height : 355px;
+	overflow-y: scroll;
+	overflow-x: hidden;
+	width : 300px;
+}
 
 #topmenu span.chats {
 	background-position: -95px 25px;
@@ -136,7 +142,7 @@ body {
 }
 
 .friend p {
-	padding: 15px 0 0 0;
+	padding: 13px 0 0 0;
 	float: left;
 	width: 220px;
 }
@@ -153,7 +159,7 @@ body {
 	color: #aab8c2;
 }
 
-.friend .status {
+ .status {
 	background: #26c281;
 	border-radius: 50%;
 	width: 9px;
