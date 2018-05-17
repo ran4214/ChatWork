@@ -5,8 +5,7 @@
 
 
 <mapper namespace="mappers.ChatMapper">
-	<cache />
-	
+
 	<insert id="addFriend" parameterType="HashMap">
 		Insert into friend values(#{fromID},#{toID})
 	</insert>
@@ -18,6 +17,7 @@
 	<select id="getFriends" parameterType="String" resultType="UserVO">
 		select * from customer where cno in (select toid from friend where fromid = #{value})
 	</select>
+	
 
 </mapper>
 

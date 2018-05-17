@@ -24,11 +24,10 @@ function defaultBindEvents(){
 	$(document).keydown(function(event){
 		
 		var keycode = (event.keyCode ? event.keyCode : event.which);
-		if(keycode == '116'||keycode == '82'){
+		if(keycode == '116'||keycode == '82'|| keycode == '13'){
+			alert("a");
 			validNavigation = true;
 		}
-		
-
 	});
 	
 	$('a').on('click',function(){

@@ -5,7 +5,6 @@
 
 
 <mapper namespace="mappers.UserMapper">
-	<cache />
 
 	<select id="login" parameterType="String" resultType="UserVO"> 
 		Select * from customer where ID = #{value}

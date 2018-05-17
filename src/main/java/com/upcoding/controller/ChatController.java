@@ -1,10 +1,12 @@
 package com.upcoding.controller;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import javax.inject.Inject;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.log4j.net.SyslogAppender;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -42,15 +44,11 @@ public class ChatController {
 		response.setContentType("text/html;charset=UTF-8");
 		
 		System.out.println("[Chat-controller] getFriends");
-		ArrayList<UserVO> friends;
-		friends = (ArrayList<UserVO>)service.getFriendsService(fromID);
-		
+		List<UserVO> friends = null;
+		friends = service.getFriendsService(fromID);
 		Gson gson = new Gson();
 		
 		String re = gson.toJson(friends);
-		System.out.println(re);
 		response.getWriter().write(re);
-
-
 	}
 }

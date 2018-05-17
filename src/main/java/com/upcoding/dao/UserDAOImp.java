@@ -30,5 +30,4 @@ public class UserDAOImp implements UserDAO {
 	public int offline(String userID) {
 		return sqlsession.update(namespace+".offline",userID);
 	}
-
 }

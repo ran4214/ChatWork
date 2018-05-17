@@ -21,7 +21,7 @@
 
 <!-- my js -->
 <script src="/js/chat-controller.js"></script>
-<script src="/js/logout-controller.js"></script>
+<!-- <script src="/js/logout-controller.js"></script> -->
 <script src="/js/chatSetting-controller.js"></script>
 <script type="text/javascript">
 <!-- 기본 정보 담는곳 -->
@@ -89,22 +89,7 @@ $(function(){
 				<div id="friends">
 				
 				
-					<!-- <div class="friend">
-						<img src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/245657/1_copy.jpg" />
-						<p>
-							<strong>배진영</strong><br> 
-							<span>ran4214@naver.com</span>
-						</p>
-						<div class="status available">
-						</div> -->
-						
-						
-						
-						
-						
-						
-						
-				</div> 
+					
 	
 					
 				
@@ -130,7 +115,7 @@ $(function(){
 						<i class="fa fa-star-o"></i>
 					</div>
 					<p id="toChatUser">Miro Badev</p>
-					<input type="hidden" id="toChatID" value="3">
+					<input type="hidden" id="toChatID" value="">
 					<span>miro@badev@gmail.com</span>
 				</div>
 				<div id="chat-messages">
@@ -196,6 +181,7 @@ $(function(){
 			</div>
 		</div>
 	</div>
+	
 	
 	<!-- alert modal -->
 	<div class="modal fade" id="alertModal" tabindex="-1" role="dialog"
