@@ -9,6 +9,15 @@ $(function(){
 });
 
 function chatSetting(myUserID){
+	var chatList = getMyAllChat(myUserID);
+	for(var i=0;i<chatList.length;i++){
+		console.log(chatList[i]);
+	}
+	getFriends(myUserID);	
+
+}
+
+function getFriends(myUserID){
 	// 목록 리로드를 위해 전체 내용을 초기화 시킨다.
 	/*$("#friends").empty();*/ // 친구목록
 	var jsonData;
@@ -34,7 +43,6 @@ function chatSetting(myUserID){
 		}
 		addGoChatView(); // 등록된 친구들마다의 이벤트를 등록
 	});
-	
 }
 
 function addGoChatView(){
@@ -98,7 +106,6 @@ function addGoChatView(){
 
 function addFriendList(cno,cname,email,status){
 	var statusClass = 'inactive';
-	console.log(cname+status);
 	if(status == 1){
 		statusClass = 'available';
 	}
@@ -119,4 +126,22 @@ function addFriendList(cno,cname,email,status){
 			statusClass+"'>"+
 			"</div>");
 
+}
+
+function getMyAllChat(myUserID){
+	$.ajax({
+		type : "POST",
+		url : "getMyAllChat",
+		data : {
+			fromID : myUserID
+		},
+		success : function(result){
+			if(result==""){
+				return;
+			}
+			console.log("[ajax] 나에 대한 대화 내용 가져오기 성공!")
+			var parsed = JSON.parse(jsonResult);
+			return parsed;
+		}
+	})
 }

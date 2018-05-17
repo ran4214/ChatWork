@@ -9,6 +9,7 @@ import javax.inject.Inject;
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.stereotype.Repository;
 
+import com.upcoding.model.ChatVO;
 import com.upcoding.model.UserVO;
 @Repository
 public class ChatDAOImp implements ChatDAO {
@@ -39,6 +40,11 @@ public class ChatDAOImp implements ChatDAO {
 	@Override
 	public List<UserVO> getFriends(String fromID) {
 		return sqlsession.selectList(namespace+".getFriends",fromID);
+	}
+
+	@Override
+	public List<ChatVO> getMyAllChat(String fromID) {
+		return sqlsession.selectList(namespace+".getMyAllChat",fromID);
 	}
 
 }

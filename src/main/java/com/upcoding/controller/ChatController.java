@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import com.google.gson.Gson;
+import com.upcoding.model.ChatVO;
 import com.upcoding.model.UserVO;
 import com.upcoding.service.ChatService;
 
@@ -49,6 +50,19 @@ public class ChatController {
 		Gson gson = new Gson();
 		
 		String re = gson.toJson(friends);
+		response.getWriter().write(re);
+	}
+	
+	@RequestMapping(value = "/getMyAllChat", method = RequestMethod.POST)
+	public void getMyAllChat(String fromID,HttpServletResponse response) throws Exception {
+		response.setContentType("text/html;charset=UTF-8");
+		
+		System.out.println("[Chat-controller] getMyAllChat");
+		List<ChatVO> chatList = null;
+		chatList = service.getMyAllChatting(fromID);
+		Gson gson = new Gson();
+		
+		String re = gson.toJson(chatList);
 		response.getWriter().write(re);
 	}
 }

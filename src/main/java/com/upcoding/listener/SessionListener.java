@@ -49,6 +49,9 @@ public class SessionListener implements HttpSessionAttributeListener, ServletCon
 		int re = -1;
 		if (service != null) {
 			String userValue = se.getValue() + "";
+			if(loginUser.get(userValue) == null) {
+				return;
+			}
 			UserVO user = loginUser.get(userValue);
 
 			re = service.offlineService(user.getId());

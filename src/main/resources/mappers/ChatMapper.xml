@@ -18,6 +18,12 @@
 		select * from customer where cno in (select toid from friend where fromid = #{value})
 	</select>
 	
+	<select id="getMyAllChat" parameterType="String" resultType="ChatVO">
+		select * from CHAT where fromID = #{value} or toID = #{value}
+	</select>
+	
+
+	
 
 </mapper>
 

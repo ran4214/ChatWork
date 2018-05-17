@@ -8,6 +8,7 @@ import javax.inject.Inject;
 import org.springframework.stereotype.Service;
 
 import com.upcoding.dao.ChatDAO;
+import com.upcoding.model.ChatVO;
 import com.upcoding.model.UserVO;
 
 @Service
@@ -27,5 +28,9 @@ public class ChatService {
 
 	public List<UserVO> getFriendsService(String fromID) {
 		return dao.getFriends(fromID);
+	}
+	
+	public List<ChatVO> getMyAllChatting(String fromID) {
+		return dao.getMyAllChat(fromID);
 	}
 }
