@@ -73,7 +73,7 @@ $(function(){
 			</div>
 			
 			
-			<span id="new-message" style="display:none">5</span>
+			<span id="new-message" style="display:inline">5</span>
 			
 		</div>
 		<div id="chatbox" style="display:none">
@@ -121,35 +121,6 @@ $(function(){
 				<div id="chat-messages">
 					<label>Thursday 02</label>
 
-					<div class="message">
-						<img
-							src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/245657/1_copy.jpg" />
-						<div class="bubble">
-							Really cool stuff!
-							<div class="corner"></div>
-							<span>3 min</span>
-						</div>
-					</div>
-
-					<div class="message right">
-						<img
-							src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/245657/2_copy.jpg" />
-						<div class="bubble">
-							Can you share a link for the tutorial?
-							<div class="corner"></div>
-							<span>1 min</span>
-						</div>
-					</div>
-
-					<div class="message">
-						<img
-							src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/245657/1_copy.jpg" />
-						<div class="bubble">
-							Yeah, hold on
-							<div class="corner"></div>
-							<span>Now</span>
-						</div>
-					</div>
 
 					<div class="message right">
 						<img
