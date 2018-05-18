@@ -65,4 +65,15 @@ public class ChatController {
 		String re = gson.toJson(chatList);
 		response.getWriter().write(re);
 	}
+	
+	@RequestMapping(value = "/sendChat", method = RequestMethod.POST)
+	public void sendChatPOST(String fromID,String toID,String chatContent,HttpServletResponse response) throws Exception {
+		response.setContentType("text/html;charset=UTF-8");
+		
+		System.out.println("[Chat-controller] sendChat");
+		int re = -1;
+		re = service.sendChatService(fromID, toID,chatContent);
+		
+		response.getWriter().write(re);
+	}
 }

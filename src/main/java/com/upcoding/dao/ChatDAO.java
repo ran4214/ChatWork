@@ -13,4 +13,5 @@ public interface ChatDAO {
 	public int deleteFriend(String fromID,String toID);
 	public List<UserVO> getFriends(String fromID);
 	public List<ChatVO> getMyAllChat(String fromID);
+	public int sendChat(String fromID,String toID, String chatContent);
 }

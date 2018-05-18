@@ -79,7 +79,7 @@ function addGoChatView(myUserID,chatList){
 			var name = $(this).find("p strong").html();
 			var email = $(this).find("p span").html();
 			var toChatID = $(this).find(".userCno").val();
-			var count = 0;
+			console.log(toChatID);
 			
 			$("#chat-messages").empty();
 			$("#chat-messages").append("<label>Messages</label>");
@@ -91,14 +91,7 @@ function addGoChatView(myUserID,chatList){
 				}
 			}
 			
-			console.log("이 사람에 대화채팅 갯수 : "+count);
 			
-			$("#sendmessage input").on("keydown",function(event){
-				var keycode = (event.keyCode ? event.keyCode : event.which);
-				if(keycode == '13'){
-					sendChat(myUserID);
-				}	
-			});
 			
 			$("#profile p").html(name);
 			$("#profile span").html(email);
@@ -109,6 +102,18 @@ function addGoChatView(myUserID,chatList){
 			$(".message").not(".right").find("img").attr("src", $(clone).attr("src"));									
 			$('#friendslist').fadeOut();
 			$('#chatview').fadeIn();
+			
+			$("#sendmessage input").on("keydown",function(event){
+				var keycode = (event.keyCode ? event.keyCode : event.which);
+				if(keycode == '13'){
+					var toChatID = $("#toChatID").val();
+					var chatContent = $("#sendmessage input").val();
+					if(chatContent != "" && chatContent != null ){
+						sendChat(myUserID,toChatID,chatContent);
+						$("#sendmessage input").val("");
+					}
+				}	
+			});
 		
 			
 			$('#close').unbind("click").click(function(){				
@@ -173,10 +178,13 @@ function getMyAllChat(myUserID,callback){
 
 function addChat(myUserID,toChatID,fromID,chatContent,chatTime){
 	var position = "";
+	var timespan = "time-left";
 	if(fromID == myUserID){ // 내가 보낸건지 상대방이 보낸건지 체크하기 위한 클래스 판단
 		position = "right"
+		timespan = "time-right";
 	}else if(fromID == toChatID){
 		position = "";
+		timespan = "time-left";
 	}
 	
 	$("#chat-messages").append("<div class='message " +
@@ -186,17 +194,24 @@ function addChat(myUserID,toChatID,fromID,chatContent,chatTime){
 			"<div class='bubble'>" +
 			chatContent +
 			"<div class='corner'></div>" +
-			"<span>" +
+			"<span class='"+
+			timespan+
+			"'>" +
 			"오후 11:31" +
 			"</span>" +
 			"</div>" +
 			"</div>");
 }
 
-function sendChat(myUserID){
+function sendChat(myUserID,toID,chatContent){
 	$.ajax({
 		type : "POST",
 		url : "sendChat",
+		data : {
+			fromID : myUserID,
+			toID : toID,
+			chatContent : chatContent
+		},
 		
 		success : function(result){
 			if(result > 0){

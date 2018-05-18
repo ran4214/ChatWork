@@ -19,12 +19,13 @@
 	</select>
 	
 	<select id="getMyAllChat" parameterType="String" resultType="ChatVO">
-		select * from CHAT where fromID = #{value} or toID = #{value}
+		select * from CHAT where fromID = #{value} or toID = #{value} Order by chatID
 	</select>
 	
 	<insert id="sendChat" parameterType="HashMap" >
-		insert into chat (fromID,toID,chatContent,chatTime) values ()
+		insert into chat (fromID,toID,chatContent,chatTime) values (#{fromID},#{toID},#{chatContent},sysdate)
 	</insert>
+
 	
 
 	

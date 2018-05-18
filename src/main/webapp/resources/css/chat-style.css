@@ -3,11 +3,11 @@
 * {
 	box-sizing: content-box;
 }
-/* 임시 */
+/* �엫�떆 */
 body {
 	font-family: "Nanum Gothic"
 }
-/* 임시 끝 */
+/* �엫�떆 �걹 */
 #new-message {
 	color:white;
 	background: #e62727;
@@ -332,14 +332,27 @@ body {
 }
 
 .message .bubble {
-	background: #f0f4f7;
+	background: #EDEDED;
 	font-size: 13px;
-	font-weight: 600;
 	padding: 12px 13px;
 	border-radius: 5px 5px 5px 0px;
-	color: #8495a3;
+	color: #4b4f56;
 	position: relative;
 	float: left;
+	word-break : break-all;
+	margin-bottom : 30px;
+}
+
+.right .bubble{
+	background: #4080ff;
+	font-size: 13px;
+	padding: 12px 13px;
+	border-radius: 5px 5px 5px 0px;
+	color: white;
+	position: relative;
+	float: left;
+	word-break : break-all;
+	margin-bottom : 30px;
 }
 
 #chat-messages div.message.right .bubble {
@@ -348,30 +361,40 @@ body {
 }
 
 .bubble .corner {
-	background:
-		url("https://s3-us-west-2.amazonaws.com/s.cdpn.io/245657/bubble-corner.png")
-		0 0 no-repeat;
 	position: absolute;
-	width: 7px;
-	height: 7px;
-	left: -5px;
+	left: -7px;
 	bottom: 0;
+	border-right:3px solid #EDEDED;
+	border-bottom:2px solid #EDEDED;
+	border-left:4px solid white;
+	border-top:4px solid white;
 }
 
 div.message.right .corner {
-	background:
-		url("https://s3-us-west-2.amazonaws.com/s.cdpn.io/245657/bubble-cornerR.png")
-		0 0 no-repeat;
+	background: #4080ff;
 	left: auto;
-	right: -5px;
+	right: -7px;
+	border-left:3px solid #4080ff;
+	border-bottom:2px solid #4080ff;
+	border-right:4px solid white;
+	border-top:4px solid white;
 }
 
-.bubble span {
+.bubble .time-right {
 	width: 60px;
-	color: #aab8c2;
+	color: #777;
 	font-size: 11px;
 	position: absolute;
 	right: 0;
+	bottom: -22px;
+}
+
+.bubble .time-left {
+	width: 60px;
+	color: #777;
+	font-size: 11px;
+	position: absolute;
+	left : 0;
 	bottom: -22px;
 }
 

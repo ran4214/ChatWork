@@ -47,4 +47,14 @@ public class ChatDAOImp implements ChatDAO {
 		return sqlsession.selectList(namespace+".getMyAllChat",fromID);
 	}
 
+	@Override
+	public int sendChat(String fromID, String toID,String chatContent) {
+		HashMap<String, String> map = new HashMap<String,String>();
+		map.put("fromID", fromID);
+		map.put("toID", toID);
+		map.put("chatContent",chatContent);
+		
+		return sqlsession.insert(namespace+".sendChat",map);
+	}
+
 }
