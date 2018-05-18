@@ -9,15 +9,20 @@ $(function(){
 });
 
 function chatSetting(myUserID){
-	var chatList = getMyAllChat(myUserID);
-	for(var i=0;i<chatList.length;i++){
-		console.log(chatList[i]);
-	}
-	getFriends(myUserID);	
-
+	console.log("전반적인 챗 세팅을 시작합니다.")
+	var chatList;
+	console.log("[1] 나의 전체 대화내역을 가져옵니다.")
+	getMyAllChat(myUserID,function (result){
+		if(result != null){
+			var parsed = JSON.parse(result);
+			chatList = parsed;
+			console.log("[2] 나의 전체 대화내역을 토대로 나의 친구들의 정보등록 및 이벤트 등록");
+			getFriends(myUserID,chatList);
+		}
+	});
 }
 
-function getFriends(myUserID){
+function getFriends(myUserID,chatList){
 	// 목록 리로드를 위해 전체 내용을 초기화 시킨다.
 	/*$("#friends").empty();*/ // 친구목록
 	var jsonData;
@@ -36,16 +41,16 @@ function getFriends(myUserID){
 		if(jsonData == "") 
 			return;
 		
-		console.log("[ajax] 친구목록 로드성공!");
+		console.log("[2](ajax) 성공!");
 		var users = JSON.parse(jsonData);
 		for(var i=0; i<users.length;i++){
 			addFriendList(users[i].cno,users[i].cname,users[i].email,users[i].status);
 		}
-		addGoChatView(); // 등록된 친구들마다의 이벤트를 등록
+		addGoChatView(myUserID,chatList); // 등록된 친구들마다의 이벤트를 등록
 	});
 }
 
-function addGoChatView(){
+function addGoChatView(myUserID,chatList){
 	$(".friend").each(function(){		
 		$(this).click(function(){
 			var childOffset = $(this).offset();
@@ -73,6 +78,19 @@ function addGoChatView(){
 			var name = $(this).find("p strong").html();
 			var email = $(this).find("p span").html();
 			var toChatID = $(this).find(".userCno").val();
+			var count = 0;
+			
+			$("#chat-messages").empty();
+			$("#chat-messages").append("<label>Messages</label>");
+			// 전에 대화내역들을 초기화 시킨다.
+			
+			for(var i=0;i<chatList.length;i++){ // 전체 대화 목록 중 선택한 사람과의 대화 연락처만 꺼내서 사용합니다.
+				if((chatList[i].toID == toChatID && chatList[i].fromID == myUserID) || (chatList[i].fromID == toChatID && chatList[i].toID == myUserID)){
+					addChat(myUserID,toChatID,chatList[i].fromID,chatList[i].chatContent,chatList[i].chatTime) // 하나하나의 말풍선들을 append 해주는 함수
+				}
+			}
+			
+			console.log("이 사람에 대화채팅 갯수 : "+count);
 			
 			$("#profile p").html(name);
 			$("#profile span").html(email);
@@ -128,7 +146,7 @@ function addFriendList(cno,cname,email,status){
 
 }
 
-function getMyAllChat(myUserID){
+function getMyAllChat(myUserID,callback){
 	$.ajax({
 		type : "POST",
 		url : "getMyAllChat",
@@ -139,9 +157,55 @@ function getMyAllChat(myUserID){
 			if(result==""){
 				return;
 			}
-			console.log("[ajax] 나에 대한 대화 내용 가져오기 성공!")
-			var parsed = JSON.parse(jsonResult);
-			return parsed;
+			console.log("[1](ajax) : 성공!")
+			callback(result);
 		}
 	})
+}
+
+function addChat(myUserID,toChatID,fromID,chatContent,chatTime){
+	var position = "";
+	if(fromID == myUserID){ // 내가 보낸건지 상대방이 보낸건지 체크하기 위한 클래스 판단
+		position = "right"
+	}else if(fromID == toChatID){
+		position = "";
+	}
+	
+	$("#chat-messages").append("<div class='message " +
+			position +
+			"'>" +
+			"<img src='https://s3-us-west-2.amazonaws.com/s.cdpn.io/245657/2_copy.jpg' />" +
+			"<div class='bubble'>" +
+			chatContent +
+			"<div class='corner'></div>" +
+			"<span>" +
+			"11:31" +
+			"</span>" +
+			"</div>" +
+			"</div>");
+/*			"" +
+			"" +
+			"" +
+			"" +
+			"" +
+			"" +
+			"" +
+			"" +
+			"" +
+			"" +
+			"" +
+			"" +
+			"" +
+			"");
+	*/
+	
+/*	<div class="message right">
+	<img
+		src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/245657/2_copy.jpg" />
+	<div class="bubble">
+		Can you share a link for the tutorial?
+		<div class="corner"></div>
+		<span>1 min</span>
+	</div>
+</div>*/
 }

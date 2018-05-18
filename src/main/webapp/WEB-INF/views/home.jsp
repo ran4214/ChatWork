@@ -119,7 +119,7 @@ $(function(){
 					<span>miro@badev@gmail.com</span>
 				</div>
 				<div id="chat-messages">
-					<label>Thursday 02</label>
+					<label>Messages</label>
 
 
 					<div class="message right">
