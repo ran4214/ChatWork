@@ -6,6 +6,7 @@ $(function(){
 	$("#chaton").on("click",function(){
 		chaton();
 	});
+	
 });
 
 function chatSetting(myUserID){
@@ -91,6 +92,13 @@ function addGoChatView(myUserID,chatList){
 			}
 			
 			console.log("이 사람에 대화채팅 갯수 : "+count);
+			
+			$("#sendmessage input").on("keydown",function(event){
+				var keycode = (event.keyCode ? event.keyCode : event.which);
+				if(keycode == '13'){
+					sendChat(myUserID);
+				}	
+			});
 			
 			$("#profile p").html(name);
 			$("#profile span").html(email);
@@ -179,33 +187,21 @@ function addChat(myUserID,toChatID,fromID,chatContent,chatTime){
 			chatContent +
 			"<div class='corner'></div>" +
 			"<span>" +
-			"11:31" +
+			"오후 11:31" +
 			"</span>" +
 			"</div>" +
 			"</div>");
-/*			"" +
-			"" +
-			"" +
-			"" +
-			"" +
-			"" +
-			"" +
-			"" +
-			"" +
-			"" +
-			"" +
-			"" +
-			"" +
-			"");
-	*/
-	
-/*	<div class="message right">
-	<img
-		src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/245657/2_copy.jpg" />
-	<div class="bubble">
-		Can you share a link for the tutorial?
-		<div class="corner"></div>
-		<span>1 min</span>
-	</div>
-</div>*/
+}
+
+function sendChat(myUserID){
+	$.ajax({
+		type : "POST",
+		url : "sendChat",
+		
+		success : function(result){
+			if(result > 0){
+				console.log("[ajax] 메세지 보내기 성공");
+			}
+		}
+	});
 }

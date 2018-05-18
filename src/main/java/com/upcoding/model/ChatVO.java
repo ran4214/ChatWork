@@ -9,6 +9,7 @@ public class ChatVO implements Serializable {
 	String toID;
 	String chatContent;
 	String chatTime;
+	int read;
 
 	public int getChatID() {
 		return chatID;
@@ -38,6 +39,14 @@ public class ChatVO implements Serializable {
 		return chatContent;
 	}
 
+	public int getRead() {
+		return read;
+	}
+
+	public void setRead(int read) {
+		this.read = read;
+	}
+
 	public void setChatContent(String chatContent) {
 		this.chatContent = chatContent;
 	}
@@ -56,6 +65,4 @@ public class ChatVO implements Serializable {
 				+ ", chatTime=" + chatTime + "]";
 	}
 	
-	
-
 }

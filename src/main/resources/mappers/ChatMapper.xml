@@ -22,6 +22,10 @@
 		select * from CHAT where fromID = #{value} or toID = #{value}
 	</select>
 	
+	<insert id="sendChat" parameterType="HashMap" >
+		insert into chat (fromID,toID,chatContent,chatTime) values ()
+	</insert>
+	
 
 	
 

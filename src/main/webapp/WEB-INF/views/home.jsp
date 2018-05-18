@@ -145,7 +145,7 @@ $(function(){
 				</div>
 
 				<div id="sendmessage">
-					<input type="text" value="Send message..." />
+					<input type="text" placeholder="메세지를 입력하세요." />
 					<button id="send"></button>
 				</div>
 
@@ -161,15 +161,13 @@ $(function(){
 			<div class="modal-content">
 				<div class="modal-header">
 					<h5 class="modal-title" id="exampleModalLabel">알림</h5>
-					<button type="button" class="close" data-dismiss="modal"
-						aria-label="Close">
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
 						<span aria-hidden="true"></span>
 					</button>
 				</div>
 				<div class="modal-body">로그인이 필요한 컨텐츠입니다.</div>
 				<div class="modal-footer">
-					<button type="button" class="btn btn-secondary"
-						data-dismiss="modal">Close</button>
+					<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
 				</div>
 			</div>
 		</div>
