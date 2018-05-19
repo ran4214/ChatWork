@@ -37,4 +37,8 @@ public class ChatService {
 	public int sendChatService(String fromID, String toID, String chatContent) {
 		return dao.sendChat(fromID, toID, chatContent);
 	}
+	
+	public List<ChatVO> getChatService(String fromID, String lastChatID) {
+		return dao.getChat(fromID, lastChatID);
+	}
 }

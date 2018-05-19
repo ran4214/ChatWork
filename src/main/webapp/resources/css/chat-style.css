@@ -54,7 +54,7 @@ body {
 	overflow: hidden;
 	height: 484px;
 	position: fixed; bottom : 0px;
-	right: 50px;
+	right: 300px;
 	margin-left: -155px;
 	border: 0.7px solid #DDDDDD;
 	box-shadow: 3px 3px 3px #aaa;
@@ -381,7 +381,7 @@ div.message.right .corner {
 }
 
 .bubble .time-right {
-	width: 60px;
+	width: 90px;
 	color: #777;
 	font-size: 11px;
 	position: absolute;
@@ -390,7 +390,7 @@ div.message.right .corner {
 }
 
 .bubble .time-left {
-	width: 60px;
+	width: 90px;
 	color: #777;
 	font-size: 11px;
 	position: absolute;
@@ -456,7 +456,7 @@ div.message.right .corner {
 	color: #597a96;
 	position: fixed;
 	bottom: 0px;
-	right: 50px;
+	right: 300px;
 	border-top-left-radius: 6px;
 	border-top-right-radius: 6px;
 	border: 1px solid #ddd;

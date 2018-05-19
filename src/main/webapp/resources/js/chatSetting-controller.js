@@ -14,11 +14,21 @@ function chatSetting(myUserID){
 	var chatList;
 	console.log("[1] 나의 전체 대화내역을 가져옵니다.")
 	getMyAllChat(myUserID,function (result){
-		if(result != null){
+		if(result == "[]"){ //데화 데이터 없는경우
 			var parsed = JSON.parse(result);
 			chatList = parsed;
+			getFriends(myUserID,chatList);
+			var lastChatID = "0";
+			console.log("[3]"+lastChatID+"를 기준으로 새로운 메세지가 오면 갱신합니다.");
+			getChat(myUserID,lastChatID,chatList);
+		}else if(result != null){ //대화데이터가 있을경우
+			var parsed = JSON.parse(result);
+			chatList = parsed;
+			var lastChatID = chatList[chatList.length-1].chatID;
 			console.log("[2] 나의 전체 대화내역을 토대로 나의 친구들의 정보등록 및 이벤트 등록");
 			getFriends(myUserID,chatList);
+			console.log("[3]"+lastChatID+"를 기준으로 새로운 메세지가 오면 갱신합니다.");
+			getChat(myUserID,lastChatID,chatList);
 		}
 	});
 }
@@ -52,8 +62,9 @@ function getFriends(myUserID,chatList){
 }
 
 function addGoChatView(myUserID,chatList){
-	$(".friend").each(function(){		
-		$(this).click(function(){
+	$(".friend").each(function(){	
+		$(this).off('click');
+		$(this).on("click",function(){
 			var childOffset = $(this).offset();
 			var parentOffset = $(this).parent().parent().offset();
 			var childTop = childOffset.top - parentOffset.top;
@@ -79,7 +90,6 @@ function addGoChatView(myUserID,chatList){
 			var name = $(this).find("p strong").html();
 			var email = $(this).find("p span").html();
 			var toChatID = $(this).find(".userCno").val();
-			console.log(toChatID);
 			
 			$("#chat-messages").empty();
 			$("#chat-messages").append("<label>Messages</label>");
@@ -177,6 +187,7 @@ function getMyAllChat(myUserID,callback){
 }
 
 function addChat(myUserID,toChatID,fromID,chatContent,chatTime){
+	console.log("addChat");
 	var position = "";
 	var timespan = "time-left";
 	if(fromID == myUserID){ // 내가 보낸건지 상대방이 보낸건지 체크하기 위한 클래스 판단
@@ -197,10 +208,12 @@ function addChat(myUserID,toChatID,fromID,chatContent,chatTime){
 			"<span class='"+
 			timespan+
 			"'>" +
-			"오후 11:31" +
+			chatTime+
 			"</span>" +
 			"</div>" +
 			"</div>");
+	
+	$("#chat-messages").scrollTop($('#chat-messages')[0].scrollHeight);
 }
 
 function sendChat(myUserID,toID,chatContent){
@@ -219,4 +232,33 @@ function sendChat(myUserID,toID,chatContent){
 			}
 		}
 	});
+}
+
+function getChat(myUserID,lastChatID,chatList){
+	    $.ajax({
+	        url: '/getChat',
+	        type: 'POST',
+	        data : {
+	        	fromID : myUserID,
+	        	lastChatID : lastChatID
+	        },
+	    
+	        success: function(result) {
+	        	if(result == "" || result == null){
+	        		return;
+	        	}
+	        	console.log(result);
+	            var chat = JSON.parse(result);
+	            for(var i=0; i<chat.length;i++){
+	            	addChat(myUserID,toChatID,chat[i].fromID,chat[i].chatContent,chat[i].chatTime);
+	            	chatList.push(chat[i]);
+	            }
+	            lastChatID = chat[chat.length-1].chatID;
+	        },
+	        complete : function(){
+	        	addGoChatView(myUserID,chatList);
+	        	getChat(myUserID,lastChatID,chatList);
+	        },
+	        timeout: 30000,
+	    })
 }

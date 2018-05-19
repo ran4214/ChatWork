@@ -1,12 +1,9 @@
 package com.upcoding.controller;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.inject.Inject;
 import javax.servlet.http.HttpServletResponse;
-
-import org.apache.log4j.net.SyslogAppender;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -60,9 +57,34 @@ public class ChatController {
 		System.out.println("[Chat-controller] getMyAllChat");
 		List<ChatVO> chatList = null;
 		chatList = service.getMyAllChatting(fromID);
-		Gson gson = new Gson();
 		
-		String re = gson.toJson(chatList);
+		for(int i=0;i<chatList.size();i++) {
+			String day = chatList.get(i).getChatTime().substring(5,11);
+			String hour = chatList.get(i).getChatTime().substring(11, 13);
+			String minute = chatList.get(i).getChatTime().substring(14, 16);
+			String time = null;
+			
+			if(Integer.parseInt(hour)>11) {
+				time = "오후";
+				if(Integer.parseInt(hour) != 12) {
+					hour = (Integer.parseInt(hour)-12)+"";
+				}
+			}else {
+				time = "오전";
+				if(Integer.parseInt(hour)==0) {
+					hour = "12";
+				}
+			}
+			
+			String chatTime = day+time+" "+hour+":"+minute;
+			chatList.get(i).setChatTime(chatTime);
+		}
+		
+		String re = "";
+		Gson gson = new Gson();
+		re = gson.toJson(chatList);
+		
+		
 		response.getWriter().write(re);
 	}
 	
@@ -75,5 +97,45 @@ public class ChatController {
 		re = service.sendChatService(fromID, toID,chatContent);
 		
 		response.getWriter().write(re);
+	}
+	
+	@RequestMapping(value = "/getChat", method = RequestMethod.POST)
+	public void getChatPOST(String fromID,String lastChatID,HttpServletResponse response) throws Exception {
+		response.setContentType("text/html;charset=UTF-8");
+		
+		System.out.println("[Chat-controller] getChat");
+		List<ChatVO> chatList = service.getChatService(fromID, lastChatID);
+		Gson gson = new Gson();
+		String re = "";
+		while(chatList.toString() == "[]") {
+			chatList = service.getChatService(fromID, lastChatID);
+		}
+		
+		for(int i=0;i<chatList.size();i++) {
+			String day = chatList.get(i).getChatTime().substring(5,11);
+			String hour = chatList.get(i).getChatTime().substring(11, 13);
+			String minute = chatList.get(i).getChatTime().substring(14, 16);
+			String time = null;
+			
+			if(Integer.parseInt(hour)>11) {
+				time = "오후";
+				if(Integer.parseInt(hour) != 12) {
+					hour = (Integer.parseInt(hour)-12)+"";
+				}
+			}else {
+				time = "오전";
+				if(Integer.parseInt(hour)==0) {
+					hour = "12";
+				}
+			}
+			
+			String chatTime = day+time+" "+hour+":"+minute;
+			chatList.get(i).setChatTime(chatTime);
+		}
+		
+		re = gson.toJson(chatList);
+		System.out.println("re :"+  re);
+		response.getWriter().write(re);
+		
 	}
 }
