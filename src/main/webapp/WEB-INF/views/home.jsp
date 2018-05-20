@@ -58,48 +58,69 @@ $(function(){
 
 	<!-- chat -->
 	<div id="chat-wrapper">
-		<div id="tab-bar" style="display:none">	
+		<div id="tab-bar" style="display: none">
 			<!-- <div class="bar">
 				<span class="online"></span>
 				<span class="bar-name"><strong>배진영</strong></span>
 				<i class="fa fa-bars" id="tab-button" aria-hidden="true"></i>
 			</div> -->
-			
-			
+
+
 			<div class="bar">
-				<i class="fa fa-comments" aria-hidden="true"></i>	
-				<span class="bar-name"><strong>채팅</strong></span>
-				<i class="fa fa-bars" id="tab-button" aria-hidden="true"></i>
+				<i class="fa fa-comments" aria-hidden="true"></i> <span
+					class="bar-name"><strong>채팅</strong></span> <i class="fa fa-bars"
+					id="tab-button" aria-hidden="true"></i>
 			</div>
-			
-			
-			<span id="new-message" style="display:inline">5</span>
-			
+
+
+			<span id="new-message" style="display: inline">5</span>
+
 		</div>
-		<div id="chatbox" style="display:none">
+		<div id="chatbox" style="display: none">
 			<div id="friendslist">
 				<div class="bar">
-						<i class="fa fa-bars" aria-hidden="true"></i>
-					</div>
-				<div id="topmenu">
-					<span class="friends"></span> <span class="chats"></span> <span
-						class="history"></span>
+					<i class="fa fa-bars" aria-hidden="true"></i>
+				</div>
+				<div id="topmenu"> <!-- 상단탑바 -->
+					<span class="friends"></span>
+					<span class="chats"></span>
+					<span class="search"></span>
 				</div>
 
 				<div id="friends">
-				
-				
-					
-	
-					
-				
+
+					<!-- 친구의 목록들이 들어가는곳 -->
 
 				</div>
+				
 				<div id="search">
-						<input type="text" id="searchfield" value="연락처를 검색해보세요" />
-					</div>
+					<input type="text" id="searchfield" placeholder="연락처를 검색해보세요" />
+				</div>
 
 			</div>
+			
+			<div id="searchlist" style="display:none">
+				<div class="bar">
+					<i class="fa fa-bars" aria-hidden="true"></i>
+				</div>
+				<div id="topmenu"> <!-- 상단탑바 -->
+					<span class="friends"></span>
+					<span class="chats"></span>
+					<span class="search"></span>
+				</div>
+
+				<div id="searchs">
+
+					<!-- 아이디 검색 목록 -->
+
+				</div>
+				
+				<div id="search">
+					<input type="text" id="searchfield" placeholder="아이디로 친구를 추가해보세요." />
+				</div>
+
+			</div>
+			
 			<div id="chatview" class="p1">
 				<div id="profile">
 
@@ -110,50 +131,25 @@ $(function(){
 					<div id="close">
 						<i class="fa fa-arrow-left"></i>
 					</div>
-					
+
 					<div id="star" onclick="friend(myUserID)">
 						<i class="fa fa-star-o"></i>
 					</div>
 					<p id="toChatUser">Miro Badev</p>
-					<input type="hidden" id="toChatID" value="">
-					<span>miro@badev@gmail.com</span>
+					<input type="hidden" id="toChatID" value=""> <span>miro@badev@gmail.com</span>
 				</div>
-				<div id="chat-messages">
-					<label>Messages</label>
-
-
-					<div class="message right">
-						<img
-							src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/245657/2_copy.jpg" />
-						<div class="bubble">
-							Can you share a link for the tutorial?
-							<div class="corner"></div>
-							<span>1 min</span>
-						</div>
-					</div>
-
-					<div class="message">
-						<img
-							src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/245657/1_copy.jpg" />
-						<div class="bubble">
-							Yeah, hold on
-							<div class="corner"></div>
-							<span>Now</span>
-						</div>
-					</div>
-
-				</div>
+				<div id="chat-messages"></div>
 
 				<div id="sendmessage">
-					<input type="text" placeholder="메세지를 입력하세요." />
+					<input type="text" placeholder="메세지를 입력하세요." value="z" />
 					<button id="send"></button>
 				</div>
 
 			</div>
 		</div>
 	</div>
-	
-	
+
+
 	<!-- alert modal -->
 	<div class="modal fade" id="alertModal" tabindex="-1" role="dialog"
 		aria-labelledby="exampleModalLabel" aria-hidden="true">

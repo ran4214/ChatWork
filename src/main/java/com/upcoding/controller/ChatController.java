@@ -109,6 +109,7 @@ public class ChatController {
 		String re = "";
 		while(chatList.toString() == "[]") {
 			chatList = service.getChatService(fromID, lastChatID);
+			Thread.sleep(100);
 		}
 		
 		for(int i=0;i<chatList.size();i++) {

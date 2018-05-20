@@ -7,10 +7,20 @@ $(function(){
 		chaton();
 	});
 	
+	$("#topmenu>.search").on("click",function(){
+		$('#friendslist').fadeOut();
+		$('#searchlist').fadeIn();
+	});
+	
+	$("#topmenu>.friends").on("click",function(){
+		$('#friendslist').fadeIn();
+		$('#searchlist').fadeOut();
+	});
+	
 });
 
 function chatSetting(myUserID){
-	console.log("전반적인 챗 세팅을 시작합니다.")
+	console.log("전반적인 챗 세팅을 시작합니다.");
 	var chatList;
 	console.log("[1] 나의 전체 대화내역을 가져옵니다.")
 	getMyAllChat(myUserID,function (result){
@@ -141,6 +151,8 @@ function addGoChatView(myUserID,chatList){
 				}, 50);
 			});
 			
+			$("#chat-messages").scrollTop($('#chat-messages')[0].scrollHeight);
+			
 		});
 	});		
 }
@@ -198,7 +210,7 @@ function addChat(myUserID,toChatID,fromID,chatContent,chatTime){
 		timespan = "time-left";
 	}
 	
-	$("#chat-messages").append("<div class='message " +
+	$("#chat-messages").append($("<div class='message " +
 			position +
 			"'>" +
 			"<img src='https://s3-us-west-2.amazonaws.com/s.cdpn.io/245657/2_copy.jpg' />" +
@@ -211,7 +223,7 @@ function addChat(myUserID,toChatID,fromID,chatContent,chatTime){
 			chatTime+
 			"</span>" +
 			"</div>" +
-			"</div>");
+			"</div>").hide().fadeIn(180));
 	
 	$("#chat-messages").scrollTop($('#chat-messages')[0].scrollHeight);
 }

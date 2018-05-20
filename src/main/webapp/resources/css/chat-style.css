@@ -80,12 +80,13 @@ body {
 	width: 96px;
 	height: 70px;
 	background:
-		url("https://s3-us-west-2.amazonaws.com/s.cdpn.io/245657/top-menu.png")
+		url("/images/top-menu.png")
 		-3px -118px no-repeat;
 }
 
 #topmenu span.friends {
 	margin-bottom: -1px;
+	cursor: pointer;
 }
 #friends{
 	height : 355px;
@@ -104,13 +105,13 @@ body {
 	cursor: pointer;
 }
 
-#topmenu span.history {
-	background-position: -190px 24px;
+#topmenu span.search {
+	background-position: -185px 24px;
 	cursor: pointer;
 }
 
-#topmenu span.history:hover {
-	background-position: -190px -47px;
+#topmenu span.search:hover {
+	background-position: -185px -47px;
 	cursor: pointer;
 }
 
@@ -205,11 +206,11 @@ body {
 
 #searchfield {
 	background: #e3e9ed;
+	width:210px;
 	margin: 21px 0 0 55px;
 	border: none;
 	padding: 0;
 	font-size: 14px;
-	font-family: "Open Sans", sans-serif;
 	font-weight: 400px;
 	color: #8198ac;
 }
@@ -419,7 +420,6 @@ div.message.right .corner {
 	border: none;
 	padding: 0;
 	font-size: 14px;
-	font-family: "Open Sans", sans-serif;
 	font-weight: 400px;
 	color: #aab8c2;
 }
