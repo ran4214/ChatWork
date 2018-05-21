@@ -66,4 +66,18 @@ public class ChatDAOImp implements ChatDAO {
 		return sqlsession.selectList(namespace+".getChat",map);
 	}
 
+	@Override
+	public UserVO searchUser(String userID) {
+		return sqlsession.selectOne(namespace+".searchUser",userID);
+	}
+
+	@Override
+	public String searchFriend(String myCno, String searchCno) {
+			HashMap<String, String> map = new HashMap<String,String>();
+			map.put("myCno", myCno);
+			map.put("searchCno", searchCno);
+			
+		return sqlsession.selectOne(namespace+".searchFriend",map);
+	}
+
 }

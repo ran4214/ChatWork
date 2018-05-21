@@ -29,8 +29,14 @@
 	<select id="getChat" parameterType="HashMap" resultType="ChatVO">
 		select * from CHAT where (fromID = #{fromID} or toID = #{fromID}) AND chatID > #{lastChatID} Order by chatID
 	</select>
-
 	
+	<select id="searchUser" parameterType="String" resultType="UserVO">
+		select * from customer where id = #{value}
+	</select>
+
+	<select id="searchFriend" parameterType="HashMap" resultType="String">
+		select toID from friend where fromID = #{myCno} and toID = #{searchCno}
+	</select>
 
 </mapper>
 

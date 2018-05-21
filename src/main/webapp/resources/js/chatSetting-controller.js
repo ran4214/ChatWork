@@ -17,9 +17,12 @@ $(function(){
 		$('#searchlist').fadeOut();
 	});
 	
+	
+	
 });
 
 function chatSetting(myUserID){
+
 	console.log("전반적인 챗 세팅을 시작합니다.");
 	var chatList;
 	console.log("[1] 나의 전체 대화내역을 가져옵니다.")
@@ -39,6 +42,33 @@ function chatSetting(myUserID){
 			getFriends(myUserID,chatList);
 			console.log("[3]"+lastChatID+"를 기준으로 새로운 메세지가 오면 갱신합니다.");
 			getChat(myUserID,lastChatID,chatList);
+			
+			//3번째 탭 검색 이벤트 등록
+			$("#user-searchfield").on("keyup",function(event){
+				var keycode = (event.keyCode ? event.keyCode : event.which);
+				var searchStr = $("#user-searchfield").val();
+				if(keycode == '13'){
+					$.ajax({
+						url : "searchUser",
+						type : "POST",
+						data : {
+							userID : searchStr,
+							myCno : myUserID
+						},
+						success : function(data) {
+							if (data == "") {
+								notFoundedUser();
+								return
+							}
+							var parsed = JSON.parse(data);
+							console.log(parsed.status);
+							addSearchUser(parsed.user.cno,parsed.user.cname,parsed.user.email,parsed.user.status,parsed.status);
+							addGoChatView(myUserID,chatList);
+						}
+					});
+				}
+			});
+			//
 		}
 	});
 }
@@ -116,8 +146,15 @@ function addGoChatView(myUserID,chatList){
 			$("#profile p").html(name);
 			$("#profile span").html(email);
 			$("#toChatID").val(toChatID);
-			$("#profile>#star>.fa").removeClass("fa-star-o");
-			$("#profile>#star>.fa").addClass("fa-star");
+			var friendStatus =$(this).find(".friend-status").val();
+			console.log(friendStatus);
+			if(friendStatus == '1'){
+				$("#profile>#star>.fa").removeClass("fa-star-o");
+				$("#profile>#star>.fa").addClass("fa-star");
+			}else{
+				$("#profile>#star>.fa").removeClass("fa-star");
+				$("#profile>#star>.fa").addClass("fa-star-o");
+			}
 			
 			$(".message").not(".right").find("img").attr("src", $(clone).attr("src"));									
 			$('#friendslist').fadeOut();
@@ -175,6 +212,7 @@ function addFriendList(cno,cname,email,status){
 			"<input class='userCno' type='hidden' value='"+
 			cno+
 			"'>"+
+			"<input class='friend-status' type='hidden' value='1'>"+
 			"<div class='status "+
 			statusClass+"'>"+
 			"</div>");
@@ -273,4 +311,42 @@ function getChat(myUserID,lastChatID,chatList){
 	        },
 	        timeout: 30000,
 	    })
+}
+
+function addSearchUser(cno,cname,email,status,friendStatus){
+	var statusClass = 'inactive';
+	if(status == 1){
+		statusClass = 'available';
+	}
+	
+	var friendStatusValue = "0";
+	if(friendStatus == "true"){
+		friendStatusValue = "1";
+	}
+	
+	$("#searchs").empty();
+	$("#searchs").append($("<div class='friend'>" +
+			"<img src='https://s3-us-west-2.amazonaws.com/s.cdpn.io/245657/1_copy.jpg' />" +
+			"<p>" +
+			"<strong>" +
+			cname +
+			"</strong><br>" +
+			"<span>"+
+			email+
+			"</span></p>"+
+			"<input class='userCno' type='hidden' value='"+
+			cno+
+			"'>"+
+			"<input class='friend-status' type='hidden' value='"+
+			friendStatusValue+
+			"'>"+
+			"<div class='status "+
+			statusClass+
+			"'>"+
+			"</div>").hide().fadeIn(180));
+}
+
+function notFoundedUser(){
+	$("#searchs").empty();
+	$("#searchs").append($("<div class='notfound'>검색된 유저가 없습니다.</div>)").hide().fadeIn(180));
 }

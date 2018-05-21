@@ -106,19 +106,33 @@ body {
 }
 
 #topmenu span.search {
-	background-position: -185px 24px;
+	background-position: -176px 24px;
 	cursor: pointer;
 }
 
 #topmenu span.search:hover {
-	background-position: -185px -47px;
+	background-position: -176px -47px;
 	cursor: pointer;
 }
 
+/* search 탭일때 */
 #searchlist span.search{
-	background-position: -185px -58px;
+	background-position: -176px -118px;
 	cursor: pointer;
 }
+#searchlist span.search:hover{
+	background-position: -176px -118px;
+	cursor: pointer;
+}
+#searchlist span.friends{
+	background-position: -3px -49px;
+	cursor: pointer;
+}
+#searchlist span.friends:hover{
+	background-position: -3px 24px;
+	cursor: pointer;
+}
+
 
 
 .friend {
@@ -209,6 +223,16 @@ body {
 	bottom: 0;
 	left: 0;
 }
+#user-search {
+	background: #e3e9ed
+		url("https://s3-us-west-2.amazonaws.com/s.cdpn.io/245657/search.png")
+		-11px 0 no-repeat;
+	height: 60px;
+	width: 290px;
+	position: absolute;
+	bottom: 0;
+	left: 0;
+}
 
 #searchfield {
 	background: #e3e9ed;
@@ -220,11 +244,29 @@ body {
 	font-weight: 400px;
 	color: #8198ac;
 }
+#user-searchfield {
+	background: #e3e9ed;
+	width:210px;
+	margin: 21px 0 0 55px;
+	border: none;
+	padding: 0;
+	font-size: 14px;
+	font-weight: 400px;
+	color: #8198ac;
+}
+
+.notfound{
+	text-align: center;
+	margin: 150px 50px;
+	color : #999;
+}
 
 #searchfield:focus {
 	outline: 0;
 }
-
+#user-searchfield:focus {
+	outline: 0;
+}
 #chatview {
 	width: 290px;
 	height: 484px;

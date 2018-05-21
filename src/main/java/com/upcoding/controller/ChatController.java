@@ -1,5 +1,6 @@
 package com.upcoding.controller;
 
+import java.util.HashMap;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -138,5 +139,39 @@ public class ChatController {
 		System.out.println("re :"+  re);
 		response.getWriter().write(re);
 		
+	}
+
+	@RequestMapping(value = "/searchUser", method = RequestMethod.POST)
+	public void searchUserPOST(String userID,String myCno,HttpServletResponse response) throws Exception {
+		response.setContentType("text/html;charset=UTF-8");
+		System.out.println("[Chat-controller] searchUser");
+		
+		UserVO user = null;
+		String status = "";
+		
+		user = service.searchUserService(userID);
+		
+		if(user != null && !(myCno.equals(user.getCno()+""))) { // 내 아이디를 검색하려고 하지않거나 아이디가 일치하는 정보가 있어야함
+			
+			
+			String friendName = service.searchFriendService(myCno, user.getCno()+"");
+			
+			if(friendName != null) {
+				status = "true";
+			}else {
+				status = "false";
+			}
+			
+			HashMap<String,Object> map = new HashMap<String,Object>();
+			map.put("user", user);
+			map.put("status",status);
+			
+			Gson gson = new Gson();
+			String re = gson.toJson(map);
+			
+			response.getWriter().write(re);
+		}
+		
+		response.getWriter().write("");
 	}
 }

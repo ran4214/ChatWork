@@ -107,7 +107,7 @@ $(function(){
 					<span class="friends"></span>
 					<span class="chats"></span>
 					<span class="search"></span>
-				</div>
+				</div> 
 
 				<div id="searchs">
 
@@ -115,8 +115,8 @@ $(function(){
 
 				</div>
 				
-				<div id="search">
-					<input type="text" id="searchfield" placeholder="아이디로 친구를 추가해보세요." />
+				<div id="user-search">
+					<input type="text" id="user-searchfield" placeholder="아이디로 친구를 추가해보세요." />
 				</div>
 
 			</div>

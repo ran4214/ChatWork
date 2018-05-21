@@ -36,9 +36,17 @@ public class ChatService {
 
 	public int sendChatService(String fromID, String toID, String chatContent) {
 		return dao.sendChat(fromID, toID, chatContent);
-	}
+	} 
 	
 	public List<ChatVO> getChatService(String fromID, String lastChatID) {
 		return dao.getChat(fromID, lastChatID);
+	}
+	
+	public UserVO searchUserService(String userID) {
+		return dao.searchUser(userID);
+	}
+	
+	public String searchFriendService(String myCno,String searchCno) {
+		return dao.searchFriend(myCno, searchCno);
 	}
 }
