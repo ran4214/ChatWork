@@ -77,11 +77,13 @@ $(function(){
 
 		</div>
 		<div id="chatbox" style="display: none">
+		
+		
 			<div id="friendslist">
 				<div class="bar">
 					<i class="fa fa-bars" aria-hidden="true"></i>
 				</div>
-				<div id="topmenu"> <!-- 상단탑바 -->
+				<div class="topmenu"> <!-- 상단탑바 -->
 					<span class="friends"></span>
 					<span class="chats"></span>
 					<span class="search"></span>
@@ -99,11 +101,26 @@ $(function(){
 
 			</div>
 			
+			
+			<div id="chatroomlist" style="display:none">
+				<div class="bar">
+					<i class="fa fa-bars" aria-hidden="true"></i>
+				</div>
+				<div class="topmenu"> <!-- 상단탑바 -->
+					<span class="friends"></span>
+					<span class="chats"></span>
+					<span class="search"></span>
+				</div>
+
+
+			</div>
+			
+			
 			<div id="searchlist" style="display:none">
 				<div class="bar">
 					<i class="fa fa-bars" aria-hidden="true"></i>
 				</div>
-				<div id="topmenu"> <!-- 상단탑바 -->
+				<div class="topmenu"> <!-- 상단탑바 -->
 					<span class="friends"></span>
 					<span class="chats"></span>
 					<span class="search"></span>
@@ -120,7 +137,8 @@ $(function(){
 				</div>
 
 			</div>
-			
+
+
 			<div id="chatview" class="p1">
 				<div id="profile">
 
@@ -141,13 +159,31 @@ $(function(){
 				<div id="chat-messages"></div>
 
 				<div id="sendmessage">
-					<input type="text" placeholder="메세지를 입력하세요." value="z" />
+					<input type="text" placeholder="메세지를 입력하세요."/>
 					<button id="send"></button>
 				</div>
 
 			</div>
+		
+		
 		</div>
 	</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 	<!-- alert modal -->

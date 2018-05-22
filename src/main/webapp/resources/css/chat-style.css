@@ -68,14 +68,28 @@ body {
 	width: 290px;
 	height: 484px;
 }
+#chatroomlist {
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 290px;
+	height: 484px;
+}
+#searchlist {
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 290px;
+	height: 484px;
+}
 
-#topmenu {
+.topmenu {
 	height: 69px;
 	width: 290px;
 	border-bottom: 1px solid #d8dfe3;
 }
 
-#topmenu span {
+.topmenu span {
 	float: left;
 	width: 96px;
 	height: 70px;
@@ -84,7 +98,7 @@ body {
 		-3px -118px no-repeat;
 }
 
-#topmenu span.friends {
+.topmenu span.friends {
 	margin-bottom: -1px;
 	cursor: pointer;
 }
@@ -95,22 +109,22 @@ body {
 	width : 310px;
 }
 
-#topmenu span.chats {
+.topmenu span.chats {
 	background-position: -95px 25px;
 	cursor: pointer;
 }
 
-#topmenu span.chats:hover {
+.topmenu span.chats:hover {
 	background-position: -95px -46px;
 	cursor: pointer;
 }
 
-#topmenu span.search {
+.topmenu span.search {
 	background-position: -176px 24px;
 	cursor: pointer;
 }
 
-#topmenu span.search:hover {
+.topmenu span.search:hover {
 	background-position: -176px -47px;
 	cursor: pointer;
 }
@@ -132,7 +146,31 @@ body {
 	background-position: -3px 24px;
 	cursor: pointer;
 }
-
+/* chatroomlist 탭일때 */
+#chatroomlist span.search{
+	background-position: -176px 24px;
+	cursor: pointer;
+}
+#chatroomlist span.search:hover{
+	background-position: -176px -47px;
+	cursor: pointer;
+}
+#chatroomlist span.chats{
+	background-position: -95px -118px;
+	cursor: pointer;
+}
+#chatroomlist span.chats:hover{
+	background-position: -95px -118px;
+	cursor: pointer;
+}
+#chatroomlist span.friends{
+	background-position: -3px -49px;
+	cursor: pointer;
+}
+#chatroomlist span.friends:hover{
+	background-position: -3px 24px;
+	cursor: pointer;
+}
 
 
 .friend {
@@ -165,7 +203,7 @@ body {
 .friend p {
 	padding: 13px 0 0 0;
 	float: left;
-	width: 220px;
+	width: 190px;
 }
 
 .friend p strong {

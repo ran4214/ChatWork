@@ -7,15 +7,7 @@ $(function(){
 		chaton();
 	});
 	
-	$("#topmenu>.search").on("click",function(){
-		$('#friendslist').fadeOut();
-		$('#searchlist').fadeIn();
-	});
-	
-	$("#topmenu>.friends").on("click",function(){
-		$('#friendslist').fadeIn();
-		$('#searchlist').fadeOut();
-	});
+
 	
 	
 	
@@ -24,7 +16,30 @@ $(function(){
 function chatSetting(myUserID){
 
 	console.log("전반적인 챗 세팅을 시작합니다.");
-	var chatList;
+	
+	var chatList; //전체 대화내역을 담는 변수
+	
+	
+	$(".topmenu>.search").on("click",function(){
+		
+		$('#friendslist').fadeOut();
+		$('#chatroomlist').fadeOut();
+		$('#searchlist').fadeIn();
+	});
+	
+	$(".topmenu>.friends").on("click",function(){
+		
+		$('#searchlist').fadeOut();
+		$('#chatroomlist').fadeOut();
+		$('#friendslist').fadeIn();
+	});
+	
+	$(".topmenu>.chats").on("click",function(){
+		$('#searchlist').fadeOut();
+		$('#friendslist').fadeOut();
+		$('#chatroomlist').fadeIn();
+	});
+	
 	console.log("[1] 나의 전체 대화내역을 가져옵니다.")
 	getMyAllChat(myUserID,function (result){
 		if(result == "[]"){ //데화 데이터 없는경우
@@ -157,7 +172,6 @@ function addGoChatView(myUserID,chatList){
 			}
 			
 			$(".message").not(".right").find("img").attr("src", $(clone).attr("src"));									
-			$('#friendslist').fadeOut();
 			$('#chatview').fadeIn();
 			
 			$("#sendmessage input").on("keydown",function(event){
@@ -183,8 +197,10 @@ function addGoChatView(myUserID,chatList){
 				}, 200, function(){$('.floatingImg').remove()});				
 				
 				setTimeout(function(){
-					$('#chatview').fadeOut();
-					$('#friendslist').fadeIn();				
+					
+						$('#chatview').fadeOut();	
+
+							
 				}, 50);
 			});
 			
