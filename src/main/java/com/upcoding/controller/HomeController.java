@@ -49,6 +49,7 @@ private static final Logger logger = LoggerFactory.getLogger(HomeController.clas
 	@RequestMapping(value = "/login", method = RequestMethod.POST)
 	public Object login(HttpServletRequest request,String userID, String userPassword) throws Exception {
 		
+		
 		if (userID == null || userID.equals("") || userPassword.equals("") || userPassword == null) {
 			System.out.println("정상적인 값을 입력해주세요.");
 		}

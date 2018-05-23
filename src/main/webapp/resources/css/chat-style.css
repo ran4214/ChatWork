@@ -3,14 +3,15 @@
 * {
 	box-sizing: content-box;
 }
-/* �엫�떆 */
+/* 폰트 */
 body {
 	font-family: "Nanum Gothic"
 }
-/* �엫�떆 �걹 */
+/* 폰트 */
+
 #new-message {
 	color:white;
-	background: #e62727;
+	background: #ff4d4d;
 	border: 1px solid #fff;
 	border-radius: 50%;
 	display: none;
@@ -23,6 +24,22 @@ body {
 	text-align: center;
 	margin: -15px 0 0 -15px;
 	width: 28px;
+}
+
+.room-newmessage {
+	color:white !important;
+	background: #ff4d4d;
+	border: 1px solid #fff;
+	border-radius: 50%;
+	height: 22px;
+	width: 22px;
+	bottom : 10px;
+	right : 10px;
+	position: absolute;
+	text-align: center;
+	line-height : 22px;
+	vertical-align : middle;
+	font-size : 11px !important;
 }
 
 #view-code {
@@ -666,3 +683,11 @@ div.message.right .corner {
 	overflow: hidden;
 	border-radius: 6px;
 }
+
+.lastchat-time{ 
+	position: absolute;
+	top : 10px;
+	right : 10px;
+	font-size : 11px !important;
+}
+

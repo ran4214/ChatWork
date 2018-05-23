@@ -22,7 +22,7 @@
 <!-- my js -->
 <script src="/js/chat-controller.js"></script>
 <!-- <script src="/js/logout-controller.js"></script> -->
-<script src="/js/chatSetting-controller.js"></script>
+<script src="./js/chatSetting-controller.js"></script>
 <script type="text/javascript">
 <!-- 기본 정보 담는곳 -->
 <%
@@ -73,7 +73,7 @@ $(function(){
 			</div>
 
 
-			<span id="new-message" style="display: inline">5</span>
+			<span id="new-message">5</span>
 
 		</div>
 		<div id="chatbox" style="display: none">
@@ -110,6 +110,11 @@ $(function(){
 					<span class="friends"></span>
 					<span class="chats"></span>
 					<span class="search"></span>
+				</div>
+
+				<div id="chatrooms">
+					
+
 				</div>
 
 

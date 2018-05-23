@@ -98,13 +98,12 @@ public class ChatDAOImp implements ChatDAO {
 			all.add(receiver.get(i));
 		}
 		
-		HashSet<UserVO> hshs = new HashSet<UserVO>(all);
-		
-		List<UserVO> all_modified = new ArrayList<UserVO>(hshs);
-		
-		
-		for(int i=0;i<all_modified.size();i++) {
-			System.out.println(all_modified.get(i));
+		for(int i=0;i<all.size();i++) {
+			for(int j=i+1;j<all.size();j++) {
+				if(all.get(i).getCno() == all.get(j).getCno()) {
+					all.remove(j);
+				}
+			}
 		}
 		
 		return all;

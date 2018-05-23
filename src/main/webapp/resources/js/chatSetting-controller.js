@@ -166,7 +166,6 @@ function addGoChatView(myUserID,chatList){
 			}
 			
 			
-			
 			$("#profile p").html(name);
 			$("#profile span").html(email);
 			$("#toChatID").val(toChatID);
@@ -215,7 +214,100 @@ function addGoChatView(myUserID,chatList){
 			$("#chat-messages").scrollTop($('#chat-messages')[0].scrollHeight);
 			
 		});
-	});		
+	}); 
+	
+	//단톡방에 있는거는 따로 설정
+	
+	
+	$("#chatrooms>.friend").each(function(){
+		$(this).off("click");
+		$(this).on("click",function(){
+			var childOffset = $(this).offset();
+			var parentOffset = $(this).parent().parent().offset();
+			var childTop = childOffset.top - parentOffset.top;
+			var clone = $(this).find('img').eq(0).clone();
+			var top = childTop+12+"px";
+			
+			$(clone).css({'top': top}).addClass("floatingImg").appendTo("#chatbox");									
+			
+			setTimeout(function(){$("#profile p").addClass("animate");$("#profile").addClass("animate");}, 100);
+			setTimeout(function(){
+				$("#chat-messages").addClass("animate");
+				$('.cx, .cy').addClass('s1');
+				setTimeout(function(){$('.cx, .cy').addClass('s2');}, 100);
+				setTimeout(function(){$('.cx, .cy').addClass('s3');}, 200);			
+			}, 150);														
+			
+			$('.floatingImg').animate({
+				'width': "68px",
+				'left':'108px',
+				'top':'20px'
+			}, 200);
+			
+			var name = $(this).find("p strong").html();
+			var email = $(this).find(".user-email").val();
+			console.log(email);
+			var toChatID = $(this).find(".userCno").val();
+			
+			$("#chat-messages").empty();
+			$("#chat-messages").append("<label>Messages</label>");
+			// 전에 대화내역들을 초기화 시킨다.
+			
+			for(var i=0;i<chatList.length;i++){ // 전체 대화 목록 중 선택한 사람과의 대화 연락처만 꺼내서 사용합니다.
+				if((chatList[i].toID == toChatID && chatList[i].fromID == myUserID) || (chatList[i].fromID == toChatID && chatList[i].toID == myUserID)){
+					addChat(myUserID,toChatID,chatList[i].fromID,chatList[i].chatContent,chatList[i].chatTime) // 하나하나의 말풍선들을 append 해주는 함수
+				}
+			}
+			
+			
+			$("#profile p").html(name);
+			$("#profile span").html(email);
+			$("#toChatID").val(toChatID);
+			var friendStatus =$(this).find(".friend-status").val();
+			if(friendStatus == '1'){
+				$("#profile>#star>.fa").removeClass("fa-star-o");
+				$("#profile>#star>.fa").addClass("fa-star");
+			}else{
+				$("#profile>#star>.fa").removeClass("fa-star");
+				$("#profile>#star>.fa").addClass("fa-star-o");
+			}
+			
+			$(".message").not(".right").find("img").attr("src", $(clone).attr("src"));									
+			$('#chatview').fadeIn();
+			
+			$("#sendmessage input").on("keydown",function(event){
+				var keycode = (event.keyCode ? event.keyCode : event.which);
+				if(keycode == '13'){
+					var toChatID = $("#toChatID").val();
+					var chatContent = $("#sendmessage input").val();
+					if(chatContent != "" && chatContent != null ){
+						sendChat(myUserID,toChatID,chatContent);
+						$("#sendmessage input").val("");
+					}
+				}	
+			});
+		
+			
+			$('#close').unbind("click").click(function(){				
+				$("#chat-messages, #profile, #profile p").removeClass("animate");
+				$('.cx, .cy').removeClass("s1 s2 s3");
+				$('.floatingImg').animate({
+					'width': "40px",
+					'top':top,
+					'left': '12px'
+				}, 200, function(){$('.floatingImg').remove()});				
+				
+				setTimeout(function(){
+					
+						$('#chatview').fadeOut();	
+
+							
+				}, 50);
+			});
+			
+			$("#chat-messages").scrollTop($('#chat-messages')[0].scrollHeight);	
+		});
+	});
 }
 
 function addFriendList(cno,cname,email,status){
@@ -383,6 +475,37 @@ function getChatList(myUserID,chatList){
 		
 		success : function(result){
 			console.log("[채팅방 목록 가져오기] 성공!");
+			var parsed = JSON.parse(result);
+			console.log(parsed);
+			for(var i=0;i<parsed.length;i++){
+				addChatRoom(parsed[i].cno,parsed[i].cname,parsed[i].email)
+			}
+			addGoChatView(myUserID,chatList);
 		}
 	})
+}
+
+function addChatRoom(cno,cname,email){
+	$("#chatrooms").append("<div class='friend'>" +
+			"<img src='https://s3-us-west-2.amazonaws.com/s.cdpn.io/245657/1_copy.jpg' />" +
+			"<p>" +
+			"<strong>" +
+			cname +
+			"</strong><br>" +
+			"<span>"+
+			"마지막 채팅 내용"+
+			"</span>" +
+			"<span class='lastchat-time'>오후 12:13</span>" +
+			"<span class='room-newmessage'>5</span>" +
+			"</p>"+
+			"<input class='userCno' type='hidden' value='"+
+			cno+
+			"'>"+
+			"<input class='friend-status' type='hidden' value='"+
+			cno+
+			"'>" +
+			"<input class='user-email' type='hidden' value='" +
+			email +
+			"'>" +
+			"</div>");
 }

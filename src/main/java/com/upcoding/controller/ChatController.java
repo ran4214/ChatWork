@@ -180,10 +180,12 @@ public class ChatController {
 		
 		System.out.println("[Chat-controller] getChatList");
 		
-		
-		int re = -1;
 		List<UserVO> list = service.getChatList(cno);
 		
-		response.getWriter().write("");
+		Gson gson = new Gson();
+		
+		String re = gson.toJson(list);
+		
+		response.getWriter().write(re);
 	}
 }
