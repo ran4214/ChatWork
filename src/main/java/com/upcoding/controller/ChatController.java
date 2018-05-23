@@ -66,12 +66,12 @@ public class ChatController {
 			String time = null;
 			
 			if(Integer.parseInt(hour)>11) {
-				time = "¿ÀÈÄ";
+				time = "ì˜¤í›„";
 				if(Integer.parseInt(hour) != 12) {
 					hour = (Integer.parseInt(hour)-12)+"";
 				}
 			}else {
-				time = "¿ÀÀü";
+				time = "ì˜¤ì „";
 				if(Integer.parseInt(hour)==0) {
 					hour = "12";
 				}
@@ -120,23 +120,22 @@ public class ChatController {
 			String time = null;
 			
 			if(Integer.parseInt(hour)>11) {
-				time = "¿ÀÈÄ";
+				time = "ì˜¤í›„";
 				if(Integer.parseInt(hour) != 12) {
 					hour = (Integer.parseInt(hour)-12)+"";
 				}
 			}else {
-				time = "¿ÀÀü";
+				time = "ì˜¤ì „";
 				if(Integer.parseInt(hour)==0) {
 					hour = "12";
 				}
 			}
-			
+				
 			String chatTime = day+time+" "+hour+":"+minute;
 			chatList.get(i).setChatTime(chatTime);
 		}
 		
 		re = gson.toJson(chatList);
-		System.out.println("re :"+  re);
 		response.getWriter().write(re);
 		
 	}
@@ -151,7 +150,7 @@ public class ChatController {
 		
 		user = service.searchUserService(userID);
 		
-		if(user != null && !(myCno.equals(user.getCno()+""))) { // ³» ¾ÆÀÌµð¸¦ °Ë»öÇÏ·Á°í ÇÏÁö¾Ê°Å³ª ¾ÆÀÌµð°¡ ÀÏÄ¡ÇÏ´Â Á¤º¸°¡ ÀÖ¾î¾ßÇÔ
+		if(user != null && !(myCno.equals(user.getCno()+""))) {
 			
 			
 			String friendName = service.searchFriendService(myCno, user.getCno()+"");
@@ -171,6 +170,19 @@ public class ChatController {
 			
 			response.getWriter().write(re);
 		}
+		
+		response.getWriter().write("");
+	}
+	
+	@RequestMapping(value = "/getChatList", method = RequestMethod.POST)
+	public void getChatListPOST(String cno,HttpServletResponse response) throws Exception {
+		response.setContentType("text/html;charset=UTF-8");
+		
+		System.out.println("[Chat-controller] getChatList");
+		
+		
+		int re = -1;
+		List<UserVO> list = service.getChatList(cno);
 		
 		response.getWriter().write("");
 	}

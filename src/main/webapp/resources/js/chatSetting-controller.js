@@ -6,29 +6,12 @@ $(function(){
 	$("#chaton").on("click",function(){
 		chaton();
 	});
-	
-
-	
-	
-	
-});
-
-function chatSetting(myUserID){
-
-	console.log("전반적인 챗 세팅을 시작합니다.");
-	
-	var chatList; //전체 대화내역을 담는 변수
-	
-	
 	$(".topmenu>.search").on("click",function(){
-		
 		$('#friendslist').fadeOut();
 		$('#chatroomlist').fadeOut();
 		$('#searchlist').fadeIn();
 	});
-	
 	$(".topmenu>.friends").on("click",function(){
-		
 		$('#searchlist').fadeOut();
 		$('#chatroomlist').fadeOut();
 		$('#friendslist').fadeIn();
@@ -39,51 +22,77 @@ function chatSetting(myUserID){
 		$('#friendslist').fadeOut();
 		$('#chatroomlist').fadeIn();
 	});
+});
+
+function chatSetting(myUserID){
+
+	console.log("[myUserID : "+myUserID+"] 전반적인 챗 세팅을 시작합니다.");
 	
-	console.log("[1] 나의 전체 대화내역을 가져옵니다.")
+	var chatList; //전체 대화내역을 담는 변수
+	var lastChatID; //마지막으로온 메세지의 아이디를 담는 변수
+
+	console.log("1. 나의 전체 대화내역을 가져옵니다.")
+	
 	getMyAllChat(myUserID,function (result){
-		if(result == "[]"){ //데화 데이터 없는경우
-			var parsed = JSON.parse(result);
-			chatList = parsed;
-			getFriends(myUserID,chatList);
-			var lastChatID = "0";
-			console.log("[3]"+lastChatID+"를 기준으로 새로운 메세지가 오면 갱신합니다.");
-			getChat(myUserID,lastChatID,chatList);
-		}else if(result != null){ //대화데이터가 있을경우
-			var parsed = JSON.parse(result);
-			chatList = parsed;
-			var lastChatID = chatList[chatList.length-1].chatID;
-			console.log("[2] 나의 전체 대화내역을 토대로 나의 친구들의 정보등록 및 이벤트 등록");
-			getFriends(myUserID,chatList);
-			console.log("[3]"+lastChatID+"를 기준으로 새로운 메세지가 오면 갱신합니다.");
-			getChat(myUserID,lastChatID,chatList);
+		
+		var parsed = JSON.parse(result);
+		
+		chatList = parsed;
+		
+		if(chatList.length == 0){
 			
-			//3번째 탭 검색 이벤트 등록
-			$("#user-searchfield").on("keyup",function(event){
-				var keycode = (event.keyCode ? event.keyCode : event.which);
-				var searchStr = $("#user-searchfield").val();
-				if(keycode == '13'){
-					$.ajax({
-						url : "searchUser",
-						type : "POST",
-						data : {
-							userID : searchStr,
-							myCno : myUserID
-						},
-						success : function(data) {
-							if (data == "") {
-								notFoundedUser();
-								return
-							}
-							var parsed = JSON.parse(data);
-							console.log(parsed.status);
-							addSearchUser(parsed.user.cno,parsed.user.cname,parsed.user.email,parsed.user.status,parsed.status);
-							addGoChatView(myUserID,chatList);
-						}
-					});
+			lastChatID = "0";
+			console.log("2. 대화한 내역이 없습니다. 0 번째를 기준으로 새로운 메세지가 오면 갱신합니다.");
+			
+			
+		}else{
+			
+			lastChatID = chatList[chatList.length-1].chatID;
+			console.log("2. [lastChatID : "+lastChatID+"] 의 번호를 기준으로 새로운 메세지가 오면 갱신합니다.");
+			
+			lastChatID = chatList[chatList.length-1].chatID;
+			
+		}
+		
+		
+		
+		console.log("3. 친구 목록을 불러옵니다.");
+		
+		getFriends(myUserID,chatList); // 친구 리스트 불러오기
+		
+		console.log("4. 채팅방 목록을 불러옵니다.");
+		
+		getChatList(myUserID,chatList); // 채팅방 불러오기
+		
+		getChat(myUserID,lastChatID,chatList); // 실시간 채팅 불러오기
+		
+		setSearchEvent(myUserID,chatList) // 서치 이벤트 등록
+		
+	});
+}
+
+function setSearchEvent(myUserID,chatList){
+	$("#user-searchfield").on("keyup",function(event){
+		var keycode = (event.keyCode ? event.keyCode : event.which);
+		var searchStr = $("#user-searchfield").val();
+		if(keycode == '13'){
+			$.ajax({
+				url : "searchUser",
+				type : "POST",
+				data : {
+					userID : searchStr,
+					myCno : myUserID
+				},
+				success : function(data) {
+					if (data == "") {
+						notFoundedUser();
+						return
+					}
+					var parsed = JSON.parse(data);
+					addSearchUser(parsed.user.cno,parsed.user.cname,parsed.user.email,parsed.user.status,parsed.status);
+					addGoChatView(myUserID,chatList);
 				}
 			});
-			//
 		}
 	});
 }
@@ -107,7 +116,7 @@ function getFriends(myUserID,chatList){
 		if(jsonData == "") 
 			return;
 		
-		console.log("[2](ajax) 성공!");
+		console.log("[친구 목록 불러오기] 성공!");
 		var users = JSON.parse(jsonData);
 		for(var i=0; i<users.length;i++){
 			addFriendList(users[i].cno,users[i].cname,users[i].email,users[i].status);
@@ -162,7 +171,6 @@ function addGoChatView(myUserID,chatList){
 			$("#profile span").html(email);
 			$("#toChatID").val(toChatID);
 			var friendStatus =$(this).find(".friend-status").val();
-			console.log(friendStatus);
 			if(friendStatus == '1'){
 				$("#profile>#star>.fa").removeClass("fa-star-o");
 				$("#profile>#star>.fa").addClass("fa-star");
@@ -246,14 +254,13 @@ function getMyAllChat(myUserID,callback){
 			if(result==""){
 				return;
 			}
-			console.log("[1](ajax) : 성공!")
+			console.log("[전체 대화내역 가져오기] 성공!")
 			callback(result);
 		}
 	})
 }
-
+	
 function addChat(myUserID,toChatID,fromID,chatContent,chatTime){
-	console.log("addChat");
 	var position = "";
 	var timespan = "time-left";
 	if(fromID == myUserID){ // 내가 보낸건지 상대방이 보낸건지 체크하기 위한 클래스 판단
@@ -313,7 +320,6 @@ function getChat(myUserID,lastChatID,chatList){
 	        	if(result == "" || result == null){
 	        		return;
 	        	}
-	        	console.log(result);
 	            var chat = JSON.parse(result);
 	            for(var i=0; i<chat.length;i++){
 	            	addChat(myUserID,toChatID,chat[i].fromID,chat[i].chatContent,chat[i].chatTime);
@@ -365,4 +371,18 @@ function addSearchUser(cno,cname,email,status,friendStatus){
 function notFoundedUser(){
 	$("#searchs").empty();
 	$("#searchs").append($("<div class='notfound'>검색된 유저가 없습니다.</div>)").hide().fadeIn(180));
+}
+
+function getChatList(myUserID,chatList){
+	$.ajax({
+		type : "POST",
+		url : "getChatList",
+		data : {
+			cno : myUserID
+		},
+		
+		success : function(result){
+			console.log("[채팅방 목록 가져오기] 성공!");
+		}
+	})
 }

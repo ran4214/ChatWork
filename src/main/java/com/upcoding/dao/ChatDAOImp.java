@@ -2,6 +2,7 @@ package com.upcoding.dao;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -78,6 +79,35 @@ public class ChatDAOImp implements ChatDAO {
 			map.put("searchCno", searchCno);
 			
 		return sqlsession.selectOne(namespace+".searchFriend",map);
+	}
+
+	@Override
+	public List<UserVO> getChatList(String cno) {
+		List<UserVO> all = new ArrayList<UserVO>();
+		List<UserVO> sender = null;
+		List<UserVO> receiver = null;
+		
+		sender = sqlsession.selectList(namespace+".sender",cno);
+		receiver = sqlsession.selectList(namespace+".receiver",cno);
+		
+		for(int i=0;i<sender.size();i++) {
+			all.add(sender.get(i));
+		}
+		
+		for(int i=0;i<receiver.size();i++) {
+			all.add(receiver.get(i));
+		}
+		
+		HashSet<UserVO> hshs = new HashSet<UserVO>(all);
+		
+		List<UserVO> all_modified = new ArrayList<UserVO>(hshs);
+		
+		
+		for(int i=0;i<all_modified.size();i++) {
+			System.out.println(all_modified.get(i));
+		}
+		
+		return all;
 	}
 
 }

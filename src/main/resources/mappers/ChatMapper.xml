@@ -37,7 +37,14 @@
 	<select id="searchFriend" parameterType="HashMap" resultType="String">
 		select toID from friend where fromID = #{myCno} and toID = #{searchCno}
 	</select>
-
+	
+	<select id="sender" parameterType="String" resultType="UserVO">
+		select distinct * from customer where cno IN (select fromID from chat where toID = #{value}) 
+	</select>
+	
+	<select id="receiver" parameterType="String" resultType="UserVO">
+		select distinct * from customer where cno IN (select toID from chat where fromID = #{value}) 
+	</select>
 </mapper>
 
 

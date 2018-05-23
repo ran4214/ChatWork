@@ -49,4 +49,8 @@ public class ChatService {
 	public String searchFriendService(String myCno,String searchCno) {
 		return dao.searchFriend(myCno, searchCno);
 	}
+	
+	public List<UserVO> getChatList(String cno){
+		return dao.getChatList(cno);
+	}
 }

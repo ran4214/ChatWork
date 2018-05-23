@@ -40,6 +40,12 @@ public class UserVO implements Serializable {
 	public String getCname() {
 		return cname;
 	}
+	@Override
+	public String toString() {
+		return "UserVO [cno=" + cno + ", cname=" + cname + ", id=" + id + ", pass=" + pass + ", location=" + location
+				+ ", grade=" + grade + ", favor=" + favor + ", leveltest=" + leveltest + ", regdate=" + regdate
+				+ ", status=" + status + ", email=" + email + "]";
+	}
 	public void setCname(String cname) {
 		this.cname = cname;
 	}
