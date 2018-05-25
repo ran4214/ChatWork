@@ -18,4 +18,5 @@ public interface ChatDAO {
 	public UserVO searchUser(String userID);
 	public String searchFriend(String myCno,String searchCno);
 	public List<UserVO> getChatList(String cno);
+	public int readAllChat(String myUserID,String toChatID);
 }

@@ -45,6 +45,10 @@
 	<select id="receiver" parameterType="String" resultType="UserVO">
 		select distinct * from customer where cno IN (select toID from chat where fromID = #{value}) 
 	</select>
+	
+	<update id="readAllChat" parameterType="HashMap" >
+		update chat set read = '1' where fromID = #{toChatID} AND toID = #{myUserID}
+	</update>
 </mapper>
 
 

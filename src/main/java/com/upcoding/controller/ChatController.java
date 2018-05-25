@@ -188,4 +188,15 @@ public class ChatController {
 		
 		response.getWriter().write(re);
 	}
+	
+	@RequestMapping(value = "/readAllChat", method = RequestMethod.POST)
+	public void getChatListPOST(String myUserID,String toChatID,HttpServletResponse response) throws Exception {
+		response.setContentType("text/html;charset=UTF-8");
+		
+		System.out.println("[Chat-controller] readAllChat");
+		
+		int re = service.readAllChatService(myUserID, toChatID);
+		
+		response.getWriter().write(re+"");
+	}
 }

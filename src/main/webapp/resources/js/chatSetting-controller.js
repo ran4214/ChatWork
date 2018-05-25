@@ -277,11 +277,7 @@ function addGoChatView(myUserID,chatList){
 			for(var i=0;i<chatList.length;i++){ // 전체 대화 목록 중 선택한 사람과의 대화 연락처만
 												// 꺼내서 사용합니다.
 				if((chatList[i].toID == toChatID && chatList[i].fromID == myUserID) || (chatList[i].fromID == toChatID && chatList[i].toID == myUserID)){
-					addChat(myUserID,toChatID,chatList[i].fromID,chatList[i].chatContent,chatList[i].chatTime) // 하나하나의
-																												// 말풍선들을
-																												// append
-																												// 해주는
-																												// 함수
+					addChat(myUserID,toChatID,chatList[i].fromID,chatList[i].chatContent,chatList[i].chatTime) // 하나하나의 말풍선들을 append 해주는 함수
 				}
 			}
 			
@@ -332,6 +328,22 @@ function addGoChatView(myUserID,chatList){
 			});
 			
 			$("#chat-messages").scrollTop($('#chat-messages')[0].scrollHeight);	
+			
+			// 채팅방에 들어가서 등록되어있는 채팅들의 읽음 처리
+			$.ajax({
+				url : "readAllChat",
+				type : "post",	
+				data : {
+					myUserID : myUserID,
+					toChatID : toChatID
+				},
+				success : function(result){
+					alert(result);
+					if(result == "1"){
+						alert("성공");
+					}
+				}
+			})
 		});
 	});
 }

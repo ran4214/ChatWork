@@ -53,4 +53,8 @@ public class ChatService {
 	public List<UserVO> getChatList(String cno){
 		return dao.getChatList(cno);
 	}
+	
+	public int readAllChatService(String myUserID,String toChatID) {
+		return dao.readAllChat(myUserID, toChatID);
+	}
 }

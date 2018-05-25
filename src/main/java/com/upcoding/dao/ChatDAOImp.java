@@ -109,4 +109,13 @@ public class ChatDAOImp implements ChatDAO {
 		return all;
 	}
 
+	@Override
+	public int readAllChat(String myUserID, String toChatID) {
+		HashMap<String, String> map = new HashMap<String,String>();
+		map.put("myUserID", myUserID);
+		map.put("toChatID", toChatID);
+		
+		return sqlsession.update(namespace+".readAllChat",map);
+	}
+
 }

@@ -36,7 +36,6 @@ public class SessionListener implements HttpSessionAttributeListener, ServletCon
 			if (re > 0) {
 				System.out.println("SessionListener : " + user.getCname() + "님이 로그인하셨습니다.");
 				String userValue = se.getValue() + "";
-				System.out.println(userValue);
 				loginUser.put(userValue, user);
 				System.out.println("현재 접속중인 사람 : " + loginUser.size());
 			}
