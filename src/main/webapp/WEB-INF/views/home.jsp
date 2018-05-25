@@ -34,11 +34,7 @@
 	
 %>
 var myUserID = '<%=myUserID%>';
-$(function(){
-	if(myUserID != 0){
-		chatSetting(myUserID); // 전체적인 채팅의 세팅 (채팅 내용 불러오기,친구 목록 불러오기)
-	}
-});
+
 </script>
 
 
@@ -52,7 +48,7 @@ $(function(){
 
 		<c:otherwise>
        		<a href="/logout"><button type="button" class="btn btn-primary">logout</button></a>
-			<button id="chaton" type="button" class="btn btn-primary" >chat</button>
+			<button id="chaton" type="button" class="btn btn-primary" onclick="chatStart(myUserID)">chat</button>
     	</c:otherwise>	
 	</c:choose>
 

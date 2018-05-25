@@ -1,16 +1,32 @@
-function chaton(){
-	$('#tab-bar').fadeToggle(500,"swing");
+var xhr;
+function chatStart(myUserID){
+	if(($("#chatbox").css("display") == "block") || ($("#tab-bar").css("display") == "block")){
+		console.log("채팅 서비스를 중단합니다.");
+		$('#tab-bar').fadeToggle(300,"swing");
+		if($("#chatbox").css("display") == "block"){
+			$("#chatbox").slideToggle(300,'swing');
+		}
+		xhr.abort(); //실시간 채팅 받아오는 서비스 끄기 
+	}else {
+		if(xhr != null){
+			xhr.abort(); // 만약 켜져있는게 있다면 끄고 다시 키기
+		}
+		$('#tab-bar').fadeToggle(500,"swing");
+		console.log("채팅 서비스 시작합니다.");
+		chatSetting(myUserID);
+		
+	}
+		
+		
 }
 
 $(function(){
-	$("#chaton").on("click",function(){
-		chaton();
-	});
+
 	$(".topmenu>.search").on("click",function(){
 		$('#friendslist').fadeOut();
 		$('#chatroomlist').fadeOut();
 		$('#searchlist').fadeIn();
-	});
+	});	
 	$(".topmenu>.friends").on("click",function(){
 		$('#searchlist').fadeOut();
 		$('#chatroomlist').fadeOut();
@@ -28,8 +44,8 @@ function chatSetting(myUserID){
 
 	console.log("[myUserID : "+myUserID+"] 전반적인 챗 세팅을 시작합니다.");
 	
-	var chatList; //전체 대화내역을 담는 변수
-	var lastChatID; //마지막으로온 메세지의 아이디를 담는 변수
+	var chatList; // 전체 대화내역을 담는 변수
+	var lastChatID; // 마지막으로온 메세지의 아이디를 담는 변수
 
 	console.log("1. 나의 전체 대화내역을 가져옵니다.")
 	
@@ -68,6 +84,7 @@ function chatSetting(myUserID){
 		
 		setSearchEvent(myUserID,chatList) // 서치 이벤트 등록
 		
+		
 	});
 }
 
@@ -99,7 +116,7 @@ function setSearchEvent(myUserID,chatList){
 
 function getFriends(myUserID,chatList){
 	// 목록 리로드를 위해 전체 내용을 초기화 시킨다.
-	/*$("#friends").empty();*/ // 친구목록
+	 $("#friends").empty();
 	var jsonData;
 	// 친구 목록 불러오기
 	$.ajax({
@@ -159,9 +176,14 @@ function addGoChatView(myUserID,chatList){
 			$("#chat-messages").append("<label>Messages</label>");
 			// 전에 대화내역들을 초기화 시킨다.
 			
-			for(var i=0;i<chatList.length;i++){ // 전체 대화 목록 중 선택한 사람과의 대화 연락처만 꺼내서 사용합니다.
+			for(var i=0;i<chatList.length;i++){ // 전체 대화 목록 중 선택한 사람과의 대화 연락처만
+												// 꺼내서 사용합니다.
 				if((chatList[i].toID == toChatID && chatList[i].fromID == myUserID) || (chatList[i].fromID == toChatID && chatList[i].toID == myUserID)){
-					addChat(myUserID,toChatID,chatList[i].fromID,chatList[i].chatContent,chatList[i].chatTime) // 하나하나의 말풍선들을 append 해주는 함수
+					addChat(myUserID,toChatID,chatList[i].fromID,chatList[i].chatContent,chatList[i].chatTime) // 하나하나의
+																												// 말풍선들을
+																												// append
+																												// 해주는
+																												// 함수
 				}
 			}
 			
@@ -216,7 +238,7 @@ function addGoChatView(myUserID,chatList){
 		});
 	}); 
 	
-	//단톡방에 있는거는 따로 설정
+	// 단톡방에 있는거는 따로 설정
 	
 	
 	$("#chatrooms>.friend").each(function(){
@@ -246,16 +268,20 @@ function addGoChatView(myUserID,chatList){
 			
 			var name = $(this).find("p strong").html();
 			var email = $(this).find(".user-email").val();
-			console.log(email);
 			var toChatID = $(this).find(".userCno").val();
 			
 			$("#chat-messages").empty();
 			$("#chat-messages").append("<label>Messages</label>");
 			// 전에 대화내역들을 초기화 시킨다.
 			
-			for(var i=0;i<chatList.length;i++){ // 전체 대화 목록 중 선택한 사람과의 대화 연락처만 꺼내서 사용합니다.
+			for(var i=0;i<chatList.length;i++){ // 전체 대화 목록 중 선택한 사람과의 대화 연락처만
+												// 꺼내서 사용합니다.
 				if((chatList[i].toID == toChatID && chatList[i].fromID == myUserID) || (chatList[i].fromID == toChatID && chatList[i].toID == myUserID)){
-					addChat(myUserID,toChatID,chatList[i].fromID,chatList[i].chatContent,chatList[i].chatTime) // 하나하나의 말풍선들을 append 해주는 함수
+					addChat(myUserID,toChatID,chatList[i].fromID,chatList[i].chatContent,chatList[i].chatTime) // 하나하나의
+																												// 말풍선들을
+																												// append
+																												// 해주는
+																												// 함수
 				}
 			}
 			
@@ -400,7 +426,7 @@ function sendChat(myUserID,toID,chatContent){
 }
 
 function getChat(myUserID,lastChatID,chatList){
-	    $.ajax({
+	    xhr = $.ajax({
 	        url: '/getChat',
 	        type: 'POST',
 	        data : {
@@ -418,13 +444,16 @@ function getChat(myUserID,lastChatID,chatList){
 	            	chatList.push(chat[i]);
 	            }
 	            lastChatID = chat[chat.length-1].chatID;
-	        },
-	        complete : function(){
-	        	addGoChatView(myUserID,chatList);
-	        	getChat(myUserID,lastChatID,chatList);
+	            
+	        	if(($("#chatbox").css("display") == "block") || ($("#tab-bar").css("display") == "block")){
+	        		addGoChatView(myUserID,chatList);
+		        	getChat(myUserID,lastChatID,chatList);
+	        	}
 	        },
 	        timeout: 30000,
 	    })
+	    
+
 }
 
 function addSearchUser(cno,cname,email,status,friendStatus){
@@ -466,6 +495,9 @@ function notFoundedUser(){
 }
 
 function getChatList(myUserID,chatList){
+	
+	$("#chatrooms").empty(); // 방초기화
+	
 	$.ajax({
 		type : "POST",
 		url : "getChatList",
@@ -476,16 +508,48 @@ function getChatList(myUserID,chatList){
 		success : function(result){
 			console.log("[채팅방 목록 가져오기] 성공!");
 			var parsed = JSON.parse(result);
-			console.log(parsed);
-			for(var i=0;i<parsed.length;i++){
-				addChatRoom(parsed[i].cno,parsed[i].cname,parsed[i].email)
+			
+			parsed.sort(function(a,b){ // 방순서를 최근에 메세지가 온 순서로 바꿉니다.
+				var a_lastChatID = getLastChat(a,chatList).chatID
+				var b_lastChatID = getLastChat(b,chatList).chatID;
+				
+				
+				
+				if(a_lastChatID > b_lastChatID){
+					return -1;
+				}
+				
+				if(a_lastChatID < b_lastChatID){
+					return 1;
+				}
+			});
+			
+			
+			for(var i=0;i<parsed.length;i++){ //마지막 채팅을 기준으로 방 목록에 보여지는 마지막 메세지 내용과 날짜를 찍어준다.
+				var lastChatContent = getLastChat(parsed[i],chatList).chatContent;
+				var lastChatTime = getLastChat(parsed[i],chatList).chatTime;
+				addChatRoom(parsed[i].cno,parsed[i].cname,parsed[i].email,lastChatContent,lastChatTime);
 			}
-			addGoChatView(myUserID,chatList);
+			
+			addGoChatView(myUserID,chatList); //각각 등록된 정보들의 눌렀을때의 이벤트를 등록합니다.
 		}
 	})
 }
 
-function addChatRoom(cno,cname,email){
+function addChatRoom(cno,cname,email,lastChatContent,lastChatTime){
+	
+	var dt = new Date();
+	
+	var todayDay = dt.getDate();
+	
+	var lastChatDay = lastChatTime.substring(3,5);
+	
+	if(todayDay != lastChatDay){
+		lastChatTime = lastChatTime.substring(0,5);
+	}else if(todayDay == lastChatDay){
+		lastChatTime = lastChatTime.substring(6,lastChatTime.length);
+	}
+			
 	$("#chatrooms").append("<div class='friend'>" +
 			"<img src='https://s3-us-west-2.amazonaws.com/s.cdpn.io/245657/1_copy.jpg' />" +
 			"<p>" +
@@ -493,9 +557,11 @@ function addChatRoom(cno,cname,email){
 			cname +
 			"</strong><br>" +
 			"<span>"+
-			"마지막 채팅 내용"+
+			lastChatContent+
 			"</span>" +
-			"<span class='lastchat-time'>오후 12:13</span>" +
+			"<span class='lastchat-time'>" +
+			lastChatTime+
+			"</span>" +
 			"<span class='room-newmessage'>5</span>" +
 			"</p>"+
 			"<input class='userCno' type='hidden' value='"+
@@ -508,4 +574,12 @@ function addChatRoom(cno,cname,email){
 			email +
 			"'>" +
 			"</div>");
+}
+
+function getLastChat(user,chatList){
+	for(var i=chatList.length-1;i>0;i--){
+		if((chatList[i].toID == myUserID && chatList[i].fromID == user.cno) || (chatList[i].toID == user.cno && chatList[i].fromID == myUserID)){
+			return chatList[i];
+		}
+	}
 }
