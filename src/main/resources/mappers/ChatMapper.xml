@@ -49,6 +49,14 @@
 	<update id="readAllChat" parameterType="HashMap" >
 		update chat set read = '1' where fromID = #{toChatID} AND toID = #{myUserID}
 	</update>
+	
+	<select id="getUnreadChatCount" parameterType="HashMap" resultType="int">
+		select count(*) from chat where fromID = #{toChatID} AND toID = ${myUserID} AND read = '0'
+	</select>
+	
+	<update id="readChat" parameterType="String" >
+		update chat set read = '1' where chatID = #{value}
+	</update>
 </mapper>
 
 

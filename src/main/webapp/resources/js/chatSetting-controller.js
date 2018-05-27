@@ -18,7 +18,7 @@ function chatStart(myUserID){
 	}
 		
 		
-}
+}			
 
 $(function(){
 
@@ -38,6 +38,7 @@ $(function(){
 		$('#friendslist').fadeOut();
 		$('#chatroomlist').fadeIn();
 	});
+	
 });
 
 function chatSetting(myUserID){
@@ -46,6 +47,8 @@ function chatSetting(myUserID){
 	
 	var chatList; // 전체 대화내역을 담는 변수
 	var lastChatID; // 마지막으로온 메세지의 아이디를 담는 변수
+	
+	chatingTab(myUserID); // 채팅도중 탭을 눌러 채팅을 열었을때 그사람에 대한 모든 채팅이 읽어지게 해주는 펑션
 
 	console.log("1. 나의 전체 대화내역을 가져옵니다.")
 	
@@ -78,11 +81,34 @@ function chatSetting(myUserID){
 		
 		console.log("4. 채팅방 목록을 불러옵니다.");
 		
-		getChatList(myUserID,chatList); // 채팅방 불러오기
+		getChatList(myUserID,chatList,function(parsed){
+			
+			var unreadCount = [];
+			
+			for(var i=0; i<parsed.length;i++){
+				getUnreadChatCount(myUserID,parsed[i].cno,i,parsed.length-1,unreadCount,function(unreadCount){
+					for(var j=0;j<parsed.length;j++){
+						var lastChatContent = getLastChat(parsed[j].cno,chatList).chatContent;
+						var lastChatTime = getLastChat(parsed[j].cno,chatList).chatTime;
+						var count;
+						for(var q = 0; q<unreadCount.length;q++){ // 여러 unreadCount 에 담긴 해당 채팅방에 맞는 유저들의 안읽는 메세지 카운트 구하기
+							if(unreadCount[q].toChatID == parsed[j].cno){
+								count = unreadCount[q].unreadCount;
+							}
+						}
+						addChatRoom(parsed[j].cno,parsed[j].cname,parsed[j].email,lastChatContent,lastChatTime,count,parsed[j].status);
+					}
+					addGoChatView(myUserID,chatList);
+				});
+			}
+			
+
+			
+		}); // 채팅방 불러오기
 		
 		getChat(myUserID,lastChatID,chatList); // 실시간 채팅 불러오기
 		
-		setSearchEvent(myUserID,chatList) // 서치 이벤트 등록
+		setSearchEvent(myUserID,chatList); // 서치 이벤트 등록
 		
 		
 	});
@@ -227,7 +253,8 @@ function addGoChatView(myUserID,chatList){
 				
 				setTimeout(function(){
 					
-						$('#chatview').fadeOut();	
+						$('#chatview').fadeOut();
+						barDefaultSet();
 
 							
 				}, 50);
@@ -235,6 +262,9 @@ function addGoChatView(myUserID,chatList){
 			
 			$("#chat-messages").scrollTop($('#chat-messages')[0].scrollHeight);
 			
+			readAllChat(myUserID,toChatID);
+			
+			barSet(name,$(this).find(".status").hasClass("available"),$(this).find(".userCno").val());
 		});
 	}); 
 	
@@ -322,28 +352,16 @@ function addGoChatView(myUserID,chatList){
 				setTimeout(function(){
 					
 						$('#chatview').fadeOut();	
-
+						barDefaultSet();
 							
 				}, 50);
 			});
 			
 			$("#chat-messages").scrollTop($('#chat-messages')[0].scrollHeight);	
 			
-			// 채팅방에 들어가서 등록되어있는 채팅들의 읽음 처리
-			$.ajax({
-				url : "readAllChat",
-				type : "post",	
-				data : {
-					myUserID : myUserID,
-					toChatID : toChatID
-				},
-				success : function(result){
-					alert(result);
-					if(result == "1"){
-						alert("성공");
-					}
-				}
-			})
+			readAllChat(myUserID,toChatID)// 채팅방에 들어가서 등록되어있는 채팅들의 읽음 처리
+			
+			barSet(name,$(this).find(".online-status").val(),$(this).find(".userCno").val());
 		});
 	});
 }
@@ -452,15 +470,19 @@ function getChat(myUserID,lastChatID,chatList){
 	        	}
 	            var chat = JSON.parse(result);
 	            for(var i=0; i<chat.length;i++){
+	            	var display = $("#tab-bar .userCno").val();
+	            	if(chat[i].fromID != myUserID && display == chat[i].fromID && $("#chatbox").css("display") == "block"){
+	            		readChat(chat[i].chatID);
+	            	}
 	            	addChat(myUserID,toChatID,chat[i].fromID,chat[i].chatContent,chat[i].chatTime);
 	            	chatList.push(chat[i]);
 	            }
 	            lastChatID = chat[chat.length-1].chatID;
 	            
-	        	if(($("#chatbox").css("display") == "block") || ($("#tab-bar").css("display") == "block")){
-	        		addGoChatView(myUserID,chatList);
-		        	getChat(myUserID,lastChatID,chatList);
-	        	}
+	            
+	        	addGoChatView(myUserID,chatList);
+		        getChat(myUserID,lastChatID,chatList);
+	   
 	        },
 	        timeout: 30000,
 	    })
@@ -506,7 +528,7 @@ function notFoundedUser(){
 	$("#searchs").append($("<div class='notfound'>검색된 유저가 없습니다.</div>)").hide().fadeIn(180));
 }
 
-function getChatList(myUserID,chatList){
+function getChatList(myUserID,chatList,callback){
 	
 	$("#chatrooms").empty(); // 방초기화
 	
@@ -522,8 +544,8 @@ function getChatList(myUserID,chatList){
 			var parsed = JSON.parse(result);
 			
 			parsed.sort(function(a,b){ // 방순서를 최근에 메세지가 온 순서로 바꿉니다.
-				var a_lastChatID = getLastChat(a,chatList).chatID
-				var b_lastChatID = getLastChat(b,chatList).chatID;
+				var a_lastChatID = getLastChat(a.cno,chatList).chatID
+				var b_lastChatID = getLastChat(b.cno,chatList).chatID;
 				
 				
 				
@@ -536,19 +558,12 @@ function getChatList(myUserID,chatList){
 				}
 			});
 			
-			
-			for(var i=0;i<parsed.length;i++){ //마지막 채팅을 기준으로 방 목록에 보여지는 마지막 메세지 내용과 날짜를 찍어준다.
-				var lastChatContent = getLastChat(parsed[i],chatList).chatContent;
-				var lastChatTime = getLastChat(parsed[i],chatList).chatTime;
-				addChatRoom(parsed[i].cno,parsed[i].cname,parsed[i].email,lastChatContent,lastChatTime);
-			}
-			
-			addGoChatView(myUserID,chatList); //각각 등록된 정보들의 눌렀을때의 이벤트를 등록합니다.
+			callback(parsed);
 		}
 	})
 }
 
-function addChatRoom(cno,cname,email,lastChatContent,lastChatTime){
+function addChatRoom(cno,cname,email,lastChatContent,lastChatTime,count,status){
 	
 	var dt = new Date();
 	
@@ -561,7 +576,16 @@ function addChatRoom(cno,cname,email,lastChatContent,lastChatTime){
 	}else if(todayDay == lastChatDay){
 		lastChatTime = lastChatTime.substring(6,lastChatTime.length);
 	}
-			
+	var newMessageClass = "<span class='room-newmessage'>"+count+"</span>";
+	if(count == 0 || count == "0" || count == undefined){
+		newMessageClass = "";
+	}
+	
+	if(count > 99){
+		count = "N";
+		newMessageClass = "<span class='room-newmessage'>"+count+"</span>";
+	}
+	
 	$("#chatrooms").append("<div class='friend'>" +
 			"<img src='https://s3-us-west-2.amazonaws.com/s.cdpn.io/245657/1_copy.jpg' />" +
 			"<p>" +
@@ -574,7 +598,7 @@ function addChatRoom(cno,cname,email,lastChatContent,lastChatTime){
 			"<span class='lastchat-time'>" +
 			lastChatTime+
 			"</span>" +
-			"<span class='room-newmessage'>5</span>" +
+			newMessageClass +
 			"</p>"+
 			"<input class='userCno' type='hidden' value='"+
 			cno+
@@ -585,13 +609,100 @@ function addChatRoom(cno,cname,email,lastChatContent,lastChatTime){
 			"<input class='user-email' type='hidden' value='" +
 			email +
 			"'>" +
+			"<input class='online-status' type='hidden' value='" +
+			status +
+			"'>" +
 			"</div>");
 }
 
-function getLastChat(user,chatList){
-	for(var i=chatList.length-1;i>0;i--){
-		if((chatList[i].toID == myUserID && chatList[i].fromID == user.cno) || (chatList[i].toID == user.cno && chatList[i].fromID == myUserID)){
+function getLastChat(userCno,chatList){
+	
+	for(var i=chatList.length-1;i>=0;i--){
+		if((chatList[i].toID == myUserID && chatList[i].fromID == userCno) || (chatList[i].toID == userCno && chatList[i].fromID == myUserID)){
 			return chatList[i];
 		}
 	}
+}
+
+function readAllChat(myUserID,toChatID){
+	$.ajax({
+		url : "readAllChat",
+		type : "post",	
+		data : {
+			myUserID : myUserID,
+			toChatID : toChatID
+		},
+		success : function(result){
+
+		}
+	});
+}
+
+function getUnreadChatCount(myUserID,toChatID,i,length,unreadCount,callback){
+	$.ajax({
+		url : 'getUnreadChatCount',
+		type : "POST",
+		data : {
+			myUserID : myUserID,
+			toChatID : toChatID
+		},
+		
+		success : function(result){
+			unreadCount.push({"toChatID" : toChatID, "unreadCount" : result});
+			if(i==length){
+				callback(unreadCount);
+			}
+		}
+	});
+}
+
+function barSet(name,onlineStatus,userCno){
+	var onlineClass;
+	if(onlineStatus == "1" || onlineStatus == true){
+		onlineClass = "available";
+	}else {
+		onlineClass = "inactive";
+	}
+	
+	$("#bottom-bar").empty();
+	$("#bottom-bar").append("<div class='status " +
+			onlineClass +
+			" tab-status'></div>" +
+			"<span class='bar-name'><strong style='margin-left : 8px;'>" +
+			name +
+			"</strong></span>" +
+			"<input  type='hidden' class='userCno' value='" +		
+			userCno +
+			"'/>" +
+			"<i class='fa fa-bars' id='tab-button' aria-hidden='true'></i>");
+	
+}
+
+function barDefaultSet(){
+	$("#bottom-bar").empty();
+	$("#bottom-bar").append("<i class='fa fa-comments' aria-hidden='true'></i>" +
+			"<span class='bar-name' style='margin-left : 5px;'><strong>채팅</strong></span>" +
+			"<i class='fa fa-bars' id='tab-button' aria-hidden='true'></i>");
+	
+}
+
+function readChat(chatID){
+	$.ajax({
+		type : "POST",
+		url : "readChat",
+		data : {
+			chatID : chatID
+		},
+		success : function(result){}
+	});
+}
+
+function chatingTab(myUserID){
+	$("#tab-bar").on("click",function(){
+		var toChatID = $("#tab-bar .userCno").val();
+		if(toChatID != undefined && toChatID != null){
+			readAllChat(myUserID,toChatID);
+			$("#chat-messages").scrollTop($('#chat-messages')[0].scrollHeight);
+		}
+	});
 }

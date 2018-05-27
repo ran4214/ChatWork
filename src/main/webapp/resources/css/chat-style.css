@@ -26,6 +26,7 @@ body {
 	width: 28px;
 }
 
+
 .room-newmessage {
 	color:white !important;
 	background: #ff4d4d;
@@ -691,3 +692,11 @@ div.message.right .corner {
 	font-size : 11px !important;
 }
 
+.tab-status {
+	position : static;
+	display : inline-block;
+}
+
+.bar .status.inactive {
+	background : #bbb;
+}

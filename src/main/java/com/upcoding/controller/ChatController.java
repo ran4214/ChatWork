@@ -5,6 +5,7 @@ import java.util.List;
 
 import javax.inject.Inject;
 import javax.servlet.http.HttpServletResponse;
+import org.apache.log4j.net.SyslogAppender;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -190,12 +191,34 @@ public class ChatController {
 	}
 	
 	@RequestMapping(value = "/readAllChat", method = RequestMethod.POST)
-	public void getChatListPOST(String myUserID,String toChatID,HttpServletResponse response) throws Exception {
+	public void readAllChat(String myUserID,String toChatID,HttpServletResponse response) throws Exception {
 		response.setContentType("text/html;charset=UTF-8");
 		
 		System.out.println("[Chat-controller] readAllChat");
 		
 		int re = service.readAllChatService(myUserID, toChatID);
+		
+		response.getWriter().write(re+"");
+	}
+	
+	@RequestMapping(value = "/getUnreadChatCount", method = RequestMethod.POST)
+	public void getUnreadChatCountPOST(String myUserID,String toChatID,HttpServletResponse response) throws Exception {
+		response.setContentType("text/html;charset=UTF-8");
+		
+		System.out.println("[Chat-controller] getUnreadChatCount");
+		
+		int re = service.getUnreadChatCount(myUserID, toChatID);
+		
+		response.getWriter().write(re+"");
+	}
+	
+	@RequestMapping(value = "/readChat", method = RequestMethod.POST)
+	public void readChatPOST(String chatID,HttpServletResponse response) throws Exception {
+		response.setContentType("text/html;charset=UTF-8");
+		
+		System.out.println("[Chat-controller] readChat");
+		
+		int re = service.readChatService(chatID);
 		
 		response.getWriter().write(re+"");
 	}

@@ -118,4 +118,17 @@ public class ChatDAOImp implements ChatDAO {
 		return sqlsession.update(namespace+".readAllChat",map);
 	}
 
+	@Override
+	public int getUnreadChatCount(String myUserID, String toChatID) {
+		HashMap<String, String> map = new HashMap<String,String>();
+		map.put("myUserID", myUserID);
+		map.put("toChatID", toChatID);
+		return sqlsession.selectOne(namespace+".getUnreadChatCount",map);
+	}
+
+	@Override
+	public int readChat(String chatID) {
+		return sqlsession.update(namespace+".readChat",chatID);
+	}
+
 }

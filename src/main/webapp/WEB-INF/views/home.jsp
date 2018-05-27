@@ -62,10 +62,10 @@ var myUserID = '<%=myUserID%>';
 			</div> -->
 
 
-			<div class="bar">
-				<i class="fa fa-comments" aria-hidden="true"></i> <span
-					class="bar-name"><strong>채팅</strong></span> <i class="fa fa-bars"
-					id="tab-button" aria-hidden="true"></i>
+			<div class="bar" id="bottom-bar">
+				<i class="fa fa-comments" aria-hidden="true"></i>
+				<span class="bar-name"><strong>채팅</strong></span>
+				<i class="fa fa-bars" id="tab-button" aria-hidden="true"></i>
 			</div>
 
 

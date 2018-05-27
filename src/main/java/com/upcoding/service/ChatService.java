@@ -57,4 +57,12 @@ public class ChatService {
 	public int readAllChatService(String myUserID,String toChatID) {
 		return dao.readAllChat(myUserID, toChatID);
 	}
+	
+	public int getUnreadChatCount(String myUserID,String toChatID) {
+		return dao.getUnreadChatCount(myUserID, toChatID);
+	}
+	
+	public int readChatService(String chatID) {
+		return dao.readChat(chatID);
+	}
 }
