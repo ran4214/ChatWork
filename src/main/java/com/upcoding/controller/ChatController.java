@@ -1,5 +1,6 @@
 package com.upcoding.controller;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
@@ -9,6 +10,7 @@ import org.apache.log4j.net.SyslogAppender;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import com.google.gson.Gson;
 import com.upcoding.model.ChatVO;
@@ -202,14 +204,28 @@ public class ChatController {
 	}
 	
 	@RequestMapping(value = "/getUnreadChatCount", method = RequestMethod.POST)
-	public void getUnreadChatCountPOST(String myUserID,String toChatID,HttpServletResponse response) throws Exception {
+	public void getUnreadChatCountPOST(String myUserID,@RequestParam(value="friends[]") Integer[] friends,HttpServletResponse response) throws Exception {
 		response.setContentType("text/html;charset=UTF-8");
 		
 		System.out.println("[Chat-controller] getUnreadChatCount");
 		
-		int re = service.getUnreadChatCount(myUserID, toChatID);
+		ArrayList<HashMap<String, String>> arr = new ArrayList<HashMap<String,String>>();
 		
-		response.getWriter().write(re+"");
+		
+		for(int i=0; i<friends.length;i++) {
+			HashMap<String, String> hs = null;
+			hs = new HashMap<String, String>();
+			int re = service.getUnreadChatCount(myUserID, friends[i]+"");
+			hs.put("toChatID", friends[i]+"");
+			hs.put("unreadCount", re+"");
+			arr.add(hs);
+		}
+		
+		Gson gson = new Gson();
+		
+		String result = gson.toJson(arr);
+		
+		response.getWriter().write(result);
 	}
 	
 	@RequestMapping(value = "/readChat", method = RequestMethod.POST)

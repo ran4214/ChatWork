@@ -20,27 +20,82 @@ function chatStart(myUserID){
 		
 }			
 
-$(function(){
-
-	$(".topmenu>.search").on("click",function(){
+function tabEvent(myUserID,chatList){
+	
+	$(".topmenu>.search").on("click",function(){ // 서치탭 클릭
 		$('#friendslist').fadeOut();
 		$('#chatroomlist').fadeOut();
 		$('#searchlist').fadeIn();
+		
 	});	
-	$(".topmenu>.friends").on("click",function(){
+	$(".topmenu>.friends").on("click",function(){ // 친구탭 클릭
+		getFriends(myUserID,chatList);
 		$('#searchlist').fadeOut();
 		$('#chatroomlist').fadeOut();
 		$('#friendslist').fadeIn();
+		
 	});
 	
 	$(".topmenu>.chats").on("click",function(){
+		
+	getChatList(myUserID,chatList,function(parsed){
+			if(parsed.length == 0){
+				return;
+			}
+			var unreadCount = [];
+			
+			var friendIDs = [];
+			for(var i =0; i<parsed.length;i++){
+				friendIDs.push(parsed[i].cno);
+			}
+			
+			getUnreadChatCount(myUserID,friendIDs).then(function(unreadCount){
+				for(var i=0;i<parsed.length;i++){
+					var lastChatContent = getLastChat(parsed[i].cno,chatList).chatContent;
+					var lastChatTime = getLastChat(parsed[i].cno,chatList).chatTime;
+					var count = 0;
+					for(var j = 0; j<unreadCount.length;j++){ // 여러 unreadCount 에 담긴 해당 채팅방에 맞는 유저들의 안읽는 메세지 카운트 구하기
+						if(unreadCount[j].toChatID == parsed[i].cno){
+							count = unreadCount[j].unreadCount;
+						}
+					}
+					addChatRoom(parsed[i].cno,parsed[i].cname,parsed[i].email,lastChatContent,lastChatTime,count,parsed[i].status);
+					
+				}
+				addGoChatView(myUserID,chatList);
+			}).catch(function (err){
+				console.log(err);
+			});
+			
+
+			
+		}); // 채팅방 불러오기
 		$('#searchlist').fadeOut();
 		$('#friendslist').fadeOut();
 		$('#chatroomlist').fadeIn();
 	});
 	
-});
-
+/*	$(".topmenu>.chats").on("click",function(){
+		$('#searchlist').fadeOut();
+		$('#friendslist').fadeOut();
+		$('#chatroomlist').fadeIn();
+	});*/
+	
+	$("#search>input").on("keyup",function(){
+		var friends = $("#friendslist>#friends>.friend");
+		var text = $("#search>input").val();
+		for(var i=0;i<friends.length;i++){
+			if(($(friends[i]).find("p").find("strong").text().indexOf(text)) >= 0){
+				$(friends[i]).css("display","block");
+			}else{
+				$(friends[i]).css("display","none");
+			}
+		}
+		
+	});
+	
+}
+	
 function chatSetting(myUserID){
 
 	console.log("[myUserID : "+myUserID+"] 전반적인 챗 세팅을 시작합니다.");
@@ -82,25 +137,34 @@ function chatSetting(myUserID){
 		console.log("4. 채팅방 목록을 불러옵니다.");
 		
 		getChatList(myUserID,chatList,function(parsed){
+			if(parsed.length == 0){
+				return;
+			}
 			
 			var unreadCount = [];
 			
-			for(var i=0; i<parsed.length;i++){
-				getUnreadChatCount(myUserID,parsed[i].cno,i,parsed.length-1,unreadCount,function(unreadCount){
-					for(var j=0;j<parsed.length;j++){
-						var lastChatContent = getLastChat(parsed[j].cno,chatList).chatContent;
-						var lastChatTime = getLastChat(parsed[j].cno,chatList).chatTime;
-						var count;
-						for(var q = 0; q<unreadCount.length;q++){ // 여러 unreadCount 에 담긴 해당 채팅방에 맞는 유저들의 안읽는 메세지 카운트 구하기
-							if(unreadCount[q].toChatID == parsed[j].cno){
-								count = unreadCount[q].unreadCount;
-							}
-						}
-						addChatRoom(parsed[j].cno,parsed[j].cname,parsed[j].email,lastChatContent,lastChatTime,count,parsed[j].status);
-					}
-					addGoChatView(myUserID,chatList);
-				});
+			var friendIDs = [];
+			for(var i =0; i<parsed.length;i++){
+				friendIDs.push(parsed[i].cno);
 			}
+			
+			getUnreadChatCount(myUserID,friendIDs).then(function(unreadCount){
+				for(var i=0;i<parsed.length;i++){
+					var lastChatContent = getLastChat(parsed[i].cno,chatList).chatContent;
+					var lastChatTime = getLastChat(parsed[i].cno,chatList).chatTime;
+					var count = 0;
+					for(var j = 0; j<unreadCount.length;j++){ // 여러 unreadCount 에 담긴 해당 채팅방에 맞는 유저들의 안읽는 메세지 카운트 구하기
+						if(unreadCount[j].toChatID == parsed[i].cno){
+							count = unreadCount[j].unreadCount;
+						}
+					}
+					addChatRoom(parsed[i].cno,parsed[i].cname,parsed[i].email,lastChatContent,lastChatTime,count,parsed[i].status);
+					
+				}
+				addGoChatView(myUserID,chatList);
+			}).catch(function (err){
+				console.log(err);
+			});
 			
 
 			
@@ -110,7 +174,7 @@ function chatSetting(myUserID){
 		
 		setSearchEvent(myUserID,chatList); // 서치 이벤트 등록
 		
-		
+		tabEvent(myUserID,chatList);
 	});
 }
 
@@ -217,7 +281,13 @@ function addGoChatView(myUserID,chatList){
 			$("#profile p").html(name);
 			$("#profile span").html(email);
 			$("#toChatID").val(toChatID);
-			var friendStatus =$(this).find(".friend-status").val();
+			var friends = $("#friendslist #friends strong");
+			var friendStatus = 0;
+			for(var i=0;i<friends.length;i++){
+				if($(friends[i]).text() == name){
+					friendStatus = '1';
+				}
+			}
 			if(friendStatus == '1'){
 				$("#profile>#star>.fa").removeClass("fa-star-o");
 				$("#profile>#star>.fa").addClass("fa-star");
@@ -252,7 +322,7 @@ function addGoChatView(myUserID,chatList){
 				}, 200, function(){$('.floatingImg').remove()});				
 				
 				setTimeout(function(){
-					
+						getFriends(myUserID,chatList);
 						$('#chatview').fadeOut();
 						barDefaultSet();
 
@@ -315,7 +385,14 @@ function addGoChatView(myUserID,chatList){
 			$("#profile p").html(name);
 			$("#profile span").html(email);
 			$("#toChatID").val(toChatID);
-			var friendStatus =$(this).find(".friend-status").val();
+			var friends = $("#friendslist #friends strong");
+			var friendStatus = 0;
+			for(var i=0;i<friends.length;i++){
+				if($(friends[i]).text() == name){
+					friendStatus = '1';
+				}
+			}
+			
 			if(friendStatus == '1'){
 				$("#profile>#star>.fa").removeClass("fa-star-o");
 				$("#profile>#star>.fa").addClass("fa-star");
@@ -351,8 +428,44 @@ function addGoChatView(myUserID,chatList){
 				
 				setTimeout(function(){
 					
+						getChatList(myUserID,chatList,function(parsed){
+							if(parsed.length == 0){
+								return;
+							}
+							
+							var unreadCount = [];
+							
+							var friendIDs = [];
+							for(var i =0; i<parsed.length;i++){
+								friendIDs.push(parsed[i].cno);
+							}
+							
+							getUnreadChatCount(myUserID,friendIDs).then(function(unreadCount){
+								for(var i=0;i<parsed.length;i++){
+									var lastChatContent = getLastChat(parsed[i].cno,chatList).chatContent;
+									var lastChatTime = getLastChat(parsed[i].cno,chatList).chatTime;
+									var count = 0;
+									for(var j = 0; j<unreadCount.length;j++){ // 여러 unreadCount 에 담긴 해당 채팅방에 맞는 유저들의 안읽는 메세지 카운트 구하기
+										if(unreadCount[j].toChatID == parsed[i].cno){
+											count = unreadCount[j].unreadCount;
+										}
+									}
+									addChatRoom(parsed[i].cno,parsed[i].cname,parsed[i].email,lastChatContent,lastChatTime,count,parsed[i].status);
+									
+								}
+								addGoChatView(myUserID,chatList);
+							}).catch(function (err){
+								console.log(err);
+							});
+							
+	
+							
+						}); // 채팅방 불러오기
+					
 						$('#chatview').fadeOut();	
 						barDefaultSet();
+						
+						
 							
 				}, 50);
 			});
@@ -479,10 +592,47 @@ function getChat(myUserID,lastChatID,chatList){
 	            }
 	            lastChatID = chat[chat.length-1].chatID;
 	            
-	            
-	        	addGoChatView(myUserID,chatList);
-		        getChat(myUserID,lastChatID,chatList);
+	            getChatList(myUserID,chatList,function(parsed){
+	    			
+	    			var unreadCount = [];
+	    			
+	    			var friendIDs = [];
+	    			for(var i =0; i<parsed.length;i++){
+	    				friendIDs.push(parsed[i].cno);
+	    			}
+	    			
+	    			getUnreadChatCount(myUserID,friendIDs).then(function(unreadCount){
+	    				for(var i=0;i<parsed.length;i++){
+	    					var lastChatContent = getLastChat(parsed[i].cno,chatList).chatContent;
+	    					var lastChatTime = getLastChat(parsed[i].cno,chatList).chatTime;
+	    					var count = 0;
+	    					for(var j = 0; j<unreadCount.length;j++){ // 여러 unreadCount 에 담긴 해당 채팅방에 맞는 유저들의 안읽는 메세지 카운트 구하기
+	    						if(unreadCount[j].toChatID == parsed[i].cno){
+	    							count = unreadCount[j].unreadCount;
+	    						}
+	    					}
+	    					addChatRoom(parsed[i].cno,parsed[i].cname,parsed[i].email,lastChatContent,lastChatTime,count,parsed[i].status);
+	    					
+	    				}
+	    				addGoChatView(myUserID,chatList);
+	    			}).catch(function (err){
+	    				console.log(err);
+	    			});
+	    			
+
+	    			
+	    		}); // 채팅방 불러오기
+	        	
+	        	getChat(myUserID,lastChatID,chatList);
 	   
+	        },
+	        error : function(request,status,error){
+	        	 if(error == "timeout"){ //타임아웃 종료로 다시실행
+	        		 console.log("타임아웃");
+	        		 getChat(myUserID,lastChatID,chatList);
+	        	 }else{ // 그 이외 채팅 기능 종료
+	        		 console.log("채팅기능 끄기");
+	        	 }
 	        },
 	        timeout: 30000,
 	    })
@@ -531,7 +681,7 @@ function notFoundedUser(){
 function getChatList(myUserID,chatList,callback){
 	
 	$("#chatrooms").empty(); // 방초기화
-	
+	$("#chatrooms").empty();
 	$.ajax({
 		type : "POST",
 		url : "getChatList",
@@ -638,8 +788,25 @@ function readAllChat(myUserID,toChatID){
 	});
 }
 
-function getUnreadChatCount(myUserID,toChatID,i,length,unreadCount,callback){
-	$.ajax({
+function getUnreadChatCount(myUserID,friends){
+	return new Promise(function (resolve, rejecet){
+			$.ajax({
+				url : 'getUnreadChatCount',
+				type : "POST",
+				data : {
+					myUserID : myUserID,
+					friends : friends
+				},
+				
+				success : function(result){
+					var parsed = JSON.parse(result);
+					resolve(parsed);
+				}
+			});
+		
+	});
+		
+/*	$.ajax({
 		url : 'getUnreadChatCount',
 		type : "POST",
 		data : {
@@ -653,7 +820,7 @@ function getUnreadChatCount(myUserID,toChatID,i,length,unreadCount,callback){
 				callback(unreadCount);
 			}
 		}
-	});
+	});*/
 }
 
 function barSet(name,onlineStatus,userCno){
