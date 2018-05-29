@@ -1,4 +1,5 @@
 var xhr;
+
 function chatStart(myUserID){
 	if(($("#chatbox").css("display") == "block") || ($("#tab-bar").css("display") == "block")){
 		console.log("채팅 서비스를 중단합니다.");
@@ -88,11 +89,6 @@ function tabEvent(myUserID,chatList){
 		
 	});
 	
-	$("#profile .bar").off("click").on("click",function(){
-		$("#new-message").text(0);
-		$("#new-message").fadeOut(50);
-	});
-	
 }
 	
 function chatSetting(myUserID){
@@ -111,7 +107,6 @@ function chatSetting(myUserID){
 		var parsed = JSON.parse(result);
 		
 		chatList = parsed;
-		console.log(chatList);
 		
 		if(chatList.length == 0){
 			
@@ -212,7 +207,6 @@ function setSearchEvent(myUserID,chatList){
 }
 
 function getFriends(myUserID,chatList){
-	console.log(chatList);
 	// 목록 리로드를 위해 전체 내용을 초기화 시킨다.
 	 $("#friends").empty();
 	var jsonData;
@@ -926,16 +920,52 @@ function chatingTab(myUserID){
 			$("#chat-messages").scrollTop($('#chat-messages')[0].scrollHeight);
 		}
 		
-		$("#new-message").fadeToggle(300,"swing");
-		
+		$("#new-message").fadeOut();
+
 		
 	});
 	
-	$(".bar").off("click").click(function(){
+	$("#tab-bar .bar").off("click").click(function(){
 		$("#chatbox").slideToggle(300,'swing');
-		$("#new-message").fadeToggle(300,"swing");
+		
+		var toChatID = $("#tab-bar .userCno").val();
+		if(toChatID != undefined && toChatID != null){
+			readAllChat(myUserID,toChatID);
+			$("#chat-messages").scrollTop($('#chat-messages')[0].scrollHeight);
+		}
+		
+		$("#new-message").fadeOut();
 		
 		return false;
+	});
+	
+	$("#chatbox .bar").off("click").click(function(){
+		$("#chatbox").slideToggle(300,'swing');
+		
+		if($("#new-message").text() != "0"){
+			$("#new-message").fadeIn();
+		}
+		
+	});
+	
+	$("#chatbox .bar").off("click").click(function(){
+		$("#chatbox").slideToggle(300,'swing');
+		
+		if($("#new-message").text() != "0"){
+			$("#new-message").fadeIn();
+		}
+		
+	});
+	
+	$("#chatview .bar").off("click").click(function(){
+		$("#chatbox").slideToggle(300,'swing');
+		
+		$("#new-message").text("0");
+		
+		if($("#new-message").text() != "0"){
+			$("#new-message").fadeIn();
+		}
+		
 	});
 	
 }
