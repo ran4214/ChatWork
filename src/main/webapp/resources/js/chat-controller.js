@@ -8,13 +8,17 @@ $(document).ready(function(){
 	var down = false;
 	$(".bar").click(function(){
 		$("#chatbox").slideToggle(300,'swing');
-		/*$("#new-message").fadeToggle(300,"swing");*/
+		if($("#new-message").text() != 0){
+			$("#new-message").fadeOut(300,"swing");
+		}else{
+			
+		}
+		
 		return false;
 		
 	});
 	$("#tab-bar").click(function(){
 		$("#chatbox").slideToggle(300,'swing');
-		/*$("#new-message").fadeToggle(300,"swing");*/
 		return false;
 	});
 	/*커스텀 끝*/

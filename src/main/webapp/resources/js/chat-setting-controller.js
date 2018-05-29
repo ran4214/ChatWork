@@ -75,12 +75,6 @@ function tabEvent(myUserID,chatList){
 		$('#chatroomlist').fadeIn();
 	});
 	
-/*	$(".topmenu>.chats").on("click",function(){
-		$('#searchlist').fadeOut();
-		$('#friendslist').fadeOut();
-		$('#chatroomlist').fadeIn();
-	});*/
-	
 	$("#search>input").on("keyup",function(){
 		var friends = $("#friendslist>#friends>.friend");
 		var text = $("#search>input").val();
@@ -94,14 +88,19 @@ function tabEvent(myUserID,chatList){
 		
 	});
 	
+	$("#profile .bar").on("click",function(){
+		$("#new-message").text(0);
+		$("#new-message").fadeOut(50);
+	});
+	
 }
 	
 function chatSetting(myUserID){
 
 	console.log("[myUserID : "+myUserID+"] 전반적인 챗 세팅을 시작합니다.");
 	
-	var chatList; // 전체 대화내역을 담는 변수
-	var lastChatID; // 마지막으로온 메세지의 아이디를 담는 변수
+	var chatList = []; // 전체 대화내역을 담는 변수
+	var lastChatID = 0; // 마지막으로온 메세지의 아이디를 담는 변수
 	
 	chatingTab(myUserID); // 채팅도중 탭을 눌러 채팅을 열었을때 그사람에 대한 모든 채팅이 읽어지게 해주는 펑션
 
@@ -112,6 +111,7 @@ function chatSetting(myUserID){
 		var parsed = JSON.parse(result);
 		
 		chatList = parsed;
+		console.log(chatList);
 		
 		if(chatList.length == 0){
 			
@@ -140,7 +140,6 @@ function chatSetting(myUserID){
 			if(parsed.length == 0){
 				return;
 			}
-			
 			var unreadCount = [];
 			
 			var friendIDs = [];
@@ -159,8 +158,16 @@ function chatSetting(myUserID){
 						}
 					}
 					addChatRoom(parsed[i].cno,parsed[i].cname,parsed[i].email,lastChatContent,lastChatTime,count,parsed[i].status);
-					
 				}
+				var countSum = 0;
+				for(var i=0;i<unreadCount.length;i++){
+					countSum += parseInt(unreadCount[i].unreadCount);
+				}
+				if(countSum > 0){
+					$("#new-message").text(countSum);
+					$("#new-message").fadeToggle(100,"swing");
+				}
+				
 				addGoChatView(myUserID,chatList);
 			}).catch(function (err){
 				console.log(err);
@@ -205,6 +212,7 @@ function setSearchEvent(myUserID,chatList){
 }
 
 function getFriends(myUserID,chatList){
+	console.log(chatList);
 	// 목록 리로드를 위해 전체 내용을 초기화 시킨다.
 	 $("#friends").empty();
 	var jsonData;
@@ -335,6 +343,7 @@ function addGoChatView(myUserID,chatList){
 			readAllChat(myUserID,toChatID);
 			
 			barSet(name,$(this).find(".status").hasClass("available"),$(this).find(".userCno").val());
+			$("#new-message").text("0");
 		});
 	}); 
 	
@@ -453,6 +462,16 @@ function addGoChatView(myUserID,chatList){
 									addChatRoom(parsed[i].cno,parsed[i].cname,parsed[i].email,lastChatContent,lastChatTime,count,parsed[i].status);
 									
 								}
+								var countSum = 0;
+								for(var i=0;i<unreadCount.length;i++){
+									countSum += parseInt(unreadCount[i].unreadCount);
+								}
+								if(countSum == 0){
+									$("#new-message").css("display","none");
+								}else {
+									$("#new-message").text(countSum);
+								}	
+								$("#new-message").text(countSum);
 								addGoChatView(myUserID,chatList);
 							}).catch(function (err){
 								console.log(err);
@@ -475,6 +494,7 @@ function addGoChatView(myUserID,chatList){
 			readAllChat(myUserID,toChatID)// 채팅방에 들어가서 등록되어있는 채팅들의 읽음 처리
 			
 			barSet(name,$(this).find(".online-status").val(),$(this).find(".userCno").val());
+			$("#new-message").text("0");
 		});
 	});
 }
@@ -602,7 +622,12 @@ function getChat(myUserID,lastChatID,chatList){
 	    			}
 	    			
 	    			getUnreadChatCount(myUserID,friendIDs).then(function(unreadCount){
-	    				for(var i=0;i<parsed.length;i++){
+	    				var chatting = -1;
+	    				for(let i=0;i<parsed.length;i++){
+	    					if($(".bar-name>strong").text() == parsed[i].cname){
+	    						chatting = i;
+	    					}
+	    					
 	    					var lastChatContent = getLastChat(parsed[i].cno,chatList).chatContent;
 	    					var lastChatTime = getLastChat(parsed[i].cno,chatList).chatTime;
 	    					var count = 0;
@@ -614,6 +639,32 @@ function getChat(myUserID,lastChatID,chatList){
 	    					addChatRoom(parsed[i].cno,parsed[i].cname,parsed[i].email,lastChatContent,lastChatTime,count,parsed[i].status);
 	    					
 	    				}
+	    				var countSum = 0;
+	    				if(chatting >= 0){ // 친구창의 탭상태면
+	    					for(let i=0;i<unreadCount.length;i++){
+	    						if(unreadCount[i].toChatID == parsed[chatting].cno){
+	    							countSum = unreadCount[i].unreadCount;
+	    						}
+	    					}
+	    					
+	    					
+	    				}else{ //그렇지 않고 기본 탭상태라면
+	    					for(var i=0;i<unreadCount.length;i++){
+	    						countSum += parseInt(unreadCount[i].unreadCount);
+	    					}
+	    					
+	    				}
+	    				
+	    				if(countSum > 0){
+	    					$("#new-message").text(countSum);
+	    					if($("#chatbox").css("display") != "block"){
+	    						$("#new-message").fadeIn();
+	    					}
+	    					
+    					}
+    					$("#new-message").text(countSum);
+	    					
+    					
 	    				addGoChatView(myUserID,chatList);
 	    			}).catch(function (err){
 	    				console.log(err);
@@ -871,5 +922,12 @@ function chatingTab(myUserID){
 			readAllChat(myUserID,toChatID);
 			$("#chat-messages").scrollTop($('#chat-messages')[0].scrollHeight);
 		}
+		
+		$("#new-message").fadeOut(100);
 	});
+	
+}
+
+function barMessageCountSet(){
+	
 }
