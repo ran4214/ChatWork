@@ -20,8 +20,6 @@
 
 
 <!-- my js -->
-<script src="/js/chat-controller.js"></script>
-<!-- <script src="/js/logout-controller.js"></script> -->
 <script src="./js/chat-setting-controller.js"></script>
 <script type="text/javascript">
 <!-- 기본 정보 담는곳 -->

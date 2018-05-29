@@ -22,13 +22,13 @@ function chatStart(myUserID){
 
 function tabEvent(myUserID,chatList){
 	
-	$(".topmenu>.search").on("click",function(){ // 서치탭 클릭
+	$(".topmenu>.search").off("click").on("click",function(){ // 서치탭 클릭
 		$('#friendslist').fadeOut();
 		$('#chatroomlist').fadeOut();
 		$('#searchlist').fadeIn();
 		
 	});	
-	$(".topmenu>.friends").on("click",function(){ // 친구탭 클릭
+	$(".topmenu>.friends").off("click").on("click",function(){ // 친구탭 클릭
 		getFriends(myUserID,chatList);
 		$('#searchlist').fadeOut();
 		$('#chatroomlist').fadeOut();
@@ -36,7 +36,7 @@ function tabEvent(myUserID,chatList){
 		
 	});
 	
-	$(".topmenu>.chats").on("click",function(){
+	$(".topmenu>.chats").off("click").on("click",function(){
 		
 	getChatList(myUserID,chatList,function(parsed){
 			if(parsed.length == 0){
@@ -75,7 +75,7 @@ function tabEvent(myUserID,chatList){
 		$('#chatroomlist').fadeIn();
 	});
 	
-	$("#search>input").on("keyup",function(){
+	$("#search>input").off("keyup").on("keyup",function(){
 		var friends = $("#friendslist>#friends>.friend");
 		var text = $("#search>input").val();
 		for(var i=0;i<friends.length;i++){
@@ -88,7 +88,7 @@ function tabEvent(myUserID,chatList){
 		
 	});
 	
-	$("#profile .bar").on("click",function(){
+	$("#profile .bar").off("click").on("click",function(){
 		$("#new-message").text(0);
 		$("#new-message").fadeOut(50);
 	});
@@ -163,9 +163,9 @@ function chatSetting(myUserID){
 				for(var i=0;i<unreadCount.length;i++){
 					countSum += parseInt(unreadCount[i].unreadCount);
 				}
+				$("#new-message").text(countSum);
 				if(countSum > 0){
-					$("#new-message").text(countSum);
-					$("#new-message").fadeToggle(100,"swing");
+					$("#new-message").fadeIn();
 				}
 				
 				addGoChatView(myUserID,chatList);
@@ -916,14 +916,26 @@ function readChat(chatID){
 }
 
 function chatingTab(myUserID){
-	$("#tab-bar").on("click",function(){
+	$("#tab-bar").off("click").on("click",function(){
+		
+		$("#chatbox").slideToggle(300,'swing');
+		
 		var toChatID = $("#tab-bar .userCno").val();
 		if(toChatID != undefined && toChatID != null){
 			readAllChat(myUserID,toChatID);
 			$("#chat-messages").scrollTop($('#chat-messages')[0].scrollHeight);
 		}
 		
-		$("#new-message").fadeOut(100);
+		$("#new-message").fadeToggle(300,"swing");
+		
+		
+	});
+	
+	$(".bar").off("click").click(function(){
+		$("#chatbox").slideToggle(300,'swing');
+		$("#new-message").fadeToggle(300,"swing");
+		
+		return false;
 	});
 	
 }
@@ -931,3 +943,67 @@ function chatingTab(myUserID){
 function barMessageCountSet(){
 	
 }
+
+function noLoginChat(){
+	$('#alertModal').modal('show')
+}	
+// 친구 추가,삭제 분기점 펑션
+function friend(myID){
+	var fromID = myID;
+	var toID = $('#toChatID').val();
+	var re = -1;
+	
+	// 친구가 추가 되어있지 않다면
+	if($("#star>.fa").hasClass('fa-star-o')){
+		re = addFriend(fromID,toID); //추가
+	}else if($("#star>.fa").hasClass('fa-star')){ // 친구가 추가되어있다면
+		re = deleteFriend(fromID,toID);
+	}
+}
+//친구 추가하는 펑션
+function addFriend(fromID,toID){
+	var re = -1;
+	$.ajax({
+		type : "POST",
+		url : "addFriend",
+		data : {
+			fromID : fromID,
+			toID : toID
+		},
+	
+		success : function(result){
+			console.log("[ajax] 친구 추가 성공!");
+			re = result;
+		}
+	
+	});
+	
+	$("#star>.fa").removeClass('fa-star-o');
+	$("#star>.fa").addClass('fa-star');
+	
+	return re;
+}
+//친구 삭제하는 펑션
+function deleteFriend(fromID,toID){
+	var re = -1;
+	$.ajax({
+		type : "POST",
+		url : "deleteFriend",
+		data : {
+			fromID : fromID,
+			toID : toID
+		},
+	
+		success : function(result){
+			console.log("[ajax] 친구 삭제 성공!");
+			re = result;
+		}
+	
+	});
+	
+	$("#star>.fa").removeClass('fa-star');
+	$("#star>.fa").addClass('fa-star-o');
+	
+	return re;
+}
+
