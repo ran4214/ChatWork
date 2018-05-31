@@ -40,7 +40,7 @@ private static final Logger logger = LoggerFactory.getLogger(HomeController.clas
 		
 		model.addAttribute("serverTime", formattedDate );
 		
-		return "home";
+		return "statics/home";
 	}
 	
 	@RequestMapping(value = "/login", method = RequestMethod.GET)
