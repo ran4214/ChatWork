@@ -15,7 +15,7 @@
 	</delete>
 	
 	<select id="getFriends" parameterType="String" resultType="UserVO">
-		select * from customer where cno in (select toid from friend where fromid = #{value})
+		select * from customer where cno in (select toID from friend where fromID = #{value})
 	</select>
 	
 	<select id="getMyAllChat" parameterType="String" resultType="ChatVO">

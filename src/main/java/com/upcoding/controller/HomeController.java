@@ -85,4 +85,18 @@ private static final Logger logger = LoggerFactory.getLogger(HomeController.clas
 		request.getSession().invalidate();
 	}
 	
+	@RequestMapping(value = "/home2", method = RequestMethod.GET)
+	public String home2(Locale locale, Model model) {
+		logger.info("Welcome home! The client locale is {}.", locale);
+		
+		return "home2";
+	}
+	
+	@RequestMapping(value = "/home3", method = RequestMethod.GET)
+	public String home3(Locale locale, Model model) {
+		logger.info("Welcome home! The client locale is {}.", locale);
+		
+		return "home3";
+	}
+
 }

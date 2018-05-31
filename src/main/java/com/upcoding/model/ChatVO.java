@@ -10,6 +10,7 @@ public class ChatVO implements Serializable {
 	String chatContent;
 	String chatTime;
 	int read;
+	
 
 	public int getChatID() {
 		return chatID;

@@ -17,16 +17,16 @@
 		<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.0/umd/popper.min.js"></script>
 		<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/js/bootstrap.min.js"></script>
 		
-		
 		<!-- my js -->
 		<script src="./js/chat-setting-controller.js"></script>
+		<script src="./js/page-controller.js"></script>
 		
 			<!-- 기본 정보 담는곳 -->
 
     </head>
     <body>
         <tiles:insertAttribute name="header" />
-        <tiles:insertAttribute name="content" />
+        <div id="bodyContent"><tiles:insertAttribute name="content" /></div>
         <tiles:insertAttribute name="footer" />
     </body>
 </html>

@@ -1004,12 +1004,12 @@ function addFriend(fromID,toID){
 		success : function(result){
 			console.log("[ajax] 친구 추가 성공!");
 			re = result;
+			
+			$("#star>.fa").removeClass('fa-star-o');
+			$("#star>.fa").addClass('fa-star');
 		}
 	
 	});
-	
-	$("#star>.fa").removeClass('fa-star-o');
-	$("#star>.fa").addClass('fa-star');
 	
 	return re;
 }
