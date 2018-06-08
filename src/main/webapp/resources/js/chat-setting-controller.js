@@ -142,6 +142,31 @@ function chatSetting(myUserID){
 				friendIDs.push(parsed[i].cno);
 			}
 			
+			// 챗방에 대한 템플릿 설정
+			Vue.component('chat-rooms', {
+			  props: ['chatroom'],
+			  template: "<div class='friend'>" +
+			  		"<img src='https://s3-us-west-2.amazonaws.com/s.cdpn.io/245657/1_copy.jpg' />" +
+			  		"<p>" +
+					"<strong>{{chatroom.name}}</strong><br>" +
+					"<span>{{chatroom.lastChatContent}}</span>" +
+					"<span class='lastchat-time'>{{chatroom.lastChatTime}}</span>" +
+					/*newMessageClass +*/
+					"</p>"+
+					"<input class='userCno' type='hidden' v-model='chatroom.cno'>"+
+					"<input class='friend-status' type='hidden' v-model='chatroom.cno'>" +
+					"<input class='user-email' type='hidden' v-model='chatroom.email'>" +
+					"<input class='online-status' type='hidden' v-model='chatroom.status'>" +
+					"</div>"
+			});
+			
+			var chatroom_app = new Vue({
+			  el: '#chatrooms',
+			  data: {
+			    chatroom: []
+			  }
+			})
+			
 			getUnreadChatCount(myUserID,friendIDs).then(function(unreadCount){
 				for(var i=0;i<parsed.length;i++){
 					var lastChatContent = getLastChat(parsed[i].cno,chatList).chatContent;
@@ -152,7 +177,18 @@ function chatSetting(myUserID){
 							count = unreadCount[j].unreadCount;
 						}
 					}
-					addChatRoom(parsed[i].cno,parsed[i].cname,parsed[i].email,lastChatContent,lastChatTime,count,parsed[i].status);
+					
+					lastChatTime = chatTimeCheck(lastChatTime);
+					
+					chatroom_app.chatroom.push({
+						"cno" : parsed[i].cno,
+						"name" : parsed[i].cname,
+						"email" : parsed[i].email,
+						"lastChatContent" : lastChatContent,
+						"lastChatTime" : lastChatTime,
+						"unreadCount" : count,
+						"status" : parsed[i].status
+					});
 				}
 				var countSum = 0;
 				for(var i=0;i<unreadCount.length;i++){
@@ -268,16 +304,16 @@ function addGoChatView(myUserID,chatList){
 			$("#chat-messages").append("<label>Messages</label>");
 			// 전에 대화내역들을 초기화 시킨다.
 			
+			var str = ""; // 대화내역들의 전체 str 문자열
 			for(var i=0;i<chatList.length;i++){ // 전체 대화 목록 중 선택한 사람과의 대화 연락처만
 												// 꺼내서 사용합니다.
 				if((chatList[i].toID == toChatID && chatList[i].fromID == myUserID) || (chatList[i].fromID == toChatID && chatList[i].toID == myUserID)){
-					addChat(myUserID,toChatID,chatList[i].fromID,chatList[i].chatContent,chatList[i].chatTime) // 하나하나의
-																												// 말풍선들을
-																												// append
-																												// 해주는
-																												// 함수
+					str = addChat(myUserID,toChatID,chatList[i].fromID,chatList[i].chatContent,chatList[i].chatTime,str);
+					// 전체의 말풍선들을 한문자열로 통합
 				}
 			}
+			
+			$("#chat-messages").append(str);
 			
 			
 			$("#profile p").html(name);
@@ -377,13 +413,16 @@ function addGoChatView(myUserID,chatList){
 			$("#chat-messages").append("<label>Messages</label>");
 			// 전에 대화내역들을 초기화 시킨다.
 			
+			var str = ""; // 대화내역들의 전체 str 문자열
 			for(var i=0;i<chatList.length;i++){ // 전체 대화 목록 중 선택한 사람과의 대화 연락처만
 												// 꺼내서 사용합니다.
 				if((chatList[i].toID == toChatID && chatList[i].fromID == myUserID) || (chatList[i].fromID == toChatID && chatList[i].toID == myUserID)){
-					addChat(myUserID,toChatID,chatList[i].fromID,chatList[i].chatContent,chatList[i].chatTime) // 하나하나의 말풍선들을 append 해주는 함수
+					str = addChat(myUserID,toChatID,chatList[i].fromID,chatList[i].chatContent,chatList[i].chatTime,str);
+					// 전체의 말풍선들을 한문자열로 통합
 				}
 			}
 			
+			$("#chat-messages").append(str);
 			
 			$("#profile p").html(name);
 			$("#profile span").html(email);
@@ -535,7 +574,7 @@ function getMyAllChat(myUserID,callback){
 	})
 }
 	
-function addChat(myUserID,toChatID,fromID,chatContent,chatTime){
+function addChat(myUserID,toChatID,fromID,chatContent,chatTime,str){
 	var position = "";
 	var timespan = "time-left";
 	if(fromID == myUserID){ // 내가 보낸건지 상대방이 보낸건지 체크하기 위한 클래스 판단
@@ -545,8 +584,8 @@ function addChat(myUserID,toChatID,fromID,chatContent,chatTime){
 		position = "";
 		timespan = "time-left";
 	}
-	
-	$("#chat-messages").append($("<div class='message " +
+			
+	str += "<div class='message " +
 			position +
 			"'>" +
 			"<img src='https://s3-us-west-2.amazonaws.com/s.cdpn.io/245657/2_copy.jpg' />" +
@@ -559,9 +598,11 @@ function addChat(myUserID,toChatID,fromID,chatContent,chatTime){
 			chatTime+
 			"</span>" +
 			"</div>" +
-			"</div>").hide().fadeIn(180));
+			"</div>";
+			
+	return str;
 	
-	$("#chat-messages").scrollTop($('#chat-messages')[0].scrollHeight);
+	/*$("#chat-messages").scrollTop($('#chat-messages')[0].scrollHeight);*/
 }
 
 function sendChat(myUserID,toID,chatContent){
@@ -725,8 +766,8 @@ function notFoundedUser(){
 
 function getChatList(myUserID,chatList,callback){
 	
-	$("#chatrooms").empty(); // 방초기화
-	$("#chatrooms").empty();
+	/*$("#chatrooms").empty(); // 방초기화
+	$("#chatrooms").empty();*/
 	$.ajax({
 		type : "POST",
 		url : "getChatList",
@@ -758,9 +799,25 @@ function getChatList(myUserID,chatList,callback){
 	})
 }
 
+function chatTimeCheck(lastChatTime){
+	var dt = new Date();
+	
+	var todayDay = dt.getDate();
+	
+	var lastChatDay = lastChatTime.substring(3,5);
+	
+	if(todayDay != lastChatDay){
+		lastChatTime = lastChatTime.substring(0,5);
+	}else if(todayDay == lastChatDay){
+		lastChatTime = lastChatTime.substring(6,lastChatTime.length);
+	}
+	
+	return lastChatTime;
+}
+
 function addChatRoom(cno,cname,email,lastChatContent,lastChatTime,count,status){
 	
-	var dt = new Date();
+	/*var dt = new Date();
 	
 	var todayDay = dt.getDate();
 	
@@ -807,7 +864,7 @@ function addChatRoom(cno,cname,email,lastChatContent,lastChatTime,count,status){
 			"<input class='online-status' type='hidden' value='" +
 			status +
 			"'>" +
-			"</div>");
+			"</div>");*/
 }
 
 function getLastChat(userCno,chatList){
