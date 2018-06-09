@@ -37,10 +37,11 @@ function tabEvent(myUserID,chatList){
 		
 	});
 	
-	// 현재 채팅창의 경우 VUE 로 구현을 해놨기때문에 챗의 탭을 눌러도 새로고침을 할 필요가 없다.
-	/*$(".topmenu>.chats").off("click").on("click",function(){
-		
-	getChatList(myUserID,chatList,function(parsed){
+	
+	$(".topmenu>.chats").off("click").on("click",function(){
+	
+    // 현재 채팅창의 경우 VUE 로 구현을 해놨기때문에 챗의 탭을 눌러도 새로고침을 할 필요가 없다.
+	/*getChatList(myUserID,chatList,function(parsed){
 			if(parsed.length == 0){
 				return;
 			}
@@ -71,11 +72,13 @@ function tabEvent(myUserID,chatList){
 			
 
 			
-		}); // 채팅방 불러오기
+		});*/
+		
 		$('#searchlist').fadeOut();
 		$('#friendslist').fadeOut();
 		$('#chatroomlist').fadeIn();
-	});*/
+		addGoChatView(myUserID,chatList);
+	});
 	
 	$("#search>input").off("keyup").on("keyup",function(){
 		var friends = $("#friendslist>#friends>.friend");
@@ -124,7 +127,45 @@ function chatSetting(myUserID){
 			
 		}
 		
+		// 뷰설정
+		Vue.component('chat-rooms', {
+		  props: ['chatroom'],
+		  template: "<div class='friend'>" +
+		  		"<img src='https://s3-us-west-2.amazonaws.com/s.cdpn.io/245657/1_copy.jpg' />" +
+		  		"<p>" +
+				"<strong>{{chatroom.name}}</strong><br>" +
+				"<span>{{chatroom.lastChatContent}}</span>" +
+				"<span class='lastchat-time'>{{chatroom.lastChatTime}}</span>" +
+				/*newMessageClass +*/
+				"</p>"+
+				"<input class='userCno' type='hidden' v-model='chatroom.cno'>"+
+				"<input class='friend-status' type='hidden' v-model='chatroom.cno'>" +
+				"<input class='user-email' type='hidden' v-model='chatroom.email'>" +
+				"<input class='online-status' type='hidden' v-model='chatroom.status'>" +
+				"</div>"
+		});
 		
+		var chatroom_app = new Vue({
+		  el: '#chatrooms',
+		  data: {
+		    chatroom: []
+		  },
+		  watch: {
+			  sortedArray: function() {
+			    function compare(a, b) {
+			      if (a.chatID < b.chatID)
+			        return -1;
+			      if (a.chatID > b.chatID)
+			        return 1;
+			      return 0;
+			    }
+
+			    return this.chatroom.sort(compare);
+			  }
+			}
+		});
+		
+		// 뷰설정 끝
 		
 		console.log("3. 친구 목록을 불러옵니다.");
 		
@@ -143,35 +184,13 @@ function chatSetting(myUserID){
 				friendIDs.push(parsed[i].cno);
 			}
 			
-			// 챗방에 대한 템플릿 설정
-			Vue.component('chat-rooms', {
-			  props: ['chatroom'],
-			  template: "<div class='friend'>" +
-			  		"<img src='https://s3-us-west-2.amazonaws.com/s.cdpn.io/245657/1_copy.jpg' />" +
-			  		"<p>" +
-					"<strong>{{chatroom.name}}</strong><br>" +
-					"<span>{{chatroom.lastChatContent}}</span>" +
-					"<span class='lastchat-time'>{{chatroom.lastChatTime}}</span>" +
-					/*newMessageClass +*/
-					"</p>"+
-					"<input class='userCno' type='hidden' v-model='chatroom.cno'>"+
-					"<input class='friend-status' type='hidden' v-model='chatroom.cno'>" +
-					"<input class='user-email' type='hidden' v-model='chatroom.email'>" +
-					"<input class='online-status' type='hidden' v-model='chatroom.status'>" +
-					"</div>"
-			});
 			
-			var chatroom_app = new Vue({
-			  el: '#chatrooms',
-			  data: {
-			    chatroom: []
-			  }
-			})
 			
 			getUnreadChatCount(myUserID,friendIDs).then(function(unreadCount){
 				for(var i=0;i<parsed.length;i++){
 					var lastChatContent = getLastChat(parsed[i].cno,chatList).chatContent;
 					var lastChatTime = getLastChat(parsed[i].cno,chatList).chatTime;
+					var lastChatID = getLastChat(parsed[i].cno,chatList).chatID;
 					var count = 0;
 					for(var j = 0; j<unreadCount.length;j++){ // 여러 unreadCount 에 담긴 해당 채팅방에 맞는 유저들의 안읽는 메세지 카운트 구하기
 						if(unreadCount[j].toChatID == parsed[i].cno){
@@ -185,12 +204,16 @@ function chatSetting(myUserID){
 						"cno" : parsed[i].cno,
 						"name" : parsed[i].cname,
 						"email" : parsed[i].email,
+						"lastChatID" : lastChatID,
 						"lastChatContent" : lastChatContent,
 						"lastChatTime" : lastChatTime,
 						"unreadCount" : count,
 						"status" : parsed[i].status
 					});
+					
 				}
+				
+				console.log(chatroom_app.chatroom);
 				var countSum = 0; //읽지않는 전체의 메세지의 개수를 담는 변수
 				for(var i=0;i<chatroom_app.chatroom.length;i++){
 					countSum += chatroom_app.chatroom[i].unreadCount;
@@ -200,20 +223,20 @@ function chatSetting(myUserID){
 					$("#new-message").fadeIn();
 				}
 				
-				addGoChatView(myUserID,chatList);
+				
 			}).catch(function (err){
 				console.log(err);
 			});
 			
-
+			getChat(myUserID,lastChatID,chatList,chatroom_app); // 실시간 채팅 불러오기
 			
 		}); // 채팅방 불러오기
 		
-		getChat(myUserID,lastChatID,chatList); // 실시간 채팅 불러오기
 		
 		setSearchEvent(myUserID,chatList); // 서치 이벤트 등록
 		
 		tabEvent(myUserID,chatList);
+		
 	});
 }
 
@@ -624,7 +647,7 @@ function sendChat(myUserID,toID,chatContent){
 	});
 }
 
-function getChat(myUserID,lastChatID,chatList){
+function getChat(myUserID,lastChatID,chatList,chatroom_app){
 	    xhr = $.ajax({
 	        url: '/getChat',
 	        type: 'POST',
@@ -640,16 +663,25 @@ function getChat(myUserID,lastChatID,chatList){
 	            var chat = JSON.parse(result);
 	            for(var i=0; i<chat.length;i++){
 	            	var display = $("#tab-bar .userCno").val();
+	            	
+	            	//받는사람이 보낸사람과 대화중이라면 즉각 오는 메세지마다 읽음처리를 해준다.
 	            	if(chat[i].fromID != myUserID && display == chat[i].fromID && $("#chatbox").css("display") == "block"){
 	            		readChat(chat[i].chatID);
 	            	}
+	            	//
+	            	
 	            	addChat(myUserID,toChatID,chat[i].fromID,chat[i].chatContent,chat[i].chatTime);
 	            	chatList.push(chat[i]);
 	            }
-	            lastChatID = chat[chat.length-1].chatID;
+	            lastChatID = chat[chat.length-1].chatID; //라스트 아이디를 바꿈;
 	            
+	            console.log(chatroom_app.chatroom);
+	            
+	            //채팅방 불러오기
 	            getChatList(myUserID,chatList,function(parsed){
-	    			
+	    			if(parsed.length == 0){
+	    				return;
+	    			}
 	    			var unreadCount = [];
 	    			
 	    			var friendIDs = [];
@@ -657,60 +689,77 @@ function getChat(myUserID,lastChatID,chatList){
 	    				friendIDs.push(parsed[i].cno);
 	    			}
 	    			
+	    			/*chatroom_app.chatroom.push({
+						"cno" : parsed[i].cno,
+						"name" : parsed[i].cname,
+						"email" : parsed[i].email,
+						"lastChatID" : lastChatID,
+						"lastChatContent" : lastChatContent,
+						"lastChatTime" : lastChatTime,
+						"unreadCount" : count,
+						"status" : parsed[i].status
+					});*/
+	    			
+	    			
+	    			
 	    			getUnreadChatCount(myUserID,friendIDs).then(function(unreadCount){
-	    				var chatting = -1;
-	    				for(let i=0;i<parsed.length;i++){
-	    					if($(".bar-name>strong").text() == parsed[i].cname){
-	    						chatting = i;
-	    					}
-	    					
+	    				for(var i=0;i<parsed.length;i++){
+	    					// 채팅방 목록들에 세팅에 필요한 변수들
 	    					var lastChatContent = getLastChat(parsed[i].cno,chatList).chatContent;
 	    					var lastChatTime = getLastChat(parsed[i].cno,chatList).chatTime;
+	    					var lastChatID = getLastChat(parsed[i].cno,chatList).chatID;
 	    					var count = 0;
 	    					for(var j = 0; j<unreadCount.length;j++){ // 여러 unreadCount 에 담긴 해당 채팅방에 맞는 유저들의 안읽는 메세지 카운트 구하기
 	    						if(unreadCount[j].toChatID == parsed[i].cno){
 	    							count = unreadCount[j].unreadCount;
 	    						}
 	    					}
-	    					addChatRoom(parsed[i].cno,parsed[i].cname,parsed[i].email,lastChatContent,lastChatTime,count,parsed[i].status);
+	    					lastChatTime = chatTimeCheck(lastChatTime);
+	    					//
 	    					
-	    				}
-	    				var countSum = 0;
-	    				if(chatting >= 0){ // 친구창의 탭상태면
-	    					for(let i=0;i<unreadCount.length;i++){
-	    						if(unreadCount[i].toChatID == parsed[chatting].cno){
-	    							countSum = unreadCount[i].unreadCount;
+	    					for(var j=0;j<chatroom_app.chatroom.length;j++){
+	    						
+	    						// 기존에 있던 방들에서 추가된 메세지는 이상태에서 변경된 값만 바꿔준다.
+	    						if(chatroom_app.chatroom[j].cno == parsed[i].cno){
+	    							console.log("여기로와라!")
+	    							chatroom_app.chatroom[j].lastChatID = lastChatID;
+	    							chatroom_app.chatroom[j].lastChatContent = lastChatContent;
+	    							chatroom_app.chatroom[j].lastChatTime = lastChatTime;
+	    						} else {
+	    							// 그렇지 않다면 새로운 방을 추가합니다.
+	    							/*chatroom_app.chatroom.push({
+	    								"cno" : parsed[i].cno,
+	    								"name" : parsed[i].cname,
+	    								"email" : parsed[i].email,
+	    								"lastChatID" : lastChatID,
+	    								"lastChatContent" : lastChatContent,
+	    								"lastChatTime" : lastChatTime,
+	    								"unreadCount" : count,
+	    								"status" : parsed[i].status
+	    							});*/
 	    						}
-	    					}
-	    					
-	    					
-	    				}else{ //그렇지 않고 기본 탭상태라면
-	    					for(var i=0;i<unreadCount.length;i++){
-	    						countSum += parseInt(unreadCount[i].unreadCount);
 	    					}
 	    					
 	    				}
 	    				
+	    				console.log(chatroom_app.chatroom);
+	    				var countSum = 0; //읽지않는 전체의 메세지의 개수를 담는 변수
+	    				for(var i=0;i<chatroom_app.chatroom.length;i++){
+	    					countSum += chatroom_app.chatroom[i].unreadCount;
+	    				}
+	    				$("#new-message").text(countSum);
 	    				if(countSum > 0){
-	    					$("#new-message").text(countSum);
-	    					if($("#chatbox").css("display") != "block"){
-	    						$("#new-message").fadeIn();
-	    					}
-	    					
-    					}
-    					$("#new-message").text(countSum);
-	    					
-    					
-	    				addGoChatView(myUserID,chatList);
+	    					$("#new-message").fadeIn();
+	    				}
+	    				
+	    				
 	    			}).catch(function (err){
 	    				console.log(err);
 	    			});
 	    			
-
-	    			
 	    		}); // 채팅방 불러오기
 	        	
-	        	getChat(myUserID,lastChatID,chatList);
+	        	getChat(myUserID,lastChatID,chatList,chatroom_app);
 	   
 	        },
 	        error : function(request,status,error){
@@ -722,7 +771,7 @@ function getChat(myUserID,lastChatID,chatList){
 	        	 }
 	        },
 	        timeout: 30000,
-	    })
+	    });
 	    
 
 }
@@ -779,21 +828,6 @@ function getChatList(myUserID,chatList,callback){
 		success : function(result){
 			console.log("[채팅방 목록 가져오기] 성공!");
 			var parsed = JSON.parse(result);
-			
-			parsed.sort(function(a,b){ // 방순서를 최근에 메세지가 온 순서로 바꿉니다.
-				var a_lastChatID = getLastChat(a.cno,chatList).chatID
-				var b_lastChatID = getLastChat(b.cno,chatList).chatID;
-				
-				
-				
-				if(a_lastChatID > b_lastChatID){
-					return -1;
-				}
-				
-				if(a_lastChatID < b_lastChatID){
-					return 1;
-				}
-			});
 			
 			callback(parsed);
 		}
