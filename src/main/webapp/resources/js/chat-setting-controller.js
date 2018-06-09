@@ -37,7 +37,8 @@ function tabEvent(myUserID,chatList){
 		
 	});
 	
-	$(".topmenu>.chats").off("click").on("click",function(){
+	// 현재 채팅창의 경우 VUE 로 구현을 해놨기때문에 챗의 탭을 눌러도 새로고침을 할 필요가 없다.
+	/*$(".topmenu>.chats").off("click").on("click",function(){
 		
 	getChatList(myUserID,chatList,function(parsed){
 			if(parsed.length == 0){
@@ -74,7 +75,7 @@ function tabEvent(myUserID,chatList){
 		$('#searchlist').fadeOut();
 		$('#friendslist').fadeOut();
 		$('#chatroomlist').fadeIn();
-	});
+	});*/
 	
 	$("#search>input").off("keyup").on("keyup",function(){
 		var friends = $("#friendslist>#friends>.friend");
@@ -190,9 +191,9 @@ function chatSetting(myUserID){
 						"status" : parsed[i].status
 					});
 				}
-				var countSum = 0;
-				for(var i=0;i<unreadCount.length;i++){
-					countSum += parseInt(unreadCount[i].unreadCount);
+				var countSum = 0; //읽지않는 전체의 메세지의 개수를 담는 변수
+				for(var i=0;i<chatroom_app.chatroom.length;i++){
+					countSum += chatroom_app.chatroom[i].unreadCount;
 				}
 				$("#new-message").text(countSum);
 				if(countSum > 0){
