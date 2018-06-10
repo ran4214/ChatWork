@@ -58,12 +58,11 @@
 				</div>
 
 				<div id="chatrooms">
-					<chat-rooms
-				        v-for="item in chatroom"
-				        v-bind:chatroom="item"
+					<todo-item
+				        v-for="item in sortedChatroom"
+				        v-bind:todo="item"
 				        v-bind:key="item.id">
-				    </chat-rooms>
-
+				    </todo-item>
 				</div>
 
 
