@@ -625,7 +625,7 @@ function addChat(myUserID,toChatID,fromID,chatContent,chatTime,str){
 	str += "<div class='message " +
 			position +
 			"'>" +
-			"<img src='https://s3-us-west-2.amazonaws.com/s.cdpn.io/245657/2_copy.jpg' />" +
+			"<img src='https://s3-us-west-2.amazonaws.com/s.cdpn.io/245657/1_copy.jpg' />" +
 			"<div class='bubble'>" +
 			chatContent +
 			"<div class='corner'></div>" +
